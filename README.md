@@ -13,16 +13,19 @@ A tabletop programming game: players build short programs from cards, then tanks
 - `experiments.py` … `experiments7.py`: experiments, each documented in its docstring. Raw outputs are in `results/`.
 - `tank-match-viewer.html`: self-contained browser viewer and second rules engine (JavaScript). Published copy: https://claude.ai/artifact/XH46tiRNNpi3RK5DYYqvDW
 - `tests/parity.py`: runs the same random duels through both engines and fails on any mismatch. Needs Node.
+- `tests/fingerprints.py`: proves older rule sets still give identical results (every new rule is off by default).
+- `CLAUDE.md` and `.claude/`: instructions and the agent toolkit for Claude Code sessions (agents, skills, hooks). See `.claude/README.md`.
 
 ## The one rule for changes
 
-Any rule change goes into both `tanksim.py` and the viewer's engine (between `ENGINE START` and `ENGINE END`), as a `Config` field that is off by default, and then this must pass:
+Any rule change goes into both `tanksim.py` and the viewer's engine (between `ENGINE START` and `ENGINE END`), as a `Config` field that is off by default, and then all of this must pass:
 
 ```
 python tests/parity.py 800 v5
 PARITY_TEMPLATES=1 python tests/parity.py 800 v5
 python tests/parity.py 600 v4
 python tests/parity.py 600 v3
+python tests/fingerprints.py
 ```
 
 On Windows use `python` or `py`; set the environment variable with `set PARITY_TEMPLATES=1` (cmd) or `$env:PARITY_TEMPLATES=1` (PowerShell).

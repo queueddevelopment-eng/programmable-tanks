@@ -1,0 +1,53 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python tests/parity.py*)",
+      "Bash(py tests/parity.py*)",
+      "Bash(python3 tests/parity.py*)",
+      "Bash(PARITY_TEMPLATES=1 python tests/parity.py*)",
+      "Bash(PARITY_TEMPLATES=1 python3 tests/parity.py*)",
+      "Bash(python tests/fingerprints.py)",
+      "Bash(py tests/fingerprints.py)",
+      "Bash(python3 tests/fingerprints.py)",
+      "Bash(git status*)",
+      "Bash(git ls-files*)",
+      "Bash(git log --oneline*)",
+      "Bash(git diff)",
+      "Bash(git diff --stat)",
+      "Bash(git diff --cached)",
+      "Bash(git show --stat)",
+      "Bash(gh run list*)",
+      "Bash(gh run view*)",
+      "Bash(gh pr list*)",
+      "Bash(gh pr view*)",
+      "Bash(gh pr diff*)",
+      "Bash(gh issue list*)",
+      "Bash(gh issue view*)",
+      "WebSearch"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import os,runpy,sys;p=os.path.join(os.environ.get('CLAUDE_PROJECT_DIR',''),'.claude','hooks','protect.py');os.path.isfile(p) or sys.exit(0);runpy.run_path(p,run_name='__main__')\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import os,runpy,sys;p=os.path.join(os.environ.get('CLAUDE_PROJECT_DIR',''),'.claude','hooks','guard.py');os.path.isfile(p) or sys.exit(0);runpy.run_path(p,run_name='__main__')\""
+          }
+        ]
+      }
+    ]
+  }
+}

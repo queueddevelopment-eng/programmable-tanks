@@ -1,0 +1,66 @@
+
+=== F. + shot clock (10 quiet ticks), behind attacks / leader holds ===
+board               stuck  never hit  kills  draws
+Pillars and pits      10%        10%    82%    23%
+Four pillars           0%         0%    97%    17%
+Open board             0%         0%    95%    13%
+Centre block           0%         0%    93%    15%
+Moat                   0%         0%    98%    12%
+Shuffled              17%        17%    80%    28%
+ALL                    4%         4%    91%    18%
+why stuck: never within 2 squares 69% | close but never lined up 31% | a tank parked on one square 19%
+   experts: stuck 2%   expert v novice: stuck 5%   novices: stuck 7%
+skill: expert takes 75% of points vs novice | seat fairness: tank A wins 42% of decided even matchups (198) | shot clock ran out in 96% of rounds, 11.8 ticks of auto-engage per round | pit stops per round 1.9
+   stuck e.g. FWD · IF_HIT · RIGHT · TRACK · IF_NEAR · FIRE · FIRE · HUNT   vs   FWD · TRACK · FWD · FIRE · BACK · HUNT [apart]
+   stuck e.g. BACK · SHIELD · FWD · IF_ENEMY · FIRE · IF_ENEMY · HUNT   vs   HUNT · IF_HIT · FWD · ELSE · FIRE · IF_NEAR · IF_ENEMY_BEHIND · FIRE [dance]
+   stuck e.g. FWD · IF_NEAR · REPEAT3 · FIRE · LEFT · HUNT   vs   FWD · FIRE · ELSE · OVERCHARGE · TRACK [dance]
+
+=== G. F + initiative on contested squares ===
+board               stuck  never hit  kills  draws
+Pillars and pits       8%         8%    80%    22%
+Four pillars           0%         0%    95%    18%
+Open board             0%         0%    97%    15%
+Centre block           0%         0%    93%    17%
+Moat                   0%         0%    98%    12%
+Shuffled              15%        15%    82%    27%
+ALL                    4%         4%    91%    18%
+why stuck: never within 2 squares 79% | close but never lined up 21% | a tank parked on one square 21%
+   experts: stuck 1%   expert v novice: stuck 4%   novices: stuck 7%
+skill: expert takes 76% of points vs novice | seat fairness: tank A wins 42% of decided even matchups (196) | shot clock ran out in 97% of rounds, 11.7 ticks of auto-engage per round | pit stops per round 1.9
+   stuck e.g. FWD · IF_HIT · RIGHT · TRACK · IF_NEAR · FIRE · FIRE · HUNT   vs   FWD · TRACK · FWD · FIRE · BACK · HUNT [apart]
+   stuck e.g. BACK · SHIELD · FWD · IF_ENEMY · FIRE · IF_ENEMY · HUNT   vs   HUNT · IF_HIT · FWD · ELSE · FIRE · IF_NEAR · IF_ENEMY_BEHIND · FIRE [dance]
+   stuck e.g. BACK · IF_ENEMY · FIRE   vs   FIRE · LEFT · HUNT · IF_BLOCKED · FWD [apart, parked]
+
+=== H. shot clock at 6 quiet ticks, with roles ===
+board               stuck  never hit  kills  draws
+Pillars and pits      55%        55%    45%    60%
+Four pillars           0%         0%    95%    15%
+Open board             0%         0%   100%     8%
+Centre block           0%         0%    98%    10%
+Moat                   0%         0%   100%    12%
+Shuffled               8%         8%    92%    15%
+ALL                   11%        11%    88%    20%
+why stuck: never within 2 squares 92% | close but never lined up 8% | a tank parked on one square 11%
+   experts: stuck 10%   expert v novice: stuck 8%   novices: stuck 13%
+skill: expert takes 77% of points vs novice | seat fairness: tank A wins 38% of decided even matchups (191) | shot clock ran out in 100% of rounds, 16.3 ticks of auto-engage per round | pit stops per round 1.9
+   stuck e.g. FWD · FIRE   vs   FWD · FIRE [apart]
+   stuck e.g. IF_ENEMY · SHIELD   vs   IF_NEAR · HUNT · FWD · WHILE_ENEMY · FIRE · HUNT · FIRE [apart]
+   stuck e.g. ELSE · SHIELD · HUNT · IF_HIT · TRACK · FIRE · FWD · FIRE   vs   FWD · FIRE [apart]
+
+=== I. initiative on contested squares only ===
+board               stuck  never hit  kills  draws
+Pillars and pits      30%        32%    62%    30%
+Four pillars          15%        15%    72%    25%
+Open board            10%        10%    85%    13%
+Centre block          12%        12%    77%    20%
+Moat                  10%        12%    80%    13%
+Shuffled              28%        30%    60%    27%
+ALL                   18%        18%    72%    21%
+why stuck: never within 2 squares 60% | close but never lined up 40% | a tank parked on one square 30%
+   experts: stuck 10%   expert v novice: stuck 16%   novices: stuck 27%
+skill: expert takes 82% of points vs novice | seat fairness: tank A wins 50% of decided even matchups (182) | pit stops per round 1.9
+   stuck e.g. FWD · HUNT · FIRE   vs   IF_NEAR · HUNT · FIRE · FWD · HUNT · WHILE_ENEMY · FIRE [dance]
+   stuck e.g. BACK · OVERCHARGE · FIRE · FIRE · IF_HIT · HUNT   vs   IF_ENEMY · FIRE · IF_ENEMY · SHIELD · FWD [apart, parked]
+   stuck e.g. IF_ENEMY · REPEAT3 · FWD · TRACK · FIRE · IF_NEAR · FIRE   vs   FWD · FIRE · SHIELD · RIGHT · BACK · FIRE · HUNT [apart, parked]
+
+(773s, 60 rounds per board per variant; mix of expert-expert, expert-novice, novice-novice)

@@ -1,0 +1,82 @@
+
+=== A. v0.4 as is ===
+board               stuck  never hit  kills  draws
+Pillars and pits      22%        23%    62%    17%
+Four pillars          13%        13%    68%    23%
+Open board             8%         8%    88%    15%
+Centre block          12%        12%    77%    20%
+Moat                  15%        17%    72%    13%
+Shuffled              27%        27%    65%    27%
+ALL                   16%        17%    72%    19%
+why stuck: never within 2 squares 64% | close but never lined up 36% | a tank parked on one square 34%
+   experts: stuck 8%   expert v novice: stuck 12%   novices: stuck 28%
+skill: expert takes 82% of points vs novice | seat fairness: tank A wins 46% of decided even matchups (186) | pit stops per round 1.9
+   stuck e.g. FWD · HUNT · FIRE   vs   IF_NEAR · HUNT · FIRE · FWD · HUNT · WHILE_ENEMY · FIRE [dance]
+   stuck e.g. BACK · OVERCHARGE · FIRE · FIRE · IF_HIT · HUNT   vs   IF_ENEMY · FIRE · IF_ENEMY · SHIELD · FWD [apart, parked]
+   stuck e.g. IF_ENEMY · REPEAT3 · FWD · TRACK · FIRE · IF_NEAR · FIRE   vs   FWD · SHIELD · FIRE · FIRE · RIGHT · BACK · HUNT [apart, parked]
+
+=== B. + stalemate pit stop after 8 quiet ticks ===
+board               stuck  never hit  kills  draws
+Pillars and pits      23%        32%    55%    25%
+Four pillars          17%        17%    63%    22%
+Open board            17%        17%    73%    22%
+Centre block          15%        12%    72%    18%
+Moat                  17%        17%    70%    22%
+Shuffled              28%        27%    65%    25%
+ALL                   19%        20%    66%    22%
+why stuck: never within 2 squares 54% | close but never lined up 46% | a tank parked on one square 23%
+   experts: stuck 16%   expert v novice: stuck 15%   novices: stuck 28%
+skill: expert takes 72% of points vs novice | seat fairness: tank A wins 44% of decided even matchups (184) | pit stops per round 3.6
+   stuck e.g. IF_ENEMY · REPEAT3 · FWD · TRACK · FIRE · IF_NEAR · FIRE   vs   FWD · SHIELD · FIRE · FIRE · RIGHT · BACK · HUNT [apart, parked]
+   stuck e.g. HUNT · WHILE_ENEMY · FIRE · SPREAD · ELSE · WHILE_ENEMY · FIRE   vs   ELSE · REPEAT3 · FIRE · FWD · FIRE · HUNT · FIRE [dance]
+   stuck e.g. HUNT · FIRE · TRACK · IF_BLOCKED · FIRE   vs   ELSE · HUNT · FWD · FIRE · REPEAT3 · HUNT [dance]
+
+=== C. + mulligan: redraw a hand once ===
+board               stuck  never hit  kills  draws
+Pillars and pits      23%        22%    62%    18%
+Four pillars           8%         8%    80%    13%
+Open board             8%         8%    85%    22%
+Centre block          10%         8%    78%    15%
+Moat                  22%        22%    68%    18%
+Shuffled              22%        23%    67%    20%
+ALL                   16%        15%    73%    18%
+why stuck: never within 2 squares 61% | close but never lined up 39% | a tank parked on one square 27%
+   experts: stuck 8%   expert v novice: stuck 11%   novices: stuck 28%
+skill: expert takes 86% of points vs novice | seat fairness: tank A wins 46% of decided even matchups (186) | pit stops per round 1.9 | hands redrawn per round 0.31
+   stuck e.g. BACK · OVERCHARGE · FIRE · FIRE · IF_HIT · HUNT   vs   IF_ENEMY · FIRE · IF_ENEMY · SHIELD · FWD [apart, parked]
+   stuck e.g. IF_ENEMY · REPEAT3 · FWD · TRACK · FIRE · IF_NEAR · FIRE   vs   FWD · SHIELD · FIRE · FIRE · RIGHT · BACK · HUNT [apart, parked]
+   stuck e.g. WHILE_ENEMY · FIRE · IF_ENEMY_BEHIND · FWD · ELSE · HUNT   vs   FIRE · IF_HIT · FWD · ELSE · FIRE · HUNT · SHIELD [apart]
+
+=== D. + B starts facing west (mirror breaker) ===
+board               stuck  never hit  kills  draws
+Pillars and pits      27%        30%    57%    30%
+Four pillars          17%        15%    65%    20%
+Open board            33%        33%    63%    35%
+Centre block          12%        10%    82%    12%
+Moat                  15%        12%    77%    15%
+Shuffled              30%        27%    55%    35%
+ALL                   22%        21%    66%    24%
+why stuck: never within 2 squares 60% | close but never lined up 40% | a tank parked on one square 40%
+   experts: stuck 20%   expert v novice: stuck 20%   novices: stuck 27%
+skill: expert takes 75% of points vs novice | seat fairness: tank A wins 50% of decided even matchups (177) | pit stops per round 1.9
+   stuck e.g. IF_ENEMY · FIRE · IF_HIT · HUNT   vs   TRACK · FWD · LEFT · FWD · FIRE · FIRE [apart, parked]
+   stuck e.g. TRACK · IF_HIT · FIRE · RIGHT · IF_NEAR · FWD   vs   SHIELD · FIRE · FIRE · FWD · TRACK [apart, parked]
+   stuck e.g. FIRE · HUNT · TRACK   vs   OVERCHARGE · FIRE · RIGHT · FWD · FIRE · HUNT · SHIELD [apart, parked]
+
+=== E. B + D ===
+board               stuck  never hit  kills  draws
+Pillars and pits      20%        22%    67%    23%
+Four pillars          18%        15%    67%    20%
+Open board            20%        20%    75%    25%
+Centre block          15%        13%    77%    15%
+Moat                  17%        15%    70%    17%
+Shuffled              28%        28%    58%    30%
+ALL                   20%        19%    69%    22%
+why stuck: never within 2 squares 63% | close but never lined up 37% | a tank parked on one square 37%
+   experts: stuck 20%   expert v novice: stuck 18%   novices: stuck 22%
+skill: expert takes 76% of points vs novice | seat fairness: tank A wins 45% of decided even matchups (187) | pit stops per round 3.5
+   stuck e.g. HUNT · SHIELD · FIRE   vs   HUNT · REPEAT3 · FIRE · FWD · FIRE [apart]
+   stuck e.g. IF_ENEMY · REPEAT3 · FIRE · HUNT · BACK · FWD · FWD   vs   FIRE · FWD · IF_BLOCKED · FIRE · HUNT [apart]
+   stuck e.g. ELSE · OVERCHARGE · HUNT · FWD · TRACK · IF_ENEMY · FIRE   vs   IF_ENEMY · FIRE · IF_ENEMY · HUNT [apart, parked]
+
+(947s, 60 rounds per board per variant; mix of expert-expert, expert-novice, novice-novice)

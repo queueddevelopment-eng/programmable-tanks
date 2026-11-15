@@ -1,0 +1,57 @@
+
+=== A  v0.3 core (control) ===
+experts vs experts : kills 68% | no shot lands 29% | draws 51% | avg 29 ticks
+skill              : better pre-round program wins 59% of decided rounds (34) | expert takes 86% of points vs novices
+novices vs novices : a shot lands in 87% | kills 72% | draws 18%
+comebacks          : trailer at the last pit stop wins 0% without pit stops, 37% with (38 rounds)
+cards in expert programs: FIRE 100%, HUNT 100%, IF_ENEMY 41%, WHILE_ENEMY 20%, FWD 18%, IF_NEAR 18%, IF_ENEMY_BEHIND 12%, IF_BLOCKED 12%, REPEAT3 10%, TRACK 10%, IF_HIT 7%, RIGHT 4%, LEFT 2%, BACK 2%
+   e.g. FIRE · IF_ENEMY_BEHIND · RIGHT · HUNT   vs   HUNT · IF_ENEMY · FIRE
+   e.g. IF_NEAR · FIRE · HUNT   vs   HUNT · IF_ENEMY · FIRE
+
+=== B  + Otherwise card ===
+experts vs experts : kills 71% | no shot lands 27% | draws 43% | avg 29 ticks
+skill              : better pre-round program wins 57% of decided rounds (42) | expert takes 86% of points vs novices
+novices vs novices : a shot lands in 79% | kills 62% | draws 27%
+comebacks          : trailer at the last pit stop wins 0% without pit stops, 45% with (38 rounds)
+Otherwise          : in 18% of expert programs, 34% of novice programs
+cards in expert programs: HUNT 100%, FIRE 100%, IF_ENEMY 39%, WHILE_ENEMY 19%, ELSE 18%, FWD 16%, IF_NEAR 16%, IF_BLOCKED 12%, REPEAT3 11%, IF_ENEMY_BEHIND 9%, IF_HIT 8%, TRACK 4%, LEFT 3%, RIGHT 2%, BACK 1%
+   e.g. HUNT · WHILE_ENEMY · FIRE · IF_BLOCKED · IF_HIT · FIRE   vs   HUNT · IF_BLOCKED · FIRE · IF_HIT · FWD
+   e.g. FIRE · HUNT   vs   IF_NEAR · FIRE · HUNT
+
+=== C  + rare specials in the deck ===
+experts vs experts : kills 84% | no shot lands 12% | draws 21% | avg 27 ticks
+skill              : better pre-round program wins 63% of decided rounds (71) | expert takes 87% of points vs novices
+novices vs novices : a shot lands in 82% | kills 65% | draws 20%
+comebacks          : trailer at the last pit stop wins 0% without pit stops, 41% with (66 rounds)
+specials           : 1.97 dealt per expert round | used per round: OVERCHARGE 0.60, SHIELD 0.50, SPREAD 0.28 | shield damage soaked 0.38
+LUCK               : the expert dealt more specials wins 60% of decided rounds (57 rounds)
+cards in expert programs: FIRE 100%, HUNT 98%, IF_ENEMY 38%, OVERCHARGE 26%, FWD 22%, WHILE_ENEMY 22%, SHIELD 22%, IF_NEAR 16%, IF_ENEMY_BEHIND 14%, SPREAD 11%, REPEAT3 10%, IF_BLOCKED 9%, BACK 8%, TRACK 8%, IF_HIT 6%, LEFT 2%, RIGHT 2%
+   e.g. IF_NEAR · FIRE · HUNT · IF_HIT · FIRE · HUNT   vs   SHIELD · HUNT · IF_ENEMY · FIRE
+   e.g. SPREAD · FIRE · HUNT   vs   HUNT · IF_ENEMY · FIRE
+
+=== D  + pre-placed pickups ===
+experts vs experts : kills 74% | no shot lands 23% | draws 47% | avg 28 ticks
+skill              : better pre-round program wins 53% of decided rounds (43) | expert takes 86% of points vs novices
+novices vs novices : a shot lands in 75% | kills 58% | draws 29%
+comebacks          : trailer at the last pit stop wins 0% without pit stops, 44% with (39 rounds)
+pickups            : grabbed in 32% of rounds | per round experts 0.35, novices 0.36 | IF_POWERUP in 12% of expert programs
+LUCK               : the expert who grabbed more pickups wins 65% of decided rounds (20 rounds)
+draw rate by pickup kind: spread 47%, overcharge 44%, shield 50%
+cards in expert programs: HUNT 100%, FIRE 100%, IF_ENEMY 38%, WHILE_ENEMY 23%, IF_NEAR 22%, FWD 18%, IF_POWERUP 12%, IF_BLOCKED 12%, REPEAT3 10%, IF_ENEMY_BEHIND 8%, IF_HIT 8%, TRACK 5%, RIGHT 2%, LEFT 1%
+   e.g. FIRE · HUNT · IF_ENEMY · REPEAT3 · FIRE · HUNT   vs   HUNT · IF_NEAR · FIRE
+   e.g. HUNT · IF_NEAR · FIRE   vs   HUNT · WHILE_ENEMY · FIRE
+
+=== E  + Otherwise + pickups ===
+experts vs experts : kills 85% | no shot lands 12% | draws 29% | avg 27 ticks
+skill              : better pre-round program wins 54% of decided rounds (56) | expert takes 82% of points vs novices
+novices vs novices : a shot lands in 77% | kills 61% | draws 29%
+comebacks          : trailer at the last pit stop wins 4% without pit stops, 52% with (48 rounds)
+pickups            : grabbed in 34% of rounds | per round experts 0.45, novices 0.34 | IF_POWERUP in 15% of expert programs
+LUCK               : the expert who grabbed more pickups wins 65% of decided rounds (23 rounds)
+draw rate by pickup kind: shield 28%, overcharge 19%, spread 41%
+Otherwise          : in 22% of expert programs, 32% of novice programs
+cards in expert programs: FIRE 100%, HUNT 100%, IF_ENEMY 32%, WHILE_ENEMY 26%, FWD 23%, ELSE 22%, IF_POWERUP 15%, IF_NEAR 14%, IF_ENEMY_BEHIND 12%, IF_BLOCKED 12%, IF_HIT 8%, REPEAT3 8%, TRACK 4%, BACK 4%, RIGHT 4%, LEFT 3%
+   e.g. FIRE · HUNT · HUNT   vs   HUNT · IF_NEAR · WHILE_ENEMY · FIRE
+   e.g. HUNT · IF_POWERUP · FIRE · WHILE_ENEMY · FIRE   vs   IF_BLOCKED · IF_BLOCKED · FIRE · HUNT
+
+(755s, 100 rounds per pairing type per variant)

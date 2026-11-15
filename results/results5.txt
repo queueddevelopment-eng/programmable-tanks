@@ -1,0 +1,64 @@
+
+=== A  v0.2 fixed kit (baseline) ===
+experts vs experts : kills 56% | no shot lands 44% | draws 76% | avg 30 ticks | identical programs 2%
+pre-round favourite: the player whose program scored better against the bench won 13% of decided rounds
+skill check        : expert vs novice, expert takes 94% of the points
+novices vs novices : a shot lands in 22% of rounds | kills 13% | draws 79%
+cards in expert programs: FIRE 100%, HUNT 100%, WHILE_ENEMY 66%, IF_BLOCKED 32%, IF_ENEMY 30%, TRACK 29%, IF_ENEMY_BEHIND 25%, IF_NEAR 16%, IF_HIT 12%, REPEAT3 10%, LEFT 6%, FWD 6%, RIGHT 5%, BACK 4%
+   e.g. WHILE_ENEMY · FIRE · HUNT · IF_HIT · LEFT   vs   IF_BLOCKED · FIRE · HUNT
+   e.g. HUNT · IF_BLOCKED · FIRE   vs   IF_HIT · FIRE · HUNT · WHILE_ENEMY · FIRE
+
+=== B  + pits ===
+experts vs experts : kills 35% | no shot lands 47% | draws 47% | avg 35 ticks | identical programs 3%
+pre-round favourite: the player whose program scored better against the bench won 77% of decided rounds
+skill check        : expert vs novice, expert takes 82% of the points
+novices vs novices : a shot lands in 14% of rounds | kills 13% | draws 85%
+pits               : 0.05 falls per round (experts 0.07, novices 0.04)
+cards in expert programs: FIRE 100%, FWD 100%, IF_ENEMY 80%, HUNT 72%, IF_BLOCKED 60%, REPEAT3 59%, WHILE_ENEMY 34%, RIGHT 30%, TRACK 18%, IF_NEAR 15%, IF_ENEMY_BEHIND 14%, IF_HIT 12%, BACK 6%, LEFT 4%
+   e.g. HUNT · FWD · IF_ENEMY · FIRE   vs   IF_ENEMY · FIRE · FWD · IF_BLOCKED · RIGHT
+   e.g. FIRE · IF_ENEMY_BEHIND · HUNT · WHILE_ENEMY · FIRE · FWD · IF_BLOCKED · RIGHT   vs   IF_ENEMY · REPEAT3 · FIRE · HUNT · FWD
+
+=== C  + board cards ===
+experts vs experts : kills 62% | no shot lands 37% | draws 72% | avg 29 ticks | identical programs 1%
+pre-round favourite: the player whose program scored better against the bench won 42% of decided rounds
+skill check        : expert vs novice, expert takes 92% of the points
+novices vs novices : a shot lands in 13% of rounds | kills 9% | draws 87%
+board cards        : Raise wall in 4% of expert programs, Breach in 37% | per round: 0.17 walls raised, 0.36 walls breached
+cards in expert programs: HUNT 100%, FIRE 100%, WHILE_ENEMY 78%, IF_BLOCKED 48%, BLAST 37%, TRACK 24%, IF_NEAR 23%, IF_ENEMY 22%, IF_ENEMY_BEHIND 22%, IF_HIT 20%, REPEAT3 12%, LEFT 8%, FWD 7%, BACK 6%, RIGHT 6%, BUILD 4%
+   e.g. HUNT · IF_BLOCKED · TRACK · WHILE_ENEMY · FIRE · IF_HIT · FIRE   vs   HUNT · WHILE_ENEMY · FIRE · IF_NEAR · IF_ENEMY_BEHIND · BACK
+   e.g. IF_NEAR · FIRE · HUNT · IF_ENEMY_BEHIND · TRACK   vs   WHILE_ENEMY · FIRE · IF_BLOCKED · BLAST · IF_ENEMY_BEHIND · TRACK · HUNT · HUNT
+
+=== D  chassis + drawn hand ===
+experts vs experts : kills 60% | no shot lands 39% | draws 67% | avg 30 ticks | identical programs 8%
+pre-round favourite: the player whose program scored better against the bench won 68% of decided rounds
+skill check        : expert vs novice, expert takes 88% of the points
+novices vs novices : a shot lands in 77% of rounds | kills 49% | draws 28%
+cards in expert programs: FIRE 100%, HUNT 100%, IF_ENEMY 43%, FWD 23%, WHILE_ENEMY 22%, IF_BLOCKED 19%, IF_NEAR 10%, IF_HIT 9%, REPEAT3 8%, IF_ENEMY_BEHIND 8%, TRACK 6%, LEFT 3%, RIGHT 2%, BACK 2%
+   e.g. HUNT · IF_ENEMY · REPEAT3 · FIRE   vs   IF_BLOCKED · FIRE · HUNT
+   e.g. HUNT · IF_BLOCKED · FIRE   vs   HUNT · IF_ENEMY · REPEAT3 · FIRE
+
+=== E  D + 2 pit stops ===
+experts vs experts : kills 69% | no shot lands 29% | draws 42% | avg 29 ticks | identical programs 5%
+pre-round favourite: the player whose program scored better against the bench won 68% of decided rounds
+skill check        : expert vs novice, expert takes 80% of the points
+novices vs novices : a shot lands in 78% of rounds | kills 52% | draws 31%
+pit stops          : a card was played at 37% of stops | result differs from the no-stop round in 36% of rounds
+comebacks (experts): trailing on armor after tick 10, the trailer still wins 0% without pit stops, 0% with them (1 rounds)
+cards in expert programs: FIRE 100%, HUNT 100%, IF_ENEMY 46%, FWD 30%, WHILE_ENEMY 26%, IF_NEAR 14%, IF_ENEMY_BEHIND 12%, IF_BLOCKED 11%, IF_HIT 10%, REPEAT3 8%, TRACK 8%, LEFT 4%, BACK 2%, RIGHT 2%
+   e.g. FWD · IF_NEAR · FIRE · HUNT · IF_HIT · FIRE · FIRE   vs   IF_BLOCKED · HUNT · FIRE · FWD
+   e.g. HUNT · FIRE · FIRE · FWD · IF_NEAR · BACK   vs   FWD · FIRE · HUNT
+
+=== F  full draft: E + pits + board cards ===
+experts vs experts : kills 67% | no shot lands 23% | draws 29% | avg 32 ticks | identical programs 1%
+pre-round favourite: the player whose program scored better against the bench won 57% of decided rounds
+skill check        : expert vs novice, expert takes 73% of the points
+novices vs novices : a shot lands in 46% of rounds | kills 33% | draws 54%
+pits               : 0.21 falls per round (experts 0.17, novices 0.17)
+board cards        : Raise wall in 8% of expert programs, Breach in 8% | per round: 0.30 walls raised, 0.17 walls breached
+pit stops          : a card was played at 44% of stops | result differs from the no-stop round in 41% of rounds
+comebacks (experts): trailing on armor after tick 10, the trailer still wins 0% without pit stops, 0% with them (2 rounds)
+cards in expert programs: FIRE 98%, HUNT 95%, FWD 61%, IF_ENEMY 30%, WHILE_ENEMY 22%, TRACK 16%, IF_NEAR 13%, REPEAT3 12%, IF_ENEMY_BEHIND 12%, IF_HIT 8%, BLAST 8%, BUILD 8%, RIGHT 6%, IF_BLOCKED 6%, LEFT 6%, BACK 4%
+   e.g. FIRE · HUNT · FWD   vs   IF_ENEMY_BEHIND · LEFT · FIRE · HUNT · IF_HIT · REPEAT3 · FIRE · FWD
+   e.g. HUNT · IF_ENEMY · WHILE_ENEMY · FIRE · FWD   vs   IF_ENEMY · WHILE_ENEMY · FIRE · HUNT · FWD
+
+(875s, 100 rounds per pairing type per variant)

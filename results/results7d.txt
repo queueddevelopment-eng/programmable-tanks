@@ -1,0 +1,44 @@
+
+=== K. shot clock 10, LEADER attacks, attacker pathfinds ===
+board               stuck  never hit  kills  draws
+Pillars and pits       0%         0%    97%     0%
+Four pillars           0%         0%    98%     8%
+Open board             0%         0%   100%     8%
+Centre block           0%         0%    98%     3%
+Moat                   0%         0%    98%     7%
+Shuffled               0%         0%   100%     0%
+ALL                    0%         0%    99%     4%
+   experts: stuck 0%   expert v novice: stuck 0%   novices: stuck 0%
+comebacks: expert behind on armor at tick 20 still wins 1% (106 rounds)
+skill: expert takes 94% of points vs novice | seat fairness: tank A wins 51% of decided even matchups (229) | shot clock ran out in 98% of rounds, 5.6 ticks of auto-engage per round
+autopilot share  : 18% of all hits landed while the shot clock had taken over | median first hit at tick 15 | pit stops per round 1.7
+
+=== L. K with the clock at 15 ticks ===
+board               stuck  never hit  kills  draws
+Pillars and pits       0%         0%    93%     7%
+Four pillars           0%         0%    93%     7%
+Open board             0%         0%    92%     3%
+Centre block           0%         0%    97%     8%
+Moat                   0%         0%    98%     7%
+Shuffled               0%         2%    95%     8%
+ALL                    0%         0%    95%     7%
+   experts: stuck 0%   expert v novice: stuck 0%   novices: stuck 0%
+comebacks: expert behind on armor at tick 20 still wins 5% (62 rounds)
+skill: expert takes 94% of points vs novice | seat fairness: tank A wins 55% of decided even matchups (222) | shot clock ran out in 91% of rounds, 4.6 ticks of auto-engage per round
+autopilot share  : 18% of all hits landed while the shot clock had taken over | median first hit at tick 19 | pit stops per round 1.9
+
+=== M. J with the clock at 15 ticks ===
+board               stuck  never hit  kills  draws
+Pillars and pits       0%         0%    93%     8%
+Four pillars           0%         0%    93%     5%
+Open board             0%         0%    97%     5%
+Centre block           0%         0%    97%     8%
+Moat                   0%         0%   100%     5%
+Shuffled               0%         0%    95%     7%
+ALL                    0%         0%    96%     6%
+   experts: stuck 0%   expert v novice: stuck 0%   novices: stuck 0%
+comebacks: expert behind on armor at tick 20 still wins 5% (62 rounds)
+skill: expert takes 92% of points vs novice | seat fairness: tank A wins 58% of decided even matchups (223) | shot clock ran out in 89% of rounds, 4.6 ticks of auto-engage per round
+autopilot share  : 17% of all hits landed while the shot clock had taken over | median first hit at tick 19 | pit stops per round 1.9
+
+(779s, 60 rounds per board per variant; mix of expert-expert, expert-novice, novice-novice)

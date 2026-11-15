@@ -1,0 +1,45 @@
+
+=== A. v0.4 as is ===
+board               stuck  never hit  kills  draws
+Pillars and pits      22%        23%    62%    17%
+Four pillars          13%        13%    68%    23%
+Open board             8%         8%    88%    15%
+Centre block          12%        12%    77%    20%
+Moat                  15%        17%    72%    13%
+Shuffled              27%        27%    65%    27%
+ALL                   16%        17%    72%    19%
+why stuck: never within 2 squares 64% | close but never lined up 36% | a tank parked on one square 34%
+   experts: stuck 8%   expert v novice: stuck 12%   novices: stuck 28%
+comebacks: expert behind on armor at tick 20 still wins 8% (40 rounds)
+skill: expert takes 82% of points vs novice | seat fairness: tank A wins 46% of decided even matchups (186) | pit stops per round 1.9
+   stuck e.g. FWD · HUNT · FIRE   vs   IF_NEAR · HUNT · FIRE · FWD · HUNT · WHILE_ENEMY · FIRE [dance]
+   stuck e.g. BACK · OVERCHARGE · FIRE · FIRE · IF_HIT · HUNT   vs   IF_ENEMY · FIRE · IF_ENEMY · SHIELD · FWD [apart, parked]
+   stuck e.g. IF_ENEMY · REPEAT3 · FWD · TRACK · FIRE · IF_NEAR · FIRE   vs   FWD · SHIELD · FIRE · FIRE · RIGHT · BACK · HUNT [apart, parked]
+
+=== J. shot clock 10, behind attacks, attacker pathfinds ===
+board               stuck  never hit  kills  draws
+Pillars and pits       0%         0%   100%     5%
+Four pillars           0%         0%   100%     5%
+Open board             0%         0%   100%     7%
+Centre block           0%         0%   100%     3%
+Moat                   0%         0%    97%     3%
+Shuffled               0%         0%   100%     3%
+ALL                    0%         0%    99%     4%
+   experts: stuck 0%   expert v novice: stuck 0%   novices: stuck 0%
+comebacks: expert behind on armor at tick 20 still wins 1% (101 rounds)
+skill: expert takes 97% of points vs novice | seat fairness: tank A wins 49% of decided even matchups (227) | shot clock ran out in 98% of rounds, 5.6 ticks of auto-engage per round | pit stops per round 1.7
+
+=== K. shot clock 10, LEADER attacks, attacker pathfinds ===
+board               stuck  never hit  kills  draws
+Pillars and pits       0%         0%    97%     0%
+Four pillars           0%         0%    98%     8%
+Open board             0%         0%   100%     8%
+Centre block           0%         0%    98%     3%
+Moat                   0%         0%    98%     7%
+Shuffled               0%         0%   100%     0%
+ALL                    0%         0%    99%     4%
+   experts: stuck 0%   expert v novice: stuck 0%   novices: stuck 0%
+comebacks: expert behind on armor at tick 20 still wins 1% (106 rounds)
+skill: expert takes 94% of points vs novice | seat fairness: tank A wins 51% of decided even matchups (229) | shot clock ran out in 98% of rounds, 5.6 ticks of auto-engage per round | pit stops per round 1.7
+
+(706s, 60 rounds per board per variant; mix of expert-expert, expert-novice, novice-novice)

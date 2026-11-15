@@ -1,0 +1,1034 @@
+<title>Programmable Tanks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: tabletop on the left (setup, board mat, transport, log), card rails on the right; stacks on phones. */
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  --bench:#E3E8EC; --panel:#F6F8F9; --ink:#17222B; --muted:#566673; --line:#C5CED5;
+  --mat:#245B52; --mat-line:#4F8F84; --block:#C9A36B; --block-top:#E2C08D; --pit:#0B1714; --pit-rim:#173A33;
+  --card:#FFFFFF; --k-action:#34434F; --k-if:#2F62D8; --k-loop:#8A4FD6; --k-board:#B5762A; --k-special:#C2366A; --pickup:#F4D35E; --pickup-ink:#3A2E05;
+  --btn:#17222B; --btn-ink:#F6F8F9; --focus:#2F62D8; --bad:#C2402F; --stop:#FFF4D6; --stop-line:#E2B54A;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Barlow","Segoe UI",Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bench:#141B21; --panel:#1C252D; --ink:#E7ECF0; --muted:#94A3AF; --line:#33414C;
+  --mat:#1E4E46; --mat-line:#3F7A70; --pit:#06100E; --pit-rim:#123029;
+  --card:#25303A; --k-action:#9FB0BD; --k-if:#7FA2FF; --k-loop:#C09BFF; --k-board:#E0A45A; --k-special:#FF7FAA;
+  --btn:#E7ECF0; --btn-ink:#141B21; --focus:#7FA2FF; --bad:#FF8A78; --stop:#3A3220; --stop-line:#C99A35; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bench:#141B21; --panel:#1C252D; --ink:#E7ECF0; --muted:#94A3AF; --line:#33414C;
+  --mat:#1E4E46; --mat-line:#3F7A70; --pit:#06100E; --pit-rim:#123029;
+  --card:#25303A; --k-action:#9FB0BD; --k-if:#7FA2FF; --k-loop:#C09BFF; --k-board:#E0A45A; --k-special:#FF7FAA;
+  --btn:#E7ECF0; --btn-ink:#141B21; --focus:#7FA2FF; --bad:#FF8A78; --stop:#3A3220; --stop-line:#C99A35; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bench);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+main{max-width:1160px;margin:0 auto;padding:20px 16px 40px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,5vw,2.7rem);line-height:1;margin:0 0 6px;letter-spacing:.005em}
+.lede{color:var(--muted);margin:0 0 18px;max-width:64ch}
+.layout{display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.layout{grid-template-columns:minmax(0,540px) minmax(0,1fr);align-items:start}}
+.setup{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:end;margin-bottom:10px}
+label.field{display:flex;flex-direction:column;gap:3px;font-size:.85rem;color:var(--muted)}
+label.check{display:flex;gap:6px;align-items:center;font-size:.88rem;color:var(--muted);min-height:40px}
+select,button,input{font:inherit}
+select{padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);min-height:40px}
+button{cursor:pointer;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 14px;min-height:40px;font-weight:500}
+button.primary{background:var(--btn);color:var(--btn-ink);border-color:var(--btn);font-weight:600}
+button.small{min-height:34px;padding:4px 10px;font-size:.9rem}
+button[aria-pressed=true]{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}
+button:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.boardwrap{background:var(--mat);border-radius:10px;padding:10px;box-shadow:0 1px 0 rgba(0,0,0,.25),0 10px 24px -12px rgba(0,0,0,.45)}
+.boardwrap.editing{box-shadow:0 0 0 3px var(--stop-line),0 10px 24px -12px rgba(0,0,0,.45)}
+.boardwrap.editing svg{cursor:crosshair}
+svg#board{display:block;width:100%;height:auto;max-width:100%}
+.edithint{font-size:.88rem;color:var(--muted);margin:8px 0 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.transport{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.transport .speed{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.85rem;margin-left:auto}
+.status{margin-top:12px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.tick{font-family:var(--display);font-weight:600;font-size:1.5rem;font-variant-numeric:tabular-nums}
+.stops{font-size:.85rem;color:var(--muted)}
+.result{font-weight:600}
+.banner{margin-top:10px;background:var(--stop);border:1px solid var(--stop-line);border-radius:8px;padding:10px 12px;font-size:.95rem}
+.banner strong{font-family:var(--display);font-size:1.15rem;font-weight:600;display:block;margin-bottom:2px}
+.log{margin:8px 0 0;padding:0;list-style:none;font-size:.9rem;color:var(--muted);min-height:6.6em}
+.log li{padding:1px 0}
+.log li:first-child{color:var(--ink)}
+.tanks{display:flex;flex-direction:column;gap:10px}
+.tank{background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:8px;padding:10px 12px}
+.tank.active{border-color:var(--c);box-shadow:0 0 0 2px var(--c) inset}
+.tank.dead{opacity:.55}
+.tank header{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tank h2{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:0;line-height:1}
+.tank .who{font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.tank .tools{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.tank select{min-height:34px;padding:4px 8px;font-size:.9rem}
+.pips{display:flex;gap:3px}
+.pips i{width:11px;height:11px;border-radius:2px;border:1.5px solid var(--c);display:block}
+.pips i.on{background:var(--c)}
+.rail{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;min-height:44px;align-items:stretch}
+.card{font-family:var(--display);font-weight:600;font-size:1rem;line-height:1.05;background:var(--card);color:var(--ink);
+  border:1px solid var(--line);border-top:5px solid var(--k);border-radius:5px;padding:5px 8px 6px;min-width:58px;max-width:100px;
+  text-align:left;min-height:44px;position:relative}
+.card[data-kind=action]{--k:var(--k-action)} .card[data-kind=if]{--k:var(--k-if)} .card[data-kind=loop]{--k:var(--k-loop)} .card[data-kind=board]{--k:var(--k-board)} .card[data-kind=special]{--k:var(--k-special)}
+.card.spent{opacity:.45;text-decoration:line-through}
+.badges{display:flex;gap:5px;flex-wrap:wrap}
+.badge{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 8px;background:var(--card);border:1px solid var(--k-special);color:var(--ink)}
+.card.exec{outline:3px solid var(--c);outline-offset:1px}
+.card.fresh{box-shadow:0 0 0 2px var(--stop-line)}
+.card.picked{outline:3px solid var(--stop-line);outline-offset:1px}
+.card.facedown{background:repeating-linear-gradient(135deg,var(--line) 0 4px,var(--card) 4px 9px);color:transparent;border-top-color:var(--line);min-width:44px}
+.card .count{position:absolute;right:4px;bottom:2px;font-size:.8rem;color:var(--k-loop)}
+.card .tag{display:block;font-family:var(--body);font-weight:500;font-size:.68rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+.gap{min-width:26px;min-height:44px;padding:0;border-style:dashed;color:var(--muted);font-weight:600}
+.rail .empty{color:var(--muted);font-size:.9rem;align-self:center}
+.msg{font-size:.88rem;margin:7px 0 0;color:var(--muted)}
+.msg.bad{color:var(--bad)}
+.palette{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.palette p{margin:0 0 7px;font-size:.88rem;color:var(--muted)}
+.palette .cards{display:flex;flex-wrap:wrap;gap:5px}
+.palette .card:disabled{opacity:.35}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:var(--muted);margin-top:14px}
+.legend span::before{content:"";display:inline-block;width:14px;height:5px;margin-right:6px;vertical-align:middle;background:var(--k)}
+.rules{margin-top:18px;font-size:.92rem;color:var(--muted);max-width:68ch}
+.rules summary{cursor:pointer;color:var(--ink);font-weight:600}
+.rules li{margin:3px 0}
+.tankg{transition:transform var(--move,260ms) ease-in-out}
+.tankg.hit .hull{animation:flash .3s steps(2) 1}
+.tankg.wreck{opacity:.28}
+.tankg.stunned{opacity:.6}
+.beam{animation:beam .35s ease-out forwards}
+@keyframes beam{from{opacity:1}to{opacity:0}}
+@keyframes flash{50%{fill:#fff}}
+@media (prefers-reduced-motion:reduce){.tankg{transition:none}.beam{animation-duration:.6s}.tankg.hit .hull{animation:none}}
+</style>
+<main>
+  <h1>Programmable Tanks</h1>
+  <p class="lede">Build each tank's program from cards, then run the match. Once it starts, the tanks follow their cards on their own. In the draft rules you draw your cards, the board fights back, pit stops let you patch your program mid-round, rare specials and pickups add a twist, and a shot clock stops rounds from stalling.</p>
+  <div class="layout">
+    <section aria-label="Match">
+      <div class="setup">
+        <label class="field">Card set
+          <select id="rules"><option value="v4">v0.5 draft (playtest rules)</option><option value="v3">v0.3 draft, board cards</option><option value="v2">v0.2, smarter cards</option><option value="v1">v0.1, original</option></select>
+        </label>
+        <label class="field">Match type
+          <select id="mode"><option value="2">Duel, 2 tanks</option><option value="4">Free-for-all, 4 tanks (not in first edition)</option><option value="6">Free-for-all, 6 tanks (not in first edition)</option></select>
+        </label>
+        <label class="field">Cards
+          <select id="cardmode"><option value="deal">Deal hands, pit stops</option><option value="kit">Full kit, no pit stops</option></select>
+        </label>
+        <label class="field">Board
+          <select id="walls"><option value="pitrun">Pillars and pits</option><option value="pillars">Four pillars</option><option value="open">Open board</option><option value="centre">Centre block</option><option value="moat">Moat</option><option value="shuffle">Shuffled</option><option value="custom">Custom</option></select>
+        </label>
+        <label class="field">Pickups
+          <select id="pickups"><option value="random">Random pair</option><option value="S">Shields</option><option value="D">Overcharges</option><option value="X">Spread shots</option><option value="none">None</option></select>
+        </label>
+        <button id="editboard" type="button" aria-pressed="false">Edit board</button>
+      </div>
+      <p class="msg" id="rulenote" style="margin:0 0 10px"></p>
+      <div class="boardwrap" id="boardwrap"><svg id="board" role="img" aria-label="Game board"></svg></div>
+      <div class="edithint" id="edithint" hidden>
+        <span>Tap a square: empty, then wall, then pit, then empty again.</span>
+        <label class="check"><input type="checkbox" id="sym" checked> Mirror every change</label>
+        <button id="clearboard" type="button" class="small">Clear board</button>
+      </div>
+      <div class="transport">
+        <button id="run" class="primary" type="button">Run match</button>
+        <button id="step" type="button">Step one tick</button>
+        <button id="reset" type="button">Reset</button>
+        <button id="deal" type="button">Deal new hands</button>
+        <label class="speed">Speed <input id="speed" type="range" min="1" max="12" value="4" aria-label="Ticks per second"></label>
+      </div>
+      <div class="status"><span class="tick" id="tick">Tick 0</span><span class="stops" id="stopinfo"></span><span class="result" id="result" aria-live="polite"></span></div>
+      <div class="banner" id="banner" hidden aria-live="polite"></div>
+      <ul class="log" id="log" aria-label="What just happened"></ul>
+    </section>
+    <section aria-label="Tank programs">
+      <div class="tanks" id="tanks"></div>
+      <div class="legend"><span style="--k:var(--k-action)">Action, uses a tick</span><span style="--k:var(--k-board)">Board card, changes the walls</span><span style="--k:var(--k-special)">Special, used once</span><span style="--k:var(--k-if)">Condition, guards what follows</span><span style="--k:var(--k-loop)">Loop, repeats the next action</span></div>
+      <details class="rules">
+        <summary>What's new in the draft rules</summary>
+        <ul>
+          <li><b>Shot clock.</b> If nobody is hit for 10 ticks, each tank's program is set aside and it runs a printed overtime program, starting from its first card. The tank ahead on armor must attack, so nobody can sit on a lead: it runs <i>If in sights · Fire · Otherwise · Hunt</i>. The other holds: <i>If in sights · Fire · Otherwise · Face enemy</i>. With armor level, the roles take turns. After the next hit, both tanks go back to their own programs where they left off.</li>
+          <li><b>v0.4: Otherwise.</b> True when the last condition was false: <i>If in sights · Fire · Otherwise · Hunt</i>.</li>
+          <li><b>v0.4: specials</b> (rare, shuffled into the shared deck): Shield soaks 1 damage from the next hit, Overcharge doubles your next hit, Spread shot fires all four ways even while the gun cools. Each works once, then the card is spent: any statement whose action is spent is skipped, so a loop in front of a special fires it once. It stays spent after a pit stop.</li>
+          <li><b>Pickups.</b> A matching pair sits on the board from the start, visible while you program. Drive over one to take it: a shield charge, an overcharge, or a spread shot on your next Fire. "If pickup ahead" sees one in a straight line.</li>
+          <li><b>Pits.</b> Driving into a pit costs 2 armor and the next 2 ticks. Shots pass over pits. "If blocked" sees a pit ahead, and Hunt steers around them.</li>
+          <li><b>Hunt</b> never turns to face a wall or pit. If turning toward the enemy would face one, the tank drives on, or turns the other way if it is boxed in. A Turn left or Turn right before Hunt now sticks.</li>
+          <li><b>Raise wall</b> puts a wall on the empty square behind you, two per tank per round. It covers your back and can never block your own path or gun. <b>Breach</b> fires a round that removes the first wall in line. It uses the gun, so it shares the cooldown with Fire, and it cannot hurt a tank.</li>
+          <li><b>Dealt hands.</b> Fire ×2, Hunt and Forward are your chassis and always available. Everything else comes from one shared deck. You start with 5 cards in hand.</li>
+          <li><b>Pit stops</b> after ticks 10 and 20. Each tank draws a card, then may play one card from its hand into the program, adding it or replacing a card. The program then restarts from its first card.</li>
+        </ul>
+      </details>
+    </section>
+  </div>
+</main>
+<script>
+// ==== ENGINE START (same rules as tanksim.py; free-for-all targets the nearest enemy) ====
+const CARDS = {
+  HUNT:{label:'Hunt',kind:'action',tip:'Close in on the nearest enemy: turn toward them, drive forward, step around walls and pits. In v0.3 it never turns to face a wall or pit; it drives on instead.'},
+  TRACK:{label:'Face enemy',kind:'action',tip:'Turn 90° toward the nearest enemy. Does nothing if they are already ahead.'},
+  FWD:{label:'Forward',kind:'action'}, BACK:{label:'Back',kind:'action'},
+  LEFT:{label:'Turn left',kind:'action'}, RIGHT:{label:'Turn right',kind:'action'},
+  FIRE:{label:'Fire',kind:'action',tip:'Shoot straight ahead. Front hits do 1, side and rear hits do 2.'},
+  BUILD:{label:'Raise wall',kind:'action',board:true,tip:'Put a wall on the empty square behind you, cover from anyone chasing you. Two per tank per round.'},
+  BLAST:{label:'Breach',kind:'action',board:true,tip:'Fire a round that removes the first wall in line. Uses the gun and its cooldown. Cannot hurt a tank.'},
+  IF_ENEMY:{label:'If in sights',kind:'if',tip:'True when an enemy is in a clear straight line ahead, so a shot would hit.'},
+  IF_NEAR:{label:'If enemy near',kind:'if',tip:'True when the nearest enemy is within 2 squares.'},
+  IF_BEHIND:{label:'If enemy behind',kind:'if'},
+  IF_BLOCKED:{label:'If blocked',kind:'if',tip:'True when the square ahead is a wall, the edge, a tank or a pit.'},
+  IF_HIT:{label:'If hit',kind:'if',tip:'True if you took damage since this card was last checked.'},
+  WHILE_ENEMY:{label:'While in sights',kind:'loop'}, WHILE_CLEAR:{label:'While clear',kind:'loop'},
+  REPEAT3:{label:'Repeat ×3',kind:'loop'},
+  ELSE:{label:'Otherwise',kind:'if',tip:'True when the last condition card was false. If in sights · Fire · Otherwise · Hunt fires when it can and hunts when it can\'t.'},
+  IF_POWERUP:{label:'If pickup ahead',kind:'if',tip:'True when a pickup lies in a clear straight line ahead.'},
+  SHIELD:{label:'Shield',kind:'action',special:true,tip:'Special, used once. Raise a shield that soaks 1 damage from the next hit. Takes effect before this tick\'s shots.'},
+  OVERCHARGE:{label:'Overcharge',kind:'action',special:true,tip:'Special, used once. Your next hit does double damage.'},
+  SPREAD:{label:'Spread shot',kind:'action',special:true,tip:'Special, used once. Fire in all four directions at once, even while the gun is cooling.'}
+};
+const V2_DECK = {HUNT:2,TRACK:1,FWD:3,BACK:1,LEFT:1,RIGHT:1,FIRE:3,IF_ENEMY:2,IF_NEAR:1,IF_BEHIND:1,IF_BLOCKED:1,IF_HIT:1,WHILE_ENEMY:1,REPEAT3:1};
+const RULESETS = {
+  v4:{name:'v0.5 draft', cooldown:1, near:2, pitDmg:2, pitStun:2, maxBuilds:2, buildBehind:true, huntAvoid:true,
+      shotClock:10, clockRoles:true, clockCards:true, clockLeader:true,
+      clockAttack:'IF_ENEMY FIRE ELSE HUNT', clockHold:'IF_ENEMY FIRE ELSE TRACK',
+      deck:{...V2_DECK, BUILD:1, BLAST:1, ELSE:2, IF_POWERUP:1, SHIELD:1, OVERCHARGE:1, SPREAD:1}, rarity:{SHIELD:2, OVERCHARGE:2, SPREAD:1}},
+  v3:{name:'v0.3 draft', cooldown:1, near:2, pitDmg:2, pitStun:2, maxBuilds:2, buildBehind:true, huntAvoid:true, deck:{...V2_DECK, BUILD:1, BLAST:1}},
+  v2:{name:'v0.2', cooldown:1, near:2, pitDmg:2, pitStun:2, maxBuilds:2, deck:{...V2_DECK}},
+  v1:{name:'v0.1', cooldown:0, near:2, pitDmg:2, pitStun:2, maxBuilds:2,
+      deck:{FWD:4,BACK:1,LEFT:2,RIGHT:2,FIRE:3,IF_ENEMY:2,IF_BLOCKED:2,IF_HIT:1,WHILE_ENEMY:1,WHILE_CLEAR:1,REPEAT3:1}}
+};
+const CHASSIS = {FIRE:2, HUNT:1, FWD:1};
+const SLOTS = 8, ARMOR = 5, FRONT = 1, FLANK = 2;
+const DX = [0,1,0,-1], DY = [1,0,-1,0];           // N E S W
+const isAction = c => CARDS[c].kind === 'action';
+
+function shape(prog){
+  if(!prog.length) return 'Add at least one card.';
+  if(prog.length > SLOTS) return `Too many cards: ${prog.length} of ${SLOTS} slots.`;
+  if(!prog.some(isAction)) return 'Add at least one action card (move, turn or fire).';
+  for(let i=0;i<prog.length;i++)
+    if(CARDS[prog[i]].kind==='loop' && !isAction(prog[(i+1)%prog.length])) return `"${CARDS[prog[i]].label}" must sit directly before an action card. As the last card, it wraps to the first.`;
+  return null;
+}
+function validate(prog, deck){
+  const s = shape(prog); if(s) return s;
+  for(const c of new Set(prog)){
+    const n = prog.filter(x=>x===c).length, max = deck[c]||0;
+    if(n > max) return max ? `Only ${max} "${CARDS[c].label}" card${max>1?'s':''} available.` : `"${CARDS[c].label}" is not available.`;
+  }
+  return null;
+}
+function skips(prog){
+  const n = prog.length, out = new Array(n).fill(0);
+  prog.forEach((c,i)=>{ if(CARDS[c].kind==='if'){ let j=(i+1)%n; while(!isAction(prog[j])) j=(j+1)%n; out[i]=(j+1)%n; } });
+  return out;
+}
+function makeTank(prog,x,y,d,id){
+  return {id,prog,skip:skips(prog),ptr:0,rep:new Array(prog.length).fill(0),hit:false,x,y,d,armor:ARMOR,alive:true,
+          execIdx:-1,dealt:0,kills:0,detour:0,cool:0,stun:0,falls:0,builds:0,blasts:0,
+          used:{},spent:new Set(),lastCond:true,shield:0,double:false,spreadnext:false,absorbed:0,pickups:0};
+}
+function loadProgram(t, prog){        // pit stop: new program, pointer back to the first card, loop counters cleared
+  t.prog=prog; t.skip=skips(prog); t.ptr=0; t.rep=new Array(prog.length).fill(0); t.execIdx=-1;
+  t.spent=new Set();                  // a special used earlier this round stays used
+  for(const [k,cnt0] of Object.entries(t.used)){ let cnt=cnt0; prog.forEach((c,i)=>{ if(cnt && c===k){ t.spent.add(i); cnt--; } }); }
+}
+function take(t,i){                     // a special is spent by using it, however it was reached
+  const c=t.prog[i]; if(CARDS[c].special){ t.spent.add(i); t.used[c]=(t.used[c]||0)+1; } return c;
+}
+function nextAction(t,s){
+  const prog=t.prog,n=prog.length; let p=t.ptr;
+  for(let k=0;k<n;k++){
+    const c=prog[p];
+    if(isAction(c)){
+      if(t.spent.has(p)){ p=(p+1)%n; continue; }             // a spent special is passed over for free
+      t.ptr=(p+1)%n; t.execIdx=p;
+      return take(t,p);
+    }
+    if(CARDS[c].kind==='if' && t.spent.size && t.spent.has((t.skip[p]-1+n)%n)){ p=t.skip[p]; continue; }
+    if(c==='ELSE'){ p = !t.lastCond ? (p+1)%n : t.skip[p]; continue; }
+    let truth;
+    if(c==='IF_ENEMY') truth=s.sees;
+    else if(c==='IF_POWERUP') truth=s.seesPwr;
+    else if(c==='IF_BLOCKED') truth=s.blocked;
+    else if(c==='IF_NEAR') truth=s.near;
+    else if(c==='IF_BEHIND') truth=s.side===2;
+    else if(c==='IF_HIT'){ truth=t.hit; t.hit=false; }
+    else if(c==='WHILE_ENEMY'||c==='WHILE_CLEAR'){
+      if(t.spent.size && t.spent.has((p+1)%n)){ p=(p+2)%n; continue; }   // the loop's action is a spent special: skip it
+      if(c==='WHILE_ENEMY'?s.sees:!s.blocked){ t.ptr=p; t.execIdx=(p+1)%n; return take(t,(p+1)%n); }
+      p=(p+2)%n; continue;
+    } else { // REPEAT3
+      if(t.spent.size && t.spent.has((p+1)%n)){ t.rep[p]=0; p=(p+2)%n; continue; }
+      if(t.rep[p]===0) t.rep[p]=3;
+      t.rep[p]--; t.ptr = t.rep[p] ? p : (p+2)%n; t.execIdx=(p+1)%n; return take(t,(p+1)%n);
+    }
+    t.lastCond=truth;
+    p = truth ? (p+1)%n : t.skip[p];
+  }
+  t.ptr=p; t.execIdx=-1; return 'IDLE';
+}
+function engage(t, en, wall, pit){   // shot-clock attacker: shortest route (N E S W order) to the nearest square with a clear shot
+  const shotFrom=(x,y)=>{ for(let d=0;d<4;d++){ let qx=x+DX[d], qy=y+DY[d];
+    while(!wall(qx,qy)){ if(qx===en.x&&qy===en.y) return d; qx+=DX[d]; qy+=DY[d]; } } return null; };
+  const turnTo=d=> d===t.d ? 'IDLE' : d===(t.d+3)%4 ? 'LEFT' : 'RIGHT';
+  const d0=shotFrom(t.x,t.y); if(d0!==null) return turnTo(d0);
+  const first=new Map([[t.x+','+t.y,null]]), q=[[t.x,t.y]];
+  for(let i=0;i<q.length;i++){
+    const [cx,cy]=q[i];
+    for(let k=0;k<4;k++){
+      const nx=cx+DX[k], ny=cy+DY[k], key=nx+','+ny;
+      if(first.has(key)||wall(nx,ny)||pit(nx,ny)||(nx===en.x&&ny===en.y)) continue;
+      const f=(cx===t.x&&cy===t.y)?k:first.get(cx+','+cy); first.set(key,f);
+      if(shotFrom(nx,ny)!==null) return f===t.d ? 'FWD' : turnTo(f);
+      q.push([nx,ny]);
+    }
+  }
+  return 'HUNT';
+}
+function huntTurn(t, turn, side, blockedAhead, wall, pit){   // v0.3 Hunt: never turn to face a wall or pit
+  const shut = tn => { const d=(t.d+(tn==='RIGHT'?1:3))%4, x=t.x+DX[d], y=t.y+DY[d]; return wall(x,y)||pit(x,y); };
+  const other = turn==='RIGHT'?'LEFT':'RIGHT';
+  if(!shut(turn)) return turn;
+  if(side===2 && !shut(other)) return other;
+  if(!blockedAhead) return 'FWD';
+  if(!shut(other)) return other;
+  return turn;
+}
+function hitTank(t,en,dmg){                                  // Overcharge doubles a hit, a shield charge soaks 1 damage
+  if(t.double){ dmg*=2; t.double=false; }
+  let soaked=0; if(en.shield>0 && dmg>0){ dmg--; en.shield--; en.absorbed++; soaked=1; }
+  const was=en.armor>0; en.armor-=dmg; en.hit=true; t.dealt+=dmg;
+  if(was && en.armor<=0) t.kills++;
+  return {dmg,soaked};
+}
+function newMatch(progs,starts,size,walls,maxTicks,rules,pits,pickups){
+  return {size,walls:new Set(walls.map(w=>w[0]+','+w[1])),pits:new Set((pits||[]).map(w=>w[0]+','+w[1])),
+          pickups:new Map((pickups||[]).map(p=>[p[0]+','+p[1],p[2]])), lastDmg:0, periods:0, wasOut:false, clockOut:false, attacker:-1,
+          maxTicks,tick:0,over:false,rules:rules||RULESETS.v1,
+          tanks:progs.map((p,i)=>makeTank(p,starts[i][0],starts[i][1],starts[i][2],i))};
+}
+function stepMatch(m){
+  if(m.over) return [];
+  m.tick++;
+  const R=m.rules, ev=[], alive=m.tanks.filter(t=>t.alive);
+  const inside=(x,y)=> x>=0&&y>=0&&x<m.size&&y<m.size;
+  const wall=(x,y)=> !inside(x,y)||m.walls.has(x+','+y);
+  const pit=(x,y)=> m.pits.has(x+','+y);
+  const occ=new Map(alive.map(t=>[t.x+','+t.y,t]));
+  const info=new Map();
+  for(const t of alive){
+    let x=t.x+DX[t.d], y=t.y+DY[t.d];
+    const wallAhead=wall(x,y)||pit(x,y), blocked = wallAhead||occ.has(x+','+y);
+    let seen=null, ex=t.x, ey=t.y, seesPwr=false;
+    while(!wall(x,y)){ ex=x; ey=y; if(occ.has(x+','+y)){ seen=occ.get(x+','+y); break; } if(m.pickups.has(x+','+y)) seesPwr=true; x+=DX[t.d]; y+=DY[t.d]; }
+    let near=null, best=1e9;                                   // radar: nearest living enemy
+    for(const o of alive){ if(o===t) continue; const dist=Math.max(Math.abs(o.x-t.x),Math.abs(o.y-t.y)); if(dist<best){best=dist;near=o;} }
+    let side=0, r=0;
+    if(near){
+      const dx=near.x-t.x, dy=near.y-t.y, rd=(t.d+1)%4, f=dx*DX[t.d]+dy*DY[t.d]; r=dx*DX[rd]+dy*DY[rd];
+      side = (f>0&&Math.abs(r)<=f) ? 0 : (f<0&&Math.abs(r)<-f) ? 2 : r>0 ? 1 : 3;
+    }
+    info.set(t,{seen,sees:!!seen,seesPwr,ex,ey,blocked,wallAhead,side,r,near:!!near&&best<=R.near});
+  }
+  const out = !!R.shotClock && m.tick-1-m.lastDmg >= R.shotClock;   // shot clock: no hit for too long, tanks engage on their own
+  const newPeriod = out && !m.wasOut;
+  if(newPeriod){ m.periods++; }
+  m.wasOut=out; m.clockOut=out; m.attacker=-1;
+  if(out && R.clockRoles && m.tanks.length===2){            // level: roles rotate; otherwise the leader (or the trailer) attacks
+    const [A,B]=m.tanks;
+    if(A.armor===B.armor) m.attacker=(m.periods-1+(R.clockFirst||0))%2;
+    else { const lo=A.armor<B.armor?0:1; m.attacker = R.clockLeader ? 1-lo : lo; }
+  }
+  if(newPeriod && R.clockCards)                              // each tank is handed its printed overtime program
+    m.runners = m.tanks.map(t=>makeTank(((m.attacker<0||m.attacker===t.id) ? R.clockAttack : R.clockHold).split(' '),0,0,0,t.id));
+  if(out && m.periods && !m.announced?.has(m.periods)){ (m.announced ||= new Set()).add(m.periods); ev.push({type:'clock',attacker:m.attacker}); }
+  for(const t of alive){
+    const i=info.get(t);
+    if(t.stun>0){ t.stun--; t.execIdx=-1; i.act='IDLE'; i.stunned=true; }   // climbing out of a pit: no card is read
+    else if(out && R.clockCards){ t.execIdx=-1; i.act=nextAction(m.runners[t.id], i); }
+    else if(out){
+      t.execIdx=-1;
+      if(i.sees) i.act = t.cool===0 ? 'FIRE' : 'IDLE';                       // aim held while the gun cools
+      else if(m.attacker>=0 && m.attacker!==t.id) i.act='TRACK';               // holder: face the attacker
+      else if(R.clockPath && m.tanks.length===2) i.act=engage(t, m.tanks[1-t.id], wall, pit);
+      else i.act='HUNT';
+    }
+    else i.act = nextAction(t, i);
+  }
+  for(const t of alive){                                   // Shield and Overcharge take effect before the shots
+    const a=info.get(t).act;
+    if(a==='SHIELD'){ t.shield=Math.min(t.shield+1,2); ev.push({type:'shield',id:t.id}); }
+    else if(a==='OVERCHARGE'){ t.double=true; ev.push({type:'overcharge',id:t.id}); }
+  }
+  const breached=[];
+  for(const t of alive){                                   // 1. fire and breach resolve together
+    const i=info.get(t);
+    if(i.act==='SPREAD' || (i.act==='FIRE' && t.spreadnext && t.cool===0)){   // spread shot: all four ways, ignores the cooldown
+      if(i.act==='FIRE') t.spreadnext=false;
+      t.cool=R.cooldown+1;
+      const sum={type:'spread',from:t.id,hits:[]};
+      for(let dd=0; dd<4; dd++){
+        let x=t.x+DX[dd], y=t.y+DY[dd], ex=t.x, ey=t.y, target=null;
+        while(!wall(x,y)){ ex=x; ey=y; if(occ.has(x+','+y)){ target=occ.get(x+','+y); break; } x+=DX[dd]; y+=DY[dd]; }
+        const s={type:'shot',spread:true,from:t.id,x1:t.x,y1:t.y,x2:ex,y2:ey,target:null};
+        if(target){ const front=target.d===(dd+2)%4, h=hitTank(t,target,front?FRONT:FLANK); s.target=target.id; sum.hits.push({id:target.id,...h}); }
+        ev.push(s);
+      }
+      ev.push(sum); continue;
+    }
+    if(i.act!=='FIRE' && i.act!=='BLAST') continue;
+    if(t.cool>0){ ev.push({type:'fizzle',id:t.id}); continue; }
+    t.cool = R.cooldown+1;
+    if(i.act==='BLAST'){
+      let x=t.x+DX[t.d], y=t.y+DY[t.d];
+      while(!wall(x,y) && !occ.has(x+','+y)){ x+=DX[t.d]; y+=DY[t.d]; }
+      if(inside(x,y) && m.walls.has(x+','+y)){ breached.push(x+','+y); t.blasts++; ev.push({type:'breach',from:t.id,x1:t.x,y1:t.y,x2:x,y2:y}); }
+      else ev.push({type:'breachmiss',from:t.id,x1:t.x,y1:t.y,x2:i.ex,y2:i.ey});
+      continue;
+    }
+    const s={type:'shot',from:t.id,x1:t.x,y1:t.y,x2:i.ex,y2:i.ey,target:null};
+    if(i.seen){
+      const en=i.seen, front = en.d===(t.d+2)%4, h=hitTank(t,en,front?FRONT:FLANK);
+      s.target=en.id; s.dmg=h.dmg; s.soaked=h.soaked; s.front=front;
+    }
+    ev.push(s);
+  }
+  for(const k of breached) m.walls.delete(k);
+  for(const t of alive) if(t.armor<=0){ t.alive=false; t.armor=0; ev.push({type:'dead',id:t.id}); }
+  const live=m.tanks.filter(t=>t.alive), occ2=new Set(live.map(t=>t.x+','+t.y)), want=new Map();
+  if(live.length>1 || alive.length===live.length){
+    const raised=[];                                       // 2a. raised walls go up before anyone moves
+    for(const t of live){
+      if(info.get(t).act!=='BUILD') continue;
+      const s=R.buildBehind?-1:1, x=t.x+s*DX[t.d], y=t.y+s*DY[t.d], k=x+','+y;
+      if(t.builds<R.maxBuilds && !wall(x,y) && !pit(x,y) && !occ2.has(k)){ raised.push(k); t.builds++; ev.push({type:'build',id:t.id,x,y}); }
+    }
+    for(const k of raised) m.walls.add(k);
+    for(const t of live){                                  // 2b. turns and moves
+      const i=info.get(t); let a=i.act;
+      if(a==='TRACK') a = i.side===3?'LEFT' : (i.side===1||i.side===2)?'RIGHT' : 'IDLE';
+      if(a==='HUNT'){
+        if(t.detour>0){ if(i.blocked){ a='RIGHT'; t.detour=0; } else { a='FWD'; t.detour--; } }
+        else if(i.side>=1){ a = i.side===3?'LEFT':'RIGHT'; if(R.huntAvoid) a=huntTurn(t,a,i.side,i.blocked,wall,pit); }
+        else if(i.wallAhead){ a = i.r<0?'LEFT':'RIGHT'; t.detour=1; }
+        else if(i.blocked) a='IDLE';
+        else a='FWD';
+      }
+      if(a==='LEFT') t.d=(t.d+3)%4;
+      else if(a==='RIGHT') t.d=(t.d+1)%4;
+      else if(a==='FWD'||a==='BACK'){
+        const s=a==='FWD'?1:-1, x=t.x+s*DX[t.d], y=t.y+s*DY[t.d], k=x+','+y;
+        if(!wall(x,y)&&!occ2.has(k)){ if(!want.has(k)) want.set(k,[]); want.get(k).push([t,x,y]); }
+      }
+    }
+  }
+  for(const list of want.values()){
+    if(list.length>1 && R.initiative){                     // contested square: the tank with initiative takes it
+      const n=m.tanks.length, first=(m.tick-1)%n;
+      list.sort((p,q)=>((p[0].id-first+n)%n)-((q[0].id-first+n)%n)); list.length=1;
+    }
+    if(list.length!==1) continue;
+    const [t,x,y]=list[0]; t.x=x; t.y=y;
+    if(pit(x,y)){ t.armor-=R.pitDmg; t.hit=true; t.stun=R.pitStun; t.falls++; ev.push({type:'fall',id:t.id,x,y}); }
+  }
+  if(m.pickups.size && (live.length>1 || alive.length===live.length)) for(const t of live){   // drive over a pickup to take it
+    const k=t.x+','+t.y, kind=m.pickups.get(k); if(!kind) continue;
+    m.pickups.delete(k); t.pickups++;
+    if(kind==='S') t.shield=Math.min(t.shield+1,2); else if(kind==='X') t.spreadnext=true; else t.double=true;
+    ev.push({type:'pickup',id:t.id,kind,x:t.x,y:t.y});
+  }
+  for(const t of live) if(t.alive && t.armor<=0){ t.alive=false; t.armor=0; ev.push({type:'dead',id:t.id}); }
+  for(const t of m.tanks) if(t.cool>0) t.cool--;
+  if(ev.some(e=>(e.type==='shot'&&e.target!=null) || (e.type==='spread'&&e.hits.length) || e.type==='fall')) m.lastDmg=m.tick;
+  const left=m.tanks.filter(t=>t.alive).length;
+  if(left<=1 || m.tick>=m.maxTicks){
+    m.over=true;
+    const top=Math.max(...m.tanks.map(t=>t.armor)), best=m.tanks.filter(t=>t.armor===top);
+    m.winner = best.length===1 ? best[0].id : null;
+    m.endedBy = left<=1 ? 'kill' : 'time';
+  }
+  return ev;
+}
+// ==== ENGINE END ====
+
+// ---- computer player: searches for a program, looks ahead at pit stops ----
+function counts(list){ const o={}; for(const c of list) o[c]=(o[c]||0)+1; return o; }
+function randStatement(left, room){
+  const pick = kinds => { const xs=Object.keys(left).filter(c=>left[c]>0 && kinds(CARDS[c])); return xs.length ? xs[Math.floor(Math.random()*xs.length)] : null; };
+  for(let tries=0; tries<20; tries++){
+    const st=[]; const use={};
+    const take=c=>{ st.push(c); use[c]=(use[c]||0)+1; };
+    const has=c=> left[c]-(use[c]||0)>0;
+    if(room>=2 && Math.random()<.55){ const c=pick(k=>k.kind==='if'); if(c) take(c); }
+    if(room-st.length>=2 && Math.random()<.3){ const c=pick(k=>k.kind==='loop'); if(c && has(c)) take(c); }
+    const a=pick(k=>k.kind==='action'); if(!a) return null;
+    if(!has(a)) continue; take(a);
+    if(st.length<=room) return st;
+  }
+  return null;
+}
+function randProgram(avail){
+  const left={...avail}, prog=[], target=1+Math.floor(Math.random()*SLOTS);
+  while(prog.length<target){ const st=randStatement(left, SLOTS-prog.length); if(!st) break; for(const c of st){ prog.push(c); left[c]--; } }
+  return prog;
+}
+function statements(p){ const out=[]; let cur=[]; for(const c of p){ cur.push(c); if(isAction(c)){ out.push(cur); cur=[]; } } if(cur.length) out.push(cur); return out; }
+function mutateProg(p, avail){
+  const s=statements(p), r=Math.random(), left={...avail}; for(const c of p) left[c]--;
+  if(r<.3 && s.length){ const i=Math.floor(Math.random()*s.length); for(const c of s[i]) left[c]++; s[i]=randStatement(left,4)||s[i]; }
+  else if(r<.55){ const ns=randStatement(left,4); if(ns) s.splice(Math.floor(Math.random()*(s.length+1)),0,ns); }
+  else if(r<.75 && s.length>1) s.splice(Math.floor(Math.random()*s.length),1);
+  else if(s.length>1){ const i=Math.floor(Math.random()*s.length), j=Math.floor(Math.random()*s.length); [s[i],s[j]]=[s[j],s[i]]; }
+  const q=s.flat();
+  return validate(q, avail) ? null : q;
+}
+function simulate(progs, seatOf){                    // play one duel on the current board; returns result for seat 0
+  const md=MODES[2], m=newMatch(progs, md.starts, md.size, S.walls, md.ticks, rulesNow(), S.pits, S.pickups);
+  while(!m.over) stepMatch(m);
+  return m;
+}
+function benchScore(p, seat, bench){
+  let s=0;
+  for(const o of bench){
+    const progs = seat===0 ? [p,o] : [o,p], m=simulate(progs);
+    s += m.winner===seat ? 3 : m.winner==null ? 1 : 0;
+  }
+  return s/(3*bench.length);
+}
+function cpuBuild(avail, seat){
+  const full=deck();
+  const bench = Object.values(PRESETS).map(t=>t.split(' ')).filter(p=>!validate(p, full));
+  for(let k=0;k<4;k++){ const p=randProgram(full); if(!validate(p,full)) bench.push(p); }
+  const cands = Object.values(PRESETS).map(t=>t.split(' ')).filter(p=>!validate(p, avail));
+  for(let k=0;k<50;k++){ const p=randProgram(avail); if(!validate(p,avail)) cands.push(p); }
+  if(!cands.length) cands.push(['FIRE','HUNT'].filter(c=>avail[c]));
+  let best=cands[0], bs=-1;
+  for(const p of cands){ const s=benchScore(p, seat, bench); if(s>bs){ bs=s; best=p; } }
+  for(let k=0;k<120;k++){ const q=mutateProg(best, avail); if(!q) continue; const s=benchScore(q, seat, bench); if(s>=bs){ bs=s; best=q; } }
+  return best;
+}
+function pitPlays(prog, hand){
+  const out=[];
+  for(const c of new Set(hand)){
+    for(let i=0;i<=prog.length;i++){ const q=[...prog.slice(0,i),c,...prog.slice(i)]; if(!shape(q)) out.push({prog:q,card:c,replaced:null,at:i,insert:true}); }
+    for(let i=0;i<prog.length;i++){ if(prog[i]===c) continue; const q=prog.slice(); q[i]=c; if(!shape(q)) out.push({prog:q,card:c,replaced:prog[i],at:i,insert:false}); }
+  }
+  return out;
+}
+function cpuPitStop(seat){
+  const value = m => (m.winner===seat?300:m.winner==null?100:0) + m.tanks[seat].armor - Math.max(...m.tanks.filter((_,k)=>k!==seat).map(t=>t.armor));
+  const run = play => { const m=structuredClone(S.match); m.over=false; if(play) loadProgram(m.tanks[seat], play.prog); while(!m.over) stepMatch(m); return value(m); };
+  let best=null, bv=run(null);
+  for(const play of pitPlays(S.match.tanks[seat].prog, S.hands[seat])){ const v=run(play); if(v>bv){ bv=v; best=play; } }
+  return best;
+}
+
+// ---- viewer ----
+const TANKS = [
+  {name:'Amber', c:'#F2B134'}, {name:'Coral', c:'#EF5B4C'}, {name:'Cobalt', c:'#5B8CFF'},
+  {name:'Violet', c:'#B07CF2'}, {name:'Bone', c:'#F3F1E7'}, {name:'Ink', c:'#1B2630'}
+];
+const V2_PRESETS = {
+  'Hunter':'WHILE_ENEMY FIRE HUNT',
+  'Kiter':'IF_ENEMY FIRE IF_NEAR BACK HUNT',
+  'Ambusher':'WHILE_ENEMY FIRE TRACK',
+  'Bruiser':'HUNT IF_HIT TRACK IF_BEHIND REPEAT3 RIGHT WHILE_ENEMY FIRE',
+  'Turret':'WHILE_ENEMY FIRE RIGHT',
+  'Wall patrol':'IF_ENEMY REPEAT3 FIRE FWD IF_BLOCKED RIGHT'
+};
+const PRESET_SETS = {
+  v4:{...V2_PRESETS, 'Fire or hunt':'IF_ENEMY FIRE ELSE HUNT', 'Shielded hunter':'SHIELD WHILE_ENEMY FIRE HUNT',
+      'Scavenger':'IF_POWERUP FWD ELSE HUNT WHILE_ENEMY FIRE', 'Sapper':'IF_BLOCKED BLAST WHILE_ENEMY FIRE HUNT'},
+  v3:{...V2_PRESETS, 'Sapper':'IF_BLOCKED BLAST WHILE_ENEMY FIRE HUNT', 'Rearguard':'IF_BEHIND BUILD WHILE_ENEMY FIRE HUNT'},
+  v2:V2_PRESETS,
+  v1:{
+    'Charger':'WHILE_CLEAR FWD WHILE_ENEMY FIRE LEFT',
+    'Wall patrol':'IF_ENEMY REPEAT3 FIRE FWD IF_BLOCKED RIGHT',
+    'Turret':'WHILE_ENEMY FIRE RIGHT',
+    'Simple patrol':'IF_ENEMY FIRE IF_BLOCKED RIGHT FWD',
+    'Lane camper':'RIGHT WHILE_CLEAR FIRE',
+    'Return fire':'WHILE_ENEMY FIRE IF_HIT FIRE FWD IF_BLOCKED RIGHT'
+  }
+};
+let PRESETS = PRESET_SETS.v4, presetNames = Object.keys(PRESETS);
+const deck = () => RULESETS[S.rules].deck;
+const MODES = {
+  2:{size:8, ticks:40, starts:[[0,0,0],[7,7,2]]},
+  4:{size:8, ticks:60, starts:[[1,0,0],[7,1,3],[6,7,2],[0,6,1]]},
+  6:{size:10,ticks:80, starts:[[1,0,0],[9,1,3],[8,9,2],[0,8,1],[0,4,1],[9,5,3]]}
+};
+const STOPS = [11, 21];                    // pit stops happen before these ticks (after ticks 10 and 20)
+const HAND = 5;
+const BOARDS = {
+  pillars:s=>({walls: s===8 ? [[2,2],[5,2],[2,5],[5,5]] : [[2,2],[7,2],[2,7],[7,7],[4,4],[5,5],[4,7],[5,2]], pits:[]}),
+  pitrun:s=>({walls: BOARDS.pillars(s).walls, pits: s===8 ? [[3,4],[4,3]] : [[3,5],[6,4]]}),
+  open:()=>({walls:[],pits:[]}),
+  centre:s=>{const a=s/2-1,b=s/2; return {walls:[[a,a],[a,b],[b,a],[b,b]],pits:[]};},
+  moat:s=>{const a=s/2-1,b=s/2; return {walls:[[a,a],[b,b]],pits:[[a,b],[b,a],[a-2,b+1],[b+2,a-1]]};}
+};
+const $ = id => document.getElementById(id);
+const S = {rules:'v4', pickupKey:'random', pickups:[], mode:2, cardMode:'deal', wallKey:'pitrun', walls:[], pits:[], progs:[], active:0, match:null, timer:null, angles:[],
+           cpu:[false,true], hands:[[],[]], pile:[], locked:[false,false], committed:false, stopsDone:new Set(), pitstop:null, editing:false, plan:[null,null]};
+const dealing = () => S.cardMode==='deal' && S.mode===2;
+const isCpu = i => S.mode===2 && S.cpu[i];
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function sharedDeck(){
+  const rar=RULESETS[S.rules].rarity||{}, out=[];
+  for(const [c,k] of Object.entries(deck())){ const n = c in rar ? rar[c] : 2*Math.max(0,k-(CHASSIS[c]||0)); for(let i=0;i<n;i++) out.push(c); }
+  return out;
+}
+function placePickups(){                 // a mirrored pair, visible from the start, never on a start corner, wall or pit
+  S.pickups=[];
+  if(S.pickupKey==='none') return;
+  const s=MODES[S.mode].size, starts=MODES[S.mode].starts, bad=new Set([...S.walls,...S.pits].map(w=>w+''));
+  const nearStart=(x,y)=>starts.some(st=>Math.max(Math.abs(st[0]-x),Math.abs(st[1]-y))<=2);
+  for(let tries=0; tries<300; tries++){
+    const x=Math.floor(Math.random()*s), y=Math.floor(Math.random()*s), mx=s-1-x, my=s-1-y;
+    if((x===mx&&y===my) || bad.has(x+','+y) || bad.has(mx+','+my) || nearStart(x,y) || nearStart(mx,my)) continue;
+    const kind = S.pickupKey==='random' ? 'SDX'[Math.floor(Math.random()*3)] : S.pickupKey;
+    S.pickups=[[x,y,kind],[mx,my,kind]]; return;
+  }
+}
+function available(i){ const a={...CHASSIS}; for(const c of S.hands[i]) a[c]=(a[c]||0)+1; return a; }
+function leftover(i, prog){                   // hand cards not used by the program (chassis cards are used first)
+  const left=counts(S.hands[i]), used=counts(prog);
+  for(const c in used){ const extra=Math.max(0, used[c]-(CHASSIS[c]||0)); left[c]=(left[c]||0)-extra; }
+  const out=[]; for(const c of S.hands[i]){ if(left[c]>0){ out.push(c); left[c]--; } }
+  return out;
+}
+function avail(i){ return dealing() && !S.committed ? available(i) : deck(); }
+function progError(i){ return dealing() && !S.committed ? validate(S.progs[i], available(i)) : dealing() ? shape(S.progs[i]) : validate(S.progs[i], deck()); }
+function allValid(){ return S.progs.every((_,i)=>!progError(i)); }
+
+function shuffledBoard(size, starts){
+  const near = new Set(); starts.forEach(([x,y])=>{ for(let dx=-1;dx<=1;dx++) for(let dy=-1;dy<=1;dy++) near.add((x+dx)+','+(y+dy)); });
+  for(let attempt=0; attempt<200; attempt++){
+    const set = new Set(), pits=new Set(), want = 2 + Math.floor(Math.random()*3), wantPits = S.rules==='v3' ? Math.floor(Math.random()*2)+1 : 0;
+    let guard = 0;
+    const add=(target,n)=>{ while(target.size < n*2 && guard++ < 400){
+      const x=Math.floor(Math.random()*size), y=Math.floor(Math.random()*size), mx=size-1-x, my=size-1-y, k=x+','+y, mk=mx+','+my;
+      if(near.has(k)||near.has(mk)||set.has(k)||pits.has(k)||set.has(mk)||pits.has(mk)) continue;
+      target.add(k); target.add(mk); } };
+    add(set,want); add(pits,wantPits);
+    const seen=new Set([starts[0][0]+','+starts[0][1]]), q=[[starts[0][0],starts[0][1]]];
+    while(q.length){ const [x,y]=q.pop(); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const nx=x+dx, ny=y+dy, k=nx+','+ny;
+      if(nx<0||ny<0||nx>=size||ny>=size||set.has(k)||pits.has(k)||seen.has(k)) continue; seen.add(k); q.push([nx,ny]); } }
+    if(seen.size === size*size - set.size - pits.size)
+      return {walls:[...set].map(k=>k.split(',').map(Number)), pits:[...pits].map(k=>k.split(',').map(Number))};
+  }
+  return {walls:[],pits:[]};
+}
+function setBoard(){
+  const m = MODES[S.mode];
+  if(S.wallKey==='custom'){ placePickups(); return; }
+  const b = S.wallKey==='shuffle' ? shuffledBoard(m.size, m.starts) : BOARDS[S.wallKey](m.size);
+  S.walls=b.walls; S.pits=b.pits;
+  placePickups();
+}
+function rulesNow(){ return {...RULESETS[S.rules], clockFirst:S.clockFirst}; }
+function setMode(n){
+  S.mode = n; S.clockFirst = Math.random()<.5 ? 0 : 1;
+  S.progs = MODES[n].starts.map((_,i)=> PRESETS[presetNames[i % presetNames.length]].split(' '));
+  S.active = 0; setBoard();
+  if(dealing()) deal(); else { prepareCpu(); resetMatch(); }
+}
+function prepareCpu(){
+  if(S.mode!==2) return;
+  S.cpu.forEach((on,i)=>{ if(on){ S.progs[i] = cpuBuild(avail(i), i); S.locked[i]=true; } });
+}
+function deal(){
+  stop();
+  placePickups();                       // a new round gets a new pickup pair
+  S.clockFirst = Math.random()<.5 ? 0 : 1;   // with armor level, who attacks first when the shot clock runs out
+  S.pile = shuffle(sharedDeck());
+  S.hands = [0,1].map(()=>S.pile.splice(0,HAND));
+  S.progs = [[],[]]; S.locked=[false,false]; S.committed=false; S.active = S.cpu[0] ? 1 : 0;
+  prepareCpu();
+  resetMatch();
+}
+function resetMatch(){
+  stop();
+  const m = MODES[S.mode];
+  if(S.committed){ S.hands = S.handsAtStart.map(h=>h.slice()); S.pile = S.pileAtStart.slice(); S.progs = S.progsAtStart.map(p=>p.slice()); S.committed=false; }
+  S.stopsDone=new Set(); S.pitstop=null; S.plan=[null,null];
+  S.match = allValid() ? newMatch(S.progs.map(p=>p.slice()), m.starts, m.size, S.walls, m.ticks, rulesNow(), S.pits, S.pickups) : null;
+  S.angles = m.starts.map(s=>s[2]*90);
+  $('log').innerHTML=''; $('result').textContent='';
+  drawBoard(); renderTanks(); renderStatus();
+}
+function commit(){                    // the round starts: cards on the rails leave the hands, programs are revealed
+  if(!dealing() || S.committed) return;
+  S.handsAtStart = S.hands.map(h=>h.slice()); S.pileAtStart = S.pile.slice(); S.progsAtStart = S.progs.map(p=>p.slice());
+  S.hands = S.hands.map((_,i)=>leftover(i, S.progs[i]));
+  S.locked=[false,false]; S.committed=true;
+}
+
+// ---- board ----
+const NS='http://www.w3.org/2000/svg';
+const el=(tag,attrs,parent)=>{ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; };
+function cellXY(x,y){ const s=MODES[S.mode].size; return [x*10+5, (s-1-y)*10+5]; }
+const COLS='ABCDEFGHIJ';
+function drawBoard(){
+  const svg=$('board'), s=MODES[S.mode].size; svg.innerHTML=''; svg.setAttribute('viewBox',`0 0 ${s*10} ${s*10}`);
+  const defs=el('defs',{},svg), grad=el('radialGradient',{id:'pitg'},defs);
+  el('stop',{offset:'55%','stop-color':'var(--pit)'},grad); el('stop',{offset:'100%','stop-color':'var(--pit-rim)'},grad);
+  for(let i=0;i<=s;i++){
+    el('line',{x1:i*10,y1:0,x2:i*10,y2:s*10,stroke:'var(--mat-line)','stroke-width':i%s?0.25:0.5},svg);
+    el('line',{x1:0,y1:i*10,x2:s*10,y2:i*10,stroke:'var(--mat-line)','stroke-width':i%s?0.25:0.5},svg);
+  }
+  el('g',{id:'cells'},svg);
+  el('g',{id:'beams'},svg);
+  MODES[S.mode].starts.forEach((st,i)=>{
+    const g=el('g',{class:'tankg',id:'tank'+i},svg), c=TANKS[i].c;
+    el('rect',{x:-3.4,y:-3.6,width:1.7,height:7.2,rx:.6,fill:'#10181E'},g);
+    el('rect',{x:1.7,y:-3.6,width:1.7,height:7.2,rx:.6,fill:'#10181E'},g);
+    el('rect',{class:'hull',x:-2.6,y:-3,width:5.2,height:6,rx:1,fill:c,stroke:'#F3F1E7','stroke-width':.35},g);
+    el('rect',{x:-.55,y:-4.6,width:1.1,height:4,fill:'#10181E'},g);
+    el('circle',{r:1.5,fill:c,stroke:'#10181E','stroke-width':.5},g);
+  });
+  drawCells(); placeTanks(true);
+  svg.setAttribute('aria-label', `Game board, ${s} by ${s}. Walls: ${S.walls.map(([x,y])=>COLS[x]+(y+1)).join(', ')||'none'}. Pits: ${S.pits.map(([x,y])=>COLS[x]+(y+1)).join(', ')||'none'}. Pickups: ${S.pickups.map(([x,y,k])=>({S:'shield',D:'overcharge',X:'spread shot'}[k])+' at '+COLS[x]+(y+1)).join(', ')||'none'}.`);
+}
+function drawCells(){
+  const g=$('cells'); if(!g) return; g.innerHTML='';
+  const walls = S.match ? [...S.match.walls].map(k=>k.split(',').map(Number)) : S.walls;
+  const original = new Set(S.walls.map(w=>w+''));
+  for(const [x,y] of S.pits){ const [cx,cy]=cellXY(x,y);
+    el('rect',{x:cx-4.2,y:cy-4.2,width:8.4,height:8.4,rx:3.2,fill:'url(#pitg)'},g);
+  }
+  const pk = S.match ? [...S.match.pickups].map(([k,v])=>[...k.split(',').map(Number),v]) : S.pickups;
+  for(const [x,y,kind] of pk){ const [cx,cy]=cellXY(x,y);
+    el('circle',{cx,cy,r:2.9,fill:'var(--pickup)',stroke:'var(--pickup-ink)','stroke-width':.4},g);
+    const t=el('text',{x:cx,y:cy+1.15,'text-anchor':'middle','font-size':3.3,'font-weight':700,fill:'var(--pickup-ink)','font-family':'var(--display)'},g);
+    t.textContent={S:'S',D:'2×',X:'✱'}[kind];
+  }
+  for(const [x,y] of walls){ const [cx,cy]=cellXY(x,y), raised=!original.has([x,y]+'');
+    el('rect',{x:cx-4.4,y:cy-4.4,width:8.8,height:8.8,rx:1,fill:'var(--block)',opacity:raised?.85:1},g);
+    el('rect',{x:cx-4.4,y:cy-4.4,width:8.8,height:3,rx:1,fill:'var(--block-top)'},g);
+    if(raised) el('rect',{x:cx-4.4,y:cy-4.4,width:8.8,height:8.8,rx:1,fill:'none',stroke:'var(--block-top)','stroke-width':.5,'stroke-dasharray':'1.2 .8'},g);
+  }
+}
+function placeTanks(instant){
+  const list = S.match ? S.match.tanks : MODES[S.mode].starts.map((s,i)=>({x:s[0],y:s[1],alive:true,id:i,stun:0}));
+  list.forEach((t,i)=>{
+    const g=$('tank'+i); if(!g) return; const [cx,cy]=cellXY(t.x,t.y);
+    if(instant){ g.style.transition='none'; }
+    g.style.transform=`translate(${cx}px,${cy}px) rotate(${S.angles[i]}deg)`;
+    g.classList.toggle('wreck', t.alive===false);
+    g.classList.toggle('stunned', t.alive!==false && t.stun>0);
+    if(instant){ g.getBoundingClientRect(); g.style.transition=''; }
+  });
+}
+function showShot(e){
+  const [x1,y1]=cellXY(e.x1,e.y1), [x2,y2]=cellXY(e.x2,e.y2), dashed = e.type!=='shot';
+  const b=el('line',{class:'beam',x1,y1,x2,y2,stroke:TANKS[e.from].c,'stroke-width':dashed?1.6:1.1,'stroke-linecap':'round','stroke-dasharray':dashed?'1.5 1.5':'none'},$('beams'));
+  setTimeout(()=>b.remove(),700);
+  if(e.target!=null){ const g=$('tank'+e.target); g.classList.remove('hit'); g.getBoundingClientRect(); g.classList.add('hit'); }
+}
+$('board').addEventListener('click', ev=>{
+  if(!S.editing) return;
+  const svg=$('board'), r=svg.getBoundingClientRect(), s=MODES[S.mode].size;
+  const x=Math.floor((ev.clientX-r.left)/r.width*s), y=s-1-Math.floor((ev.clientY-r.top)/r.height*s);
+  if(x<0||y<0||x>=s||y>=s) return;
+  if(MODES[S.mode].starts.some(st=>st[0]===x&&st[1]===y)) return;
+  const key=(a,b)=>a+','+b, W=new Set(S.walls.map(w=>w+'')), P=new Set(S.pits.map(w=>w+''));
+  const state = W.has(key(x,y)) ? 'wall' : P.has(key(x,y)) ? 'pit' : 'empty', next = {empty:'wall', wall:'pit', pit:'empty'}[state];
+  const cells=[[x,y]]; if($('sym').checked){ const mx=s-1-x, my=s-1-y; if(mx!==x||my!==y) cells.push([mx,my]); }
+  for(const [cx,cy] of cells){
+    if(MODES[S.mode].starts.some(st=>st[0]===cx&&st[1]===cy)) continue;
+    W.delete(key(cx,cy)); P.delete(key(cx,cy));
+    if(next==='wall') W.add(key(cx,cy)); if(next==='pit') P.add(key(cx,cy));
+  }
+  S.walls=[...W].map(k=>k.split(',').map(Number)); S.pits=[...P].map(k=>k.split(',').map(Number));
+  if(S.pickups.some(([px,py])=>W.has(key(px,py))||P.has(key(px,py)))) placePickups();
+  S.wallKey='custom'; $('walls').value='custom';
+  resetMatch();
+});
+
+// ---- tank panels ----
+function cardButton(c, extra){
+  const b=document.createElement('button'); b.type='button'; b.className='card'+(extra?' '+extra:'');
+  b.dataset.kind = CARDS[c].special ? 'special' : CARDS[c].board ? 'board' : CARDS[c].kind; b.textContent=CARDS[c].label;
+  if(CARDS[c].tip) b.title=CARDS[c].tip;
+  return b;
+}
+function renderTanks(){
+  const box=$('tanks'); box.innerHTML='';
+  const running = S.match && S.match.tick>0, ps=S.pitstop;
+  S.progs.forEach((prog,i)=>{
+    const t = S.match ? S.match.tanks[i] : null, err = progError(i), cpu=isCpu(i), hidden = S.locked[i] && !running && dealing();
+    const d=document.createElement('article'); d.className='tank'+(i===S.active?' active':'')+(t&&!t.alive?' dead':''); d.style.setProperty('--c',TANKS[i].c);
+    const armor = t ? t.armor : ARMOR;
+    d.innerHTML = `<header><h2>${TANKS[i].name}</h2><div class="pips" aria-label="${armor} armor">${Array.from({length:ARMOR},(_,k)=>`<i class="${k<armor?'on':''}"></i>`).join('')}</div>${t&&t.alive?`<div class="badges">${t.shield?`<span class="badge">Shield ${t.shield}</span>`:''}${t.double?'<span class="badge">Overcharged</span>':''}${t.spreadnext?'<span class="badge">Spread loaded</span>':''}${S.match.clockOut?`<span class="badge">${S.match.attacker<0?'Auto-engage':S.match.attacker===i?'Attacking':'Holding'}</span>`:''}</div>`:''}${S.mode===2?`<span class="who">${cpu?'Computer':'Person'}</span>`:''}<div class="tools"></div></header>`;
+    const tools=d.querySelector('.tools');
+    if(S.mode===2 && !running){
+      const who=document.createElement('button'); who.type='button'; who.className='small';
+      who.textContent = cpu ? 'Play this tank yourself' : 'Let the computer play';
+      who.onclick=()=>{ S.cpu[i]=!S.cpu[i]; if(S.cpu[i]){ S.progs[i]=cpuBuild(avail(i), i); S.locked[i]=true; } else { S.locked[i]=false; if(dealing()) S.progs[i]=[]; S.active=i; } resetMatch(); };
+      tools.appendChild(who);
+    }
+    if(!dealing() && !cpu && !running){
+      const sel=document.createElement('select'); sel.setAttribute('aria-label',`Starter program for ${TANKS[i].name}`);
+      sel.innerHTML = `<option value="">Load a starter…</option>`+presetNames.filter(n=>!validate(PRESETS[n].split(' '),deck())).map(n=>`<option>${n}</option>`).join('');
+      sel.onchange=()=>{ if(sel.value){ S.progs[i]=PRESETS[sel.value].split(' '); S.active=i; resetMatch(); } };
+      tools.appendChild(sel);
+    }
+    // rail
+    const rail=document.createElement('div'); rail.className='rail';
+    const plan = ps && !cpu && S.plan[i];          // the computer's pit-stop choice stays secret until the match resumes
+    const shown = plan ? plan.prog : prog;
+    if(hidden){
+      prog.forEach(()=>{ const b=document.createElement('span'); b.className='card facedown'; b.setAttribute('aria-hidden','true'); rail.appendChild(b); });
+      rail.insertAdjacentHTML('beforeend',`<span class="empty">${prog.length} cards, face down until the match starts.</span>`);
+    } else if(!shown.length){
+      rail.innerHTML='<span class="empty">No cards yet. Add some from the cards below.</span>';
+    } else {
+      const picking = ps && !cpu && !ps.done[i] && ps.pick && ps.pick.tank===i;
+      shown.forEach((c,k)=>{
+        if(picking){ const g=document.createElement('button'); g.type='button'; g.className='gap'; g.textContent='+'; g.title=`Insert ${CARDS[ps.pick.card].label} here`;
+          g.setAttribute('aria-label',`Insert ${CARDS[ps.pick.card].label} before card ${k+1}`); g.onclick=()=>planPlay(i,k,true); rail.appendChild(g); }
+        const spent = t && running && !plan && t.spent.has(k);
+        const b=cardButton(c, (t&&t.alive&&t.execIdx===k&&running&&!ps?'exec':'')+(plan&&plan.at===k?' fresh':'')+(spent?' spent':''));
+        if(spent) b.insertAdjacentHTML('beforeend','<span class="tag">Used</span>');
+        if(c==='REPEAT3' && t && t.rep[k]>0 && !plan) b.insertAdjacentHTML('beforeend',`<span class="count">${t.rep[k]} left</span>`);
+        if(picking){ b.title=`Replace with ${CARDS[ps.pick.card].label}`; b.setAttribute('aria-label',`${CARDS[c].label}, card ${k+1}. Replace with ${CARDS[ps.pick.card].label}`); b.onclick=()=>planPlay(i,k,false); }
+        else if(!running && !cpu){ b.title=(CARDS[c].tip?CARDS[c].tip+' ':'')+'Select to remove.'; b.setAttribute('aria-label',`${CARDS[c].label}, card ${k+1}. Remove`);
+          b.onclick=()=>{ S.progs[i].splice(k,1); S.active=i; resetMatch(); }; }
+        else { b.disabled=false; b.tabIndex=-1; }
+        rail.appendChild(b);
+      });
+      if(picking){ const g=document.createElement('button'); g.type='button'; g.className='gap'; g.textContent='+'; g.setAttribute('aria-label',`Insert ${CARDS[ps.pick.card].label} at the end`); g.onclick=()=>planPlay(i,shown.length,true); rail.appendChild(g); }
+    }
+    d.appendChild(rail);
+    // message under the rail
+    const msg=document.createElement('p'); msg.className='msg'+(err&&!hidden?' bad':'');
+    if(hidden) msg.textContent = cpu ? 'The computer has chosen its program.' : 'Locked in.';
+    else if(err) msg.textContent = err;
+    else if(t && t.stun>0 && running) msg.textContent = `Climbing out of a pit: ${t.stun} tick${t.stun>1?'s':''} left.`;
+    else msg.textContent = `${shown.length} of ${SLOTS} slots used. The program loops, so a condition or loop card at the end applies to the first card.`;
+    d.appendChild(msg);
+    // hand (deal mode)
+    if(dealing()){
+      const handCards = S.committed ? S.hands[i] : leftover(i, prog);
+      const hp=document.createElement('div'); hp.className='palette';
+      if(cpu){
+        hp.innerHTML = `<p>Hand: ${handCards.length} card${handCards.length===1?'':'s'}, face down.</p>`;
+      } else if(ps && !cpu){
+        hp.innerHTML = ps.done[i]
+          ? `<p>${S.plan[i] ? `Playing ${CARDS[S.plan[i].card].label}${S.plan[i].replaced?` in place of ${CARDS[S.plan[i].replaced].label}`:''}.` : 'Keeping the program as it is.'}</p>`
+          : `<p>Pit stop. ${ps.drawn[i]?`You drew ${CARDS[ps.drawn[i]].label}. `:''}Pick a card from your hand, then tap a + to add it or a card to replace it.</p>`;
+        const cards=document.createElement('div'); cards.className='cards';
+        let freshShown=false;
+        handCards.forEach((c,k)=>{
+          const fresh = !freshShown && c===ps.drawn[i] && k===handCards.lastIndexOf(c); if(fresh) freshShown=true;
+          const b=cardButton(c, (fresh?'fresh':'')+(ps.pick&&ps.pick.tank===i&&ps.pick.idx===k?' picked':''));
+          b.disabled = ps.done[i];
+          b.onclick=()=>{ ps.pick={tank:i,card:c,idx:k}; S.plan[i]=null; renderTanks(); };
+          cards.appendChild(b);
+        });
+        if(!handCards.length) cards.innerHTML='<span class="empty">Your hand is empty.</span>';
+        hp.appendChild(cards);
+        const row=document.createElement('div'); row.className='row';
+        if(!ps.done[i]){
+          const keep=document.createElement('button'); keep.type='button'; keep.className='small'; keep.textContent='Keep my program';
+          keep.onclick=()=>{ S.plan[i]=null; ps.pick=null; ps.done[i]=true; afterPlan(); };
+          row.appendChild(keep);
+        } else {
+          const undo=document.createElement('button'); undo.type='button'; undo.className='small'; undo.textContent='Change my mind';
+          undo.onclick=()=>{ S.plan[i]=null; ps.done[i]=false; ps.pick=null; renderAll(); };
+          row.appendChild(undo);
+        }
+        hp.appendChild(row);
+      } else {
+        hp.innerHTML = `<p>${running?'Hand':'Cards you can use'}: the chassis is always there; the rest is your hand${running?'':`, ${handCards.length} left`}.</p>`;
+        const cards=document.createElement('div'); cards.className='cards';
+        if(!running && !cpu){
+          const av=available(i), used=counts(prog);
+          for(const c in CARDS){
+            const max=av[c]||0; if(!max) continue;
+            const b=cardButton(c); b.disabled = (used[c]||0)>=max || prog.length>=SLOTS;
+            b.insertAdjacentHTML('beforeend',`<span class="tag">${CHASSIS[c]?'Chassis'+(max>CHASSIS[c]?' + hand':''):'Hand'}</span><span class="count" style="color:var(--muted)">${max-(used[c]||0)}</span>`);
+            b.onclick=()=>{ S.progs[i].push(c); S.active=i; resetMatch(); };
+            cards.appendChild(b);
+          }
+        } else {
+          handCards.forEach(c=>{ const b=cardButton(c); b.disabled=true; cards.appendChild(b); });
+          if(!handCards.length) cards.innerHTML='<span class="empty">Empty.</span>';
+        }
+        hp.appendChild(cards);
+        if(!running && !cpu){
+          const row=document.createElement('div'); row.className='row';
+          const lock=document.createElement('button'); lock.type='button'; lock.className='small';
+          lock.textContent = S.locked[i] ? 'Show my program again' : 'Lock in, face down';
+          lock.disabled = !!err && !S.locked[i];
+          lock.onclick=()=>{ S.locked[i]=!S.locked[i]; const other=1-i; if(S.locked[i] && !isCpu(other) && !S.locked[other]) S.active=other; renderTanks(); };
+          row.appendChild(lock); hp.appendChild(row);
+        }
+      }
+      d.appendChild(hp);
+    } else if(i===S.active && !running && !cpu){
+      const pal=document.createElement('div'); pal.className='palette';
+      pal.innerHTML=`<p>Add a card to ${TANKS[i].name}'s program. Select a card in the program to remove it.</p>`;
+      const cards=document.createElement('div'); cards.className='cards';
+      for(const c in CARDS){
+        const max=deck()[c]||0; if(!max) continue;
+        const used=prog.filter(x=>x===c).length, b=cardButton(c); b.disabled = used>=max || prog.length>=SLOTS;
+        b.insertAdjacentHTML('beforeend',`<span class="count" style="color:var(--muted)">${max-used}</span>`);
+        b.onclick=()=>{ S.progs[i].push(c); resetMatch(); };
+        cards.appendChild(b);
+      }
+      pal.appendChild(cards); d.appendChild(pal);
+    } else if(!running && !cpu){
+      d.onclick=(e)=>{ if(e.target.closest('button,select')) return; S.active=i; renderTanks(); };
+      const edit=document.createElement('button'); edit.type='button'; edit.className='small'; edit.textContent=`Edit ${TANKS[i].name}'s program`; edit.style.marginTop='8px';
+      edit.onclick=()=>{ S.active=i; renderTanks(); }; d.appendChild(edit);
+    }
+    if(cpu && !running && !hidden && !dealing()){
+      const again=document.createElement('button'); again.type='button'; again.className='small'; again.style.marginTop='8px'; again.textContent='Computer picks a new program';
+      again.onclick=()=>{ S.progs[i]=cpuBuild(avail(i), i); resetMatch(); }; d.appendChild(again);
+    }
+    box.appendChild(d);
+  });
+}
+
+// ---- pit stops ----
+function beginPitStop(tick){
+  stop();
+  const drawn=[0,1].map(i=>{ const c=S.pile.length?S.pile.shift():null; if(c) S.hands[i].push(c); return c; });
+  S.pitstop={tick, drawn, done:[0,1].map(isCpu), pick:null};
+  S.plan=[null,null];
+  [0,1].forEach(i=>{ if(isCpu(i)) S.plan[i]=cpuPitStop(i); });
+  renderAll();
+}
+function planPlay(i, at, insert){
+  const ps=S.pitstop, c=ps.pick.card, prog=S.match.tanks[i].prog.slice();
+  let replaced=null;
+  if(insert) prog.splice(at,0,c); else { replaced=prog[at]; prog[at]=c; }
+  const err=shape(prog);
+  if(err){ $('banner').innerHTML=`<strong>That doesn't fit</strong>${err}`; return; }
+  S.plan[i]={prog, card:c, replaced, at};
+  ps.pick=null; ps.done[i]=true; afterPlan();
+}
+function afterPlan(){ renderAll(); }
+function finishPitStop(){
+  const ps=S.pitstop, lines=[];
+  [0,1].forEach(i=>{
+    const p=S.plan[i];
+    if(p){
+      loadProgram(S.match.tanks[i], p.prog); S.progs[i]=p.prog.slice();
+      const h=S.hands[i], k=h.lastIndexOf(p.card); if(k>=0) h.splice(k,1);
+      lines.push(`${TANKS[i].name} plays ${CARDS[p.card].label}${p.replaced?` in place of ${CARDS[p.replaced].label}`:''}.`);
+    } else lines.push(`${TANKS[i].name} keeps its program.`);
+  });
+  S.stopsDone.add(ps.tick); S.pitstop=null; S.plan=[null,null];
+  const log=$('log'); lines.reverse().forEach(l=>{ const li=document.createElement('li'); li.textContent=`Pit stop: ${l}`; log.prepend(li); });
+  while(log.children.length>6) log.lastChild.remove();
+  renderAll();
+}
+
+// ---- running ----
+const at=(x,y)=>COLS[x]+(y+1);
+function describe(ev){
+  const lines=[];
+  for(const e of ev){
+    if(e.type==='shot'){
+      if(e.spread) continue;
+      const who=TANKS[e.from].name;
+      lines.push(e.target==null ? `${who} fires and hits nothing.` :
+        `${who} hits ${TANKS[e.target].name} on the ${e.front?'front':'side or rear'} for ${e.dmg}${e.soaked?' (the shield soaked 1)':''}.`);
+    }
+    else if(e.type==='spread') lines.push(`${TANKS[e.from].name} fires a spread shot in all four directions${e.hits.length?': '+e.hits.map(h=>`${TANKS[h.id].name} takes ${h.dmg}${h.soaked?' (shield soaked 1)':''}`).join(', '):', hitting nothing'}.`);
+    else if(e.type==='shield') lines.push(`${TANKS[e.id].name} raises a shield.`);
+    else if(e.type==='overcharge') lines.push(`${TANKS[e.id].name} overcharges its gun: the next hit does double.`);
+    else if(e.type==='clock'){
+      const n=RULESETS[S.rules].shotClock, a=e.attacker, m=S.match;
+      if(a<0) lines.push(`Shot clock! No hits for ${n} ticks, so every tank engages on its own until someone is hit.`);
+      else { const why = m.tanks[0].armor===m.tanks[1].armor ? 'armor is level, so it takes its turn' : RULESETS[S.rules].clockLeader ? 'it is ahead on armor and can\'t sit on the lead' : 'it is behind on armor';
+        lines.push(`Shot clock! No hits for ${n} ticks. ${TANKS[a].name} must attack (${why}) and runs If in sights · Fire · Otherwise · Hunt; ${TANKS[1-a].name} holds with If in sights · Fire · Otherwise · Face enemy. Programs resume after the next hit.`); }
+    }
+    else if(e.type==='pickup') lines.push(`${TANKS[e.id].name} picks up ${({S:'a shield',D:'an overcharge',X:'a spread shot'})[e.kind]} at ${at(e.x,e.y)}.`); else if(e.type==='dead') lines.push(`${TANKS[e.id].name} is destroyed.`);
+    else if(e.type==='fizzle') lines.push(`${TANKS[e.id].name} tries to fire, but the gun is still cooling.`);
+    else if(e.type==='fall') lines.push(`${TANKS[e.id].name} drives into the pit at ${at(e.x,e.y)}: 2 damage and stuck for 2 ticks.`);
+    else if(e.type==='build') lines.push(`${TANKS[e.id].name} raises a wall behind it at ${at(e.x,e.y)}.`);
+    else if(e.type==='breach') lines.push(`${TANKS[e.from].name} breaches the wall at ${at(e.x2,e.y2)}.`);
+    else if(e.type==='breachmiss') lines.push(`${TANKS[e.from].name} fires a breaching round, but no wall is in line.`);
+  }
+  return lines;
+}
+function tickOnce(){
+  if(!S.match || S.match.over || S.pitstop) return;
+  commit();
+  const next=S.match.tick+1;
+  if(dealing() && STOPS.includes(next) && !S.stopsDone.has(next)){ beginPitStop(next); return; }
+  const before=S.match.tanks.map(t=>t.d), wallsBefore=S.match.walls.size, ev=stepMatch(S.match);
+  S.match.tanks.forEach((t,i)=>{ const diff=(t.d-before[i]+4)%4; S.angles[i]+= diff===1?90 : diff===3?-90 : 0; });
+  if(ev.some(e=>e.type==='build'||e.type==='breach'||e.type==='pickup') || wallsBefore!==S.match.walls.size) drawCells();
+  placeTanks(false); ev.filter(e=>e.type==='shot'||e.type==='breach'||e.type==='breachmiss').forEach(showShot);
+  const log=$('log'); describe(ev).reverse().forEach(l=>{ const li=document.createElement('li'); li.textContent=`Tick ${S.match.tick}: ${l}`; log.prepend(li); });
+  while(log.children.length>6) log.lastChild.remove();
+  renderTanks(); renderStatus();
+  if(S.match.over) stop();
+}
+function renderAll(){ renderTanks(); renderStatus(); }
+function renderStatus(){
+  const m=S.match, max=MODES[S.mode].ticks, ps=S.pitstop;
+  $('tick').textContent = `Tick ${m?m.tick:0} of ${max}`;
+  const R=RULESETS[S.rules], left = m && R.shotClock ? R.shotClock-(m.tick-m.lastDmg) : null;
+  const clock = !R.shotClock ? '' : !m ? `Shot clock ${R.shotClock}` : m.clockOut || left<=0 ? 'Shot clock: engaging' : `Shot clock ${left}`;
+  $('stopinfo').textContent = [clock, dealing() ? `Pit stops after ticks 10 and 20 · draw pile ${S.pile.length}` : ''].filter(Boolean).join(' · ');
+  const ok=allValid();
+  const banner=$('banner');
+  if(ps){
+    const waiting=[0,1].filter(i=>!ps.done[i]).map(i=>TANKS[i].name);
+    banner.hidden=false;
+    banner.innerHTML = `<strong>Pit stop after tick ${ps.tick-1}</strong>` + (waiting.length
+      ? `Each tank drew a card. Waiting for ${waiting.join(' and ')} to play a card or keep the program.`
+      : `Both tanks are ready. Their programs restart from the first card.`);
+    $('run').disabled = !!waiting.length; $('run').textContent='Back to the match';
+    $('step').disabled = true;
+  } else {
+    banner.hidden=true;
+    $('run').disabled = !ok || (m&&m.over); $('step').disabled = !ok || (m&&m.over);
+    $('run').textContent = S.timer ? 'Pause' : (m && m.tick>0 && !m.over ? 'Resume' : 'Run match');
+  }
+  $('deal').hidden = !dealing();
+  if(!ok && !ps) $('result').textContent = dealing() ? 'Build a legal program for each tank to start.' : 'Fix the highlighted program to run a match.';
+  else if(m && m.over){
+    const w=m.winner;
+    $('result').textContent = w==null ? `Draw. ${m.endedBy==='time'?'Time ran out with the leaders level on armor.':'Nobody survived.'}`
+      : `${TANKS[w].name} wins ${m.endedBy==='kill'?'as the last tank standing':'on armor when time ran out'}, with ${m.tanks[w].armor} armor left.`;
+  } else $('result').textContent='';
+}
+function interval(){ return 1000/Number($('speed').value); }
+function start(){ if(S.timer||!S.match||S.match.over||S.pitstop) return; document.documentElement.style.setProperty('--move', Math.round(interval()*0.8)+'ms'); S.timer=setInterval(tickOnce, interval()); renderStatus(); }
+function stop(){ if(S.timer){ clearInterval(S.timer); S.timer=null; } if($('run')) try{ renderStatus(); }catch(e){} }
+$('run').onclick=()=>{ if(S.pitstop){ finishPitStop(); start(); return; } S.timer ? stop() : start(); };
+$('step').onclick=()=>{ stop(); tickOnce(); };
+$('reset').onclick=resetMatch;
+$('deal').onclick=deal;
+$('speed').oninput=()=>{ if(S.timer){ stop(); start(); } };
+$('mode').onchange=e=>{ $('cardmode').disabled = Number(e.target.value)!==2; setMode(Number(e.target.value)); };
+$('cardmode').onchange=e=>{ S.cardMode=e.target.value; setMode(S.mode); };
+$('rules').onchange=e=>{ S.rules=e.target.value; PRESETS=PRESET_SETS[S.rules]; presetNames=Object.keys(PRESETS); $('rulenote').textContent=RULE_NOTES[S.rules]; setMode(S.mode); };
+$('walls').onchange=e=>{ S.wallKey=e.target.value; setBoard(); if(S.mode===2 && !dealing()) prepareCpu(); resetMatch(); };
+$('pickups').onchange=e=>{ S.pickupKey=e.target.value; placePickups(); if(S.mode===2 && !dealing()) prepareCpu(); resetMatch(); };
+$('editboard').onclick=()=>{ S.editing=!S.editing; $('editboard').setAttribute('aria-pressed',S.editing); $('edithint').hidden=!S.editing; $('boardwrap').classList.toggle('editing',S.editing); if(S.editing) resetMatch(); };
+$('clearboard').onclick=()=>{ S.walls=[]; S.pits=[]; S.wallKey='custom'; $('walls').value='custom'; resetMatch(); };
+const RULE_NOTES={
+  v4:'The playtest rules: chassis plus a dealt hand, two pit stops, the Otherwise card, rare one-shot specials (Shield, Overcharge, Spread shot), and a shot clock: 10 ticks with no hit and each tank runs a printed overtime program until someone is hit. Pickups are optional.',
+  v3:'v0.2 plus pits and two board cards, Raise wall and Breach. Deal hands to draw from a shared deck and patch your program at pit stops.',
+  v2:'Adds Hunt, Face enemy, If enemy near and If enemy behind. The gun needs one tick to cool between shots.',
+  v1:'The original low-level cards. Tanks only sense what is straight ahead.'};
+$('rulenote').textContent=RULE_NOTES.v4;
+setMode(2);
+</script>

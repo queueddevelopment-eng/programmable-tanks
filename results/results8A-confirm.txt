@@ -1,0 +1,102 @@
+E2 stalls under card-language overtime | 100 rounds per layout | variants A:17 layouts
+  Gen 01 (pocket): walls ((1, 2), (1, 5), (3, 0), (4, 7), (6, 2), (6, 5)) pits ((3, 3), (4, 4)) -> ...+#+.. / ........ / .#....#. / ...*o... / ...o*... / .#....#. / ........ / ..+#+...
+  Gen 02 (pocket): walls ((0, 7), (1, 7), (3, 0), (3, 1), (3, 6), (4, 1), (4, 6), (4, 7), (6, 0), (7, 0)) pits ((1, 1), (1, 4), (6, 3), (6, 6)) -> ##+*#+.. / +..##.o. / ........ / .o...... / ......o. / ........ / .o.##..+ / ..+#*+##
+  Gen 03 (pocket): walls ((0, 3), (1, 5), (2, 0), (2, 1), (2, 2), (5, 5), (5, 6), (5, 7), (6, 2), (7, 4)) pits ((2, 5), (3, 4), (4, 3), (5, 2)) -> ....+#+. / .....#.. / .#o*.#.+ / +.*o*..# / #..*o*.+ / +.#.*o#. / ..#..... / .+#+....
+  Gen 04 (pocket): walls ((0, 3), (1, 2), (2, 4), (5, 3), (6, 5), (7, 4)) pits ((2, 6), (3, 2), (4, 5), (5, 1)) -> ........ / ..o..... / ....o.#* / +.#...*# / #*...#.+ / *#.o.... / .....o.. / ........
+  Gen 05 (pocket): walls ((0, 6), (2, 0), (3, 0), (4, 7), (5, 7), (7, 1)) pits ((1, 3), (2, 1), (5, 6), (6, 4)) -> +..+##+. / #...*o.. / +....... / ......o. / .o...... / .......+ / ..o*...# / .+##+..+
+  Gen 06 (pocket): walls ((2, 1), (3, 3), (4, 4), (5, 6)) pits ((1, 5), (3, 0), (4, 7), (6, 2)) -> ...+o*.. / ....*#.. / .o...... / ...*#... / ...#*... / ......o. / ..#*.... / ..*o+...
+  Gen 07: walls ((0, 4), (1, 4), (2, 2), (2, 7), (5, 0), (5, 5), (6, 3), (7, 3)) pits ((2, 1), (5, 6)) -> .+#+.... / .....o.. / +....#.. / ##.....+ / +.....## / ..#....+ / ..o..... / ....+#+.
+  Gen 08: walls ((1, 6), (2, 6), (5, 1), (6, 1)) pits () -> ........ / .##..... / ........ / ........ / ........ / ........ / .....##. / ........
+  Gen 09: walls ((0, 3), (3, 6), (4, 1), (7, 4)) pits () -> ........ / ...#.... / .......+ / +......# / #......+ / +....... / ....#... / ........
+  Gen 10: walls ((1, 2), (2, 4), (2, 6), (3, 0), (4, 7), (5, 1), (5, 3), (6, 5)) pits () -> ...+#+.. / ..#..... / ......#. / ..#..... / .....#.. / .#...... / .....#.. / ..+#+...
+  Gen 11: walls ((0, 2), (0, 6), (2, 1), (2, 3), (3, 1), (4, 6), (5, 4), (5, 6), (7, 1), (7, 5)) pits ((2, 6), (2, 7), (5, 0), (5, 1)) -> ++o+.... / #.o.##.+ / +......# / .....#.+ / +.#..... / #......+ / +.##.o.# / ....+o++
+  Gen 12: walls ((0, 2), (1, 4), (1, 7), (2, 0), (2, 1), (5, 6), (5, 7), (6, 0), (6, 3), (7, 5)) pits ((2, 2), (5, 5)) -> +#+.+#+. / .....#.+ / .....o.# / .#.....+ / +.....#. / #.o..... / +.#..... / .+#+.+#+
+
+=== A. v5 control: leader attacks, printed overtime programs ===
+layout                pockets     stuck  flag  kills  draws    seat A
+Pillars and pits       6 / 0   11/100  11%  FLAG    79%    21%   48% (48)
+Four pillars           0 / 0    0/100   0%          98%     7%   55% (62)
+Open board             0 / 0    0/100   0%          98%    15%   38% (55)
+Centre block           0 / 0    0/100   0%          94%    18%   44% (54)
+Moat                   0 / 0    0/100   0%          99%    10%   53% (60)
+Gen 01 (pocket)        2 / 4    1/100   1%          97%    15%   43% (56)
+Gen 02 (pocket)        2 / 6    1/100   1%          97%     6%   50% (62)
+Gen 03 (pocket)        6 / 8   58/100  58%  FLAG    40%    48%   52% (31)
+Gen 04 (pocket)        4 / 2   28/100  28%  FLAG    64%    39%   41% (37)
+Gen 05 (pocket)        2 / 8    0/100   0%          93%     7%   61% (62)
+Gen 06 (pocket)        6 / 2    4/100   4%  FLAG    85%    16%   54% (57)
+Gen 07                 0 / 8    0/100   0%          98%     5%   52% (62)
+Gen 08                 0 / 0    0/100   0%          97%    14%   55% (58)
+Gen 09                 0 / 4    0/100   0%          97%    13%   48% (58)
+Gen 10                 0 / 4    0/100   0%          94%     9%   54% (59)
+Gen 11                 0 / 12   0/100   0%          94%     8%   60% (60)
+Gen 12                 0 / 12   3/100   3%  FLAG    71%    21%   36% (47)
+named                          11/500  2%          94%    14%   48% (279)
+generated                      95/1200  8%          86%    17%   51% (649)
+ALL                            106/1700  6%          88%    16%   50% (928)
+   EvE: stuck 24/578   EvN/NvE: stuck 23/561   NvN: stuck 59/561
+rule fired: overtime reached in 1673/1700 = 98% of rounds, 14.2 overtime ticks per round | autopilot share 2569/11561 = 22% of hits
+pit falls: 59 in all, 0 in overtime | rebuilt overtime count matches play() in 1683/1700
+stuck stretches (106): apart 71, dance 35, parked 23 | attacker on/next to an inner pocket for >= half the stretch 103/106, ever 103/106
+   Pillars and pits [NvN] FWD · IF_HIT · RIGHT · TRACK · IF_NEAR · FIRE · FIRE · HUNT  vs  FWD · TRACK · FWD · FIRE · BACK · HUNT  [apart] attacker seat 0, 5 squares, last: [(3, 3), (3, 3), (2, 3), (2, 3), (2, 4), (2, 4), (2, 4), (2, 3), (2, 3), (3, 3), (3, 3), (3, 3)]
+   Pillars and pits [NvN] BACK · SHIELD · FWD · IF_ENEMY · FIRE · IF_ENEMY · HUNT  vs  ELSE · HUNT · IF_HIT · FWD · FIRE · IF_ENEMY_BEHIND · RIGHT  [apart] attacker seat 1, 3 squares, last: [(4, 5), (4, 5), (4, 4), (4, 4), (4, 4), (4, 5), (4, 5), (4, 5), (4, 4), (4, 4), (4, 4), (4, 5)]
+   Pillars and pits [NvN] BACK · IF_ENEMY · FIRE  vs  FIRE · LEFT · HUNT · IF_BLOCKED · FWD  [apart] attacker seat 0, 6 squares, last: [(3, 2), (3, 3), (3, 3), (3, 3), (3, 2), (3, 2), (3, 2), (3, 3), (3, 3), (3, 3), (3, 2), (3, 2)]
+   Pillars and pits [EvE] HUNT · SHIELD · FIRE · FWD · FIRE  vs  IF_BLOCKED · HUNT · ELSE · ELSE · FWD · FIRE  [apart] attacker seat 1, 4 squares, last: [(5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3)]
+   Pillars and pits [EvE] HUNT · IF_ENEMY · REPEAT3 · FIRE · FWD · BACK · FIRE  vs  FWD · FIRE · FWD · REPEAT3 · FIRE  [apart] attacker seat 1, 3 squares, last: [(5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3), (5, 3)]
+   Pillars and pits [NvN] IF_ENEMY · REPEAT3 · HUNT · IF_HIT · FIRE · TRACK · FIRE · FWD  vs  BACK · ELSE · TRACK · FIRE · FWD · HUNT  [apart] attacker seat 0, 4 squares, last: [(3, 3), (3, 2), (3, 2), (3, 2), (3, 3), (3, 3), (3, 3), (3, 2), (3, 2), (3, 2), (3, 3), (3, 3)]
+
+[A] mirror `IF_HIT HUNT IF_ENEMY FIRE` on Pillars and pits, clock_first=0: winner None, armor (5, 5), overtime 30 ticks, STUCK apart
+   t11 A(0, 1)N HUNT   5 | B(7, 7)S TRACK  5
+   t12 A(0, 1)E HUNT   5 | B(7, 7)W TRACK  5
+   t13 A(1, 1)E HUNT   5 | B(7, 7)W TRACK  5
+   t14 A(2, 1)E HUNT   5 | B(7, 7)W TRACK  5
+   t15 A(3, 1)E HUNT   5 | B(7, 7)S TRACK  5
+   t16 A(3, 1)N HUNT   5 | B(7, 7)S TRACK  5
+   t17 A(3, 2)N HUNT   5 | B(7, 7)S TRACK  5
+   t18 A(3, 3)N HUNT   5 | B(7, 7)S TRACK  5
+   t19 A(3, 3)E HUNT   5 | B(7, 7)S TRACK  5
+   t20 A(3, 3)S HUNT   5 | B(7, 7)S TRACK  5
+   t21 A(3, 2)S HUNT   5 | B(7, 7)S TRACK  5
+   t22 A(3, 2)E HUNT   5 | B(7, 7)S TRACK  5
+   t23 A(3, 2)N HUNT   5 | B(7, 7)S TRACK  5
+   t24 A(3, 3)N HUNT   5 | B(7, 7)S TRACK  5
+   t25 A(3, 3)E HUNT   5 | B(7, 7)S TRACK  5
+   t26 A(3, 3)S HUNT   5 | B(7, 7)S TRACK  5
+   t27 A(3, 2)S HUNT   5 | B(7, 7)S TRACK  5
+   t28 A(3, 2)E HUNT   5 | B(7, 7)S TRACK  5
+   t29 A(3, 2)N HUNT   5 | B(7, 7)S TRACK  5
+   t30 A(3, 3)N HUNT   5 | B(7, 7)S TRACK  5
+   t31 A(3, 3)E HUNT   5 | B(7, 7)S TRACK  5
+   t32 A(3, 3)S HUNT   5 | B(7, 7)S TRACK  5
+   t33 A(3, 2)S HUNT   5 | B(7, 7)S TRACK  5
+   t34 A(3, 2)E HUNT   5 | B(7, 7)S TRACK  5
+   t35 A(3, 2)N HUNT   5 | B(7, 7)S TRACK  5
+
+[A] mirror `IF_HIT HUNT IF_ENEMY FIRE` on Pillars and pits, clock_first=1: winner None, armor (5, 5), overtime 30 ticks, STUCK apart
+   t11 A(0, 0)N TRACK  5 | B(7, 6)S HUNT   5
+   t12 A(0, 0)E TRACK  5 | B(7, 6)W HUNT   5
+   t13 A(0, 0)E TRACK  5 | B(6, 6)W HUNT   5
+   t14 A(0, 0)E TRACK  5 | B(5, 6)W HUNT   5
+   t15 A(0, 0)N TRACK  5 | B(4, 6)W HUNT   5
+   t16 A(0, 0)N TRACK  5 | B(4, 6)S HUNT   5
+   t17 A(0, 0)N TRACK  5 | B(4, 5)S HUNT   5
+   t18 A(0, 0)N TRACK  5 | B(4, 4)S HUNT   5
+   t19 A(0, 0)N TRACK  5 | B(4, 4)W HUNT   5
+   t20 A(0, 0)N TRACK  5 | B(4, 4)N HUNT   5
+   t21 A(0, 0)N TRACK  5 | B(4, 5)N HUNT   5
+   t22 A(0, 0)N TRACK  5 | B(4, 5)W HUNT   5
+   t23 A(0, 0)N TRACK  5 | B(4, 5)S HUNT   5
+   t24 A(0, 0)N TRACK  5 | B(4, 4)S HUNT   5
+   t25 A(0, 0)N TRACK  5 | B(4, 4)W HUNT   5
+   t26 A(0, 0)N TRACK  5 | B(4, 4)N HUNT   5
+   t27 A(0, 0)N TRACK  5 | B(4, 5)N HUNT   5
+   t28 A(0, 0)N TRACK  5 | B(4, 5)W HUNT   5
+   t29 A(0, 0)N TRACK  5 | B(4, 5)S HUNT   5
+   t30 A(0, 0)N TRACK  5 | B(4, 4)S HUNT   5
+   t31 A(0, 0)N TRACK  5 | B(4, 4)W HUNT   5
+   t32 A(0, 0)N TRACK  5 | B(4, 4)N HUNT   5
+   t33 A(0, 0)N TRACK  5 | B(4, 5)N HUNT   5
+   t34 A(0, 0)N TRACK  5 | B(4, 5)W HUNT   5
+   t35 A(0, 0)N TRACK  5 | B(4, 5)S HUNT   5
+
+(326s, 1700 jobs; programs built once per (layout, seed) under A's rules)

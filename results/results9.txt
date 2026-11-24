@@ -1,0 +1,89 @@
+E1 debug rule under dealt hands | 30 matches per layout x 12 layouts | variants ABCD | first to 3, cap 7 | deck 45 cards
+round 1 (shared by all variants): seat A wins 155, seat B wins 155, drawn 50
+
+=== A. loser returns rail + hand, draws 5; winner keeps hand ===
+matches 360, round 1 decided 310 (86%)
+  EvE   P1 loser wins round 2  66/99   67% FAIL | round 2 drawn 12 | P3 round-1 winner wins match  72/99   73% pass (within 5 of the line) | match draws 3
+  NvN   P1 loser wins round 2  50/104  48% pass | round 2 drawn 14 | P3 round-1 winner wins match  63/104  61% pass | match draws 1
+  mixed P1 loser wins round 2  30/107  28% | round 2 drawn 7 | P3 round-1 winner wins match  77/107  72% | match draws 1
+  all   P1 loser wins round 2 146/310  47% | round 2 drawn 33 | P3 round-1 winner wins match 212/310  68% | match draws 5
+  P2 counter buildable (round-1 winner expert): 110/175 63% FAIL | EvE 83/99 | expert beat novice 27/76
+     evaluations to the first counter: median 11, 90th pct 151, max 735 (of <= ~1000)
+     (aside, round-1 winner novice: counter 123/135)
+  expert match-win share in mixed matches: 95.5/120 = 80% (no line)
+  rule fired: loser cards at the round-2 rebuild mean 5.0 (all rebuilds 5.0, n=1038) | loser's rail changed 1035/1038 = 100%
+     round-2 winner (locked side) pit-stop plays: 0.56 per round, >=1 play in 150/310 | loser plays 0.53
+     round 2: loser's new rail beats the locked rail without pit stops 154/310 = 50%; counter undone by pit stops: loses 15/154 = 10%, draws 11
+       EvE: beats without stops 75, undone (loses) 8, drawn 4
+       NvN: beats without stops 47, undone (loses) 4, drawn 3
+     winner's hand at round start after a decided round: 0 in 3/1038, mean 4.6
+     rounds after round 1 1322, drawn 255, repeat draws (drawn after a draw) 139 | cap hits 30/360 | match length mean 4.7 rounds
+     undone e.g. locked IF_ENEMY · OVERCHARGE · FIRE · FWD  vs  new HUNT · FIRE · FWD · FWD · IF_BLOCKED · FIRE
+     undone e.g. locked SHIELD · FWD · IF_BLOCKED · HUNT · FIRE · FWD  vs  new IF_NEAR · WHILE_ENEMY · SPREAD · HUNT · FWD
+
+=== B. loser picks rail up, keeps hand, draws 2 ===
+matches 360, round 1 decided 310 (86%)
+  EvE   P1 loser wins round 2  66/99   67% FAIL | round 2 drawn 14 | P3 round-1 winner wins match  76/99   77% FAIL (within 5 of the line) | match draws 4
+  NvN   P1 loser wins round 2  31/104  30% FAIL | round 2 drawn 12 | P3 round-1 winner wins match  73/104  70% pass (within 5 of the line) | match draws 1
+  mixed P1 loser wins round 2  32/107  30% | round 2 drawn 11 | P3 round-1 winner wins match  82/107  77% | match draws 2
+  all   P1 loser wins round 2 129/310  42% | round 2 drawn 37 | P3 round-1 winner wins match 231/310  75% | match draws 7
+  P2 counter buildable (round-1 winner expert): 117/175 67% FAIL | EvE 80/99 | expert beat novice 37/76
+     evaluations to the first counter: median 21, 90th pct 245, max 548 (of <= ~1000)
+     (aside, round-1 winner novice: counter 122/135)
+  expert match-win share in mixed matches: 108/120 = 90% (no line)
+  rule fired: loser cards at the round-2 rebuild mean 8.7 (all rebuilds 11.9, n=996) | loser's rail changed 995/996 = 100%
+     round-2 winner (locked side) pit-stop plays: 0.53 per round, >=1 play in 142/310 | loser plays 0.56
+     round 2: loser's new rail beats the locked rail without pit stops 137/310 = 44%; counter undone by pit stops: loses 11/137 = 8%, draws 9
+       EvE: beats without stops 74, undone (loses) 6, drawn 3
+       NvN: beats without stops 31, undone (loses) 2, drawn 4
+     old rail deck cards kept: mean 3.4, of which reused in the new rail 1.5
+     winner's hand at round start after a decided round: 0 in 3/996, mean 6.9
+     rounds after round 1 1323, drawn 319, repeat draws (drawn after a draw) 186 | cap hits 48/360 | match length mean 4.7 rounds
+     undone e.g. locked IF_ENEMY · TRACK · FIRE · FWD · HUNT · FIRE · OVERCHARGE · FIRE  vs  new WHILE_ENEMY · FIRE · RIGHT · IF_ENEMY · IF_NEAR · FWD · RIGHT
+     undone e.g. locked IF_BLOCKED · FIRE · OVERCHARGE · FIRE · IF_HIT · ELSE · FWD · FWD  vs  new IF_ENEMY · WHILE_ENEMY · LEFT · BACK · ELSE · FIRE · FIRE
+
+=== C. loser returns hand, keeps old rail cards, draws 5 ===
+matches 360, round 1 decided 310 (86%)
+  EvE   P1 loser wins round 2  69/99   70% FAIL | round 2 drawn 9 | P3 round-1 winner wins match  61/99   62% pass | match draws 4
+  NvN   P1 loser wins round 2  29/104  28% FAIL | round 2 drawn 13 | P3 round-1 winner wins match  71/104  68% pass | match draws 2
+  mixed P1 loser wins round 2  30/107  28% | round 2 drawn 14 | P3 round-1 winner wins match  75/107  70% | match draws 4
+  all   P1 loser wins round 2 128/310  41% | round 2 drawn 36 | P3 round-1 winner wins match 207/310  67% | match draws 10
+  P2 counter buildable (round-1 winner expert): 120/175 69% FAIL | EvE 84/99 | expert beat novice 36/76
+     evaluations to the first counter: median 16, 90th pct 301, max 920 (of <= ~1000)
+     (aside, round-1 winner novice: counter 118/135)
+  expert match-win share in mixed matches: 104.5/120 = 87% (no line)
+  rule fired: loser cards at the round-2 rebuild mean 7.9 (all rebuilds 8.4, n=1015) | loser's rail changed 1012/1015 = 100%
+     round-2 winner (locked side) pit-stop plays: 0.54 per round, >=1 play in 143/310 | loser plays 0.53
+     round 2: loser's new rail beats the locked rail without pit stops 139/310 = 45%; counter undone by pit stops: loses 15/139 = 11%, draws 8
+       EvE: beats without stops 80, undone (loses) 9, drawn 3
+       NvN: beats without stops 28, undone (loses) 3, drawn 4
+     old rail deck cards kept: mean 3.4, of which reused in the new rail 1.6
+     winner's hand at round start after a decided round: 0 in 3/1015, mean 5.7
+     rounds after round 1 1296, drawn 255, repeat draws (drawn after a draw) 148 | cap hits 35/360 | match length mean 4.6 rounds
+     undone e.g. locked FWD · IF_BLOCKED · IF_ENEMY · FIRE · HUNT · REPEAT3 · FIRE  vs  new FIRE · HUNT · FWD · ELSE · BACK · HUNT · SHIELD
+     undone e.g. locked IF_ENEMY · OVERCHARGE · FIRE · FWD  vs  new IF_ENEMY_BEHIND · FWD · IF_ENEMY · FIRE · HUNT · FIRE · IF_BLOCKED · FWD
+
+=== D. as A, but the winner's hand goes back ===
+matches 360, round 1 decided 310 (86%)
+  EvE   P1 loser wins round 2  64/99   65% FAIL (within 5 of a line) | round 2 drawn 8 | P3 round-1 winner wins match  67/99   68% pass | match draws 3
+  NvN   P1 loser wins round 2  36/104  35% FAIL (within 5 of a line) | round 2 drawn 21 | P3 round-1 winner wins match  69/104  66% pass | match draws 8
+  mixed P1 loser wins round 2  28/107  26% | round 2 drawn 19 | P3 round-1 winner wins match  83/107  78% | match draws 1
+  all   P1 loser wins round 2 128/310  41% | round 2 drawn 48 | P3 round-1 winner wins match 219/310  71% | match draws 12
+  P2 counter buildable (round-1 winner expert): 112/175 64% FAIL | EvE 81/99 | expert beat novice 31/76
+     evaluations to the first counter: median 12, 90th pct 159, max 969 (of <= ~1000)
+     (aside, round-1 winner novice: counter 119/135)
+  expert match-win share in mixed matches: 107.5/120 = 90% (no line)
+  rule fired: loser cards at the round-2 rebuild mean 5.0 (all rebuilds 5.0, n=1025) | loser's rail changed 1022/1025 = 100%
+     round-2 winner (locked side) pit-stop plays: 0.47 per round, >=1 play in 135/310 | loser plays 0.45
+     round 2: loser's new rail beats the locked rail without pit stops 150/310 = 48%; counter undone by pit stops: loses 19/150 = 13%, draws 11
+       EvE: beats without stops 76, undone (loses) 11, drawn 2
+       NvN: beats without stops 41, undone (loses) 6, drawn 5
+     winner's hand at round start after a decided round: 0 in 1025/1025, mean 0.0
+     rounds after round 1 1375, drawn 334, repeat draws (drawn after a draw) 179 | cap hits 45/360 | match length mean 4.8 rounds
+     undone e.g. locked OVERCHARGE · FIRE · HUNT  vs  new HUNT · FIRE · FWD · IF_HIT · FIRE
+     undone e.g. locked IF_ENEMY · OVERCHARGE · FIRE · FWD  vs  new HUNT · FWD · FWD · IF_ENEMY · FIRE
+paired: round-2 result same under A and B in 253/360
+paired: round-2 result same under A and C in 266/360
+paired: round-2 result same under A and D in 251/360
+
+(130s, 360 matches)

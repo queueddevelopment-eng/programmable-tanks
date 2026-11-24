@@ -47,3 +47,26 @@
   "closed toward the enemy's corner" (N+E or S+W blocked) misclassifies 1 (Gen 05). Post-hoc, same layouts.
 - Gen 12 stall seed 1600009: attacker B U-turns at edge pocket (3,0), roams 27 ticks, reaches A at t38;
   last two FIREs soaked by shields (hits, no armor change) -> counts as stuck.
+
+### E1 — experiments9.py (2026-11-24, uncommitted; base HEAD b2d4198)
+- Question: debug rule under dealt hands. Match = first to 3, cap 7, fixed seats, one layout; round 1 built once
+  and shared; winner's final rail locked; loser rebuilds vs the locked rail (expert: KNOWN+60+140 scored by value()
+  vs locked; novice: best of 6). Variants (MatchRules): A loser returns all, draws 5; B loser keeps rail+hand, draws 2;
+  C loser keeps rail cards, draws 5; D = A + winner's hand returned. 12 E2-confirm layouts.
+- Deck: brief said 45-card pile; E8.make_cfg deck is E7.V04 (41, no BUILD/BLAST). I used V03_DECK+ELSE 2 + specials
+  = 45 (matches docs/RULES-v0.5-draft.md). Bench/spar as E8 (V04).
+- `python experiments9.py 30 ABCD` -> results/results9.txt (130 s on 4 cores; smoke 6/layout = 27 s).
+- Verdict: no variant passes all lines. P2 fails everywhere (63/67/69/64% of 175; EvE subset 80-85%).
+  P1 EvE fails HIGH everywhere (65-70% of 99). P1 NvN: A 48% pass; B 30, C 28, D 35% (34.6) fail.
+  P3 EvE A73 B77 C62 D68; NvN A61 B70 C68 D66 (of 99/104).
+- Asserts held: winner start rail == locked; deck conserved every round.
+
+## Proxy biases (new, 2026-11-24)
+- NOVICE proxy gets worse with MORE cards (rand_program picks card kinds uniformly, chassis Fire/Hunt diluted):
+  beats a starter rail 53% / 36% / 29% with 5 / 9 / 13 cards (N=240 each, Four pillars). Expert flat (119/116/119 of 120).
+  => any rule giving the loser more cards (E1 B, C) is biased DOWN in NvN and expert-share UP.
+- P2 counters: failures concentrate where an expert beat a NOVICE (counter 27/76) vs EvE winners (83/99).
+  Not pit-stop patches (same 27/76 vs unpatched rail), not rules (whole-deck search counters 44/49 failures).
+  Selection: same cards counter EvE LOSER rails only 51/99, EvE WINNER rails 89/99. Search is stochastic: another
+  rng found a win in 4/49 + 1/16 no-counter cases. Probes in scratchpad p2probe*.py (not kept).
+- After a drawn round both keep rails -> draws are sticky: 54-58% of drawn rounds follow a drawn round.

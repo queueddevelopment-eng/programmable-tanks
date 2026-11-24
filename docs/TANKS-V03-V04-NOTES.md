@@ -2,6 +2,49 @@
 
 *Written October 12, 2026; updated October 12 evening (playtest fixes), October 13 (v0.4 draft) and October 25 (shot clock). Read after `TANKS-HANDOFF.md` and the September 22 addendum. Covers the board-as-game-piece and draw-deck ideas, the v0.4 specials and pickups, their simulator results, and the updated viewer.*
 
+## E1: the debug rule under dealt hands (November 24)
+
+Computed 2026-11-24 with `experiments9.py` and `results/results9.txt` (commit 4176274).
+
+**Setup:** the 12 layouts that passed E2, 360 matches per variant, the 45-card v0.5 deck. First to 3 rounds, capped at 7 rounds. One layout per match (assumed, pending the owner).
+
+**Variants:**
+- A: the loser returns its rail and hand and draws 5.
+- B: the loser picks its rail back up into its hand, keeps it, and draws 2.
+- C: the loser returns its hand, keeps any old rail cards, and draws 5.
+- D: as A, and the winner also returns its hand.
+
+**Pass lines (fixed before the run):**
+- P1: the round-1 loser wins round 2 in 35–60% of matches.
+- P2: a counter is buildable from the loser's cards in ≥80% of deals where the round-1 winner was an expert.
+- P3: the round-1 winner wins the match in <75%.
+
+**Results** (percent; EvE = expert vs expert, NvN = novice vs novice):
+
+| | P1 EvE | P1 NvN | P2 | P3 EvE | P3 NvN |
+|---|---|---|---|---|---|
+| A | 67 | 48 | 63 | 73 | 61 |
+| B | 67 | 30 | 67 | 77 | 70 |
+| C | 70 | 28 | 69 | 62 | 68 |
+| D | 65 | 35 | 64 | 68 | 66 |
+
+Sample sizes: EvE n≈99, NvN n≈104, P2 n=175. Noise is about ±10 points, so most differences between variants are noise.
+
+**Verdict:** no variant passes. P2 fails on every variant.
+
+**Where P2 fails:** where an expert beat a novice, the loser countered in 27 of 76 deals, against 83 of 99 when an expert beat an expert.
+
+**Cause:** the 5-card hand. A search over the whole deck finds a counter for 44 of 49 misses, so the rules are not the limit.
+
+**Cautions:**
+- EvE P1 is an upper bound, because the loser proxy rebuilds with perfect foresight.
+- NvN P1 for B and C is biased low, because the novice proxy gets weaker with more cards (53%, 36% and 29% with 5, 9 and 13 cards).
+- Drawn rounds are common: 54–58% of drawn rounds followed a drawn round, because both sides keep their rails.
+
+**Pending (not decided):**
+- game-designer to propose a revised P2, or a variant with more card choice for the loser.
+- E2 caveat: `experiments8.make_cfg` used a 41-card deck without Raise wall or Breach, so E2 may need a recheck with the full 45-card deck.
+
 ## E2: stuck rounds under card-language overtime (November 24)
 
 Computed 2026-11-24 with `experiments8.py` (commits 9f3498d and 4ab89c2). Screen: `results/results8ABC.txt`. Confirm: `results/results8A-confirm.txt`.

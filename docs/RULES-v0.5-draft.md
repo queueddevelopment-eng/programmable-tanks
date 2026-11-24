@@ -52,11 +52,14 @@
 
 First to 3 round wins.
 
-**Debug rule [E1]:** the round winner's program is locked, and only the loser may rewrite. This is the heart of the game, but it isn't designed yet for dealt hands. Proposals to test:
+**Debug rule [E1]:** the round winner's program is locked, and only the loser may rewrite. This is the heart of the game, but it isn't designed yet for dealt hands. The first simulator run (2026-11-24, `experiments9.py`, `results/results9.txt`) found that no variant passes. The open question is how the loser gets enough card choice to build a counter. Variants tested:
 
 - **(a)** The winner keeps its rail. The loser returns its rail and hand to the deck, draws 5, and rebuilds from chassis + hand.
-- **(b)** The loser keeps its hand and draws 2 more.
-- **(c)** The loser redraws, but may keep any of its rail cards.
+- **(b)** The loser picks its rail back up into its hand, keeps it, and draws 2.
+- **(c)** The loser returns its hand, keeps any old rail cards, and draws 5.
+- **(d)** As (a), and the winner also returns its hand.
+
+The 5-card hand limits the loser. A search over the whole deck found a counter for 44 of 49 misses. Nothing here is decided. See `docs/TANKS-V03-V04-NOTES.md`.
 
 ## Cards
 

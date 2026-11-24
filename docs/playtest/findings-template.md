@@ -28,11 +28,11 @@ Keep what players **did** apart from what they **said**: put each in its own row
 |---|---|---|---|
 | | | | |
 
-## Gate to step 3 (cumulative across sessions; counts only)
+## Gate to step 3 (cumulative from post-freeze sessions only; pre-freeze sessions record counts but do not count)
 | Line | Status (met / not met / not yet tested) | Count |
 |---|---|---|
 | A hand-run round takes about 10 minutes, or a simpler paper model is identified | | __ of __ timed rounds ≤10 min |
-| Losers rewrite willingly in most sessions | | __ of __ sessions, median urge ≥4 |
+| Losers rewrite willingly in most sessions | | __ of __ sessions with median loser urge ≥4 (proposed threshold, needs owner confirmation; not the plan's line) |
 | No rule misread in more than 1 session after the quick reference is fixed | | quick reference version __; rules misread in 2+ sessions: __ |
 | At least 3 of 5 groups would play again | | __ of __ groups (owner play excluded) |
 

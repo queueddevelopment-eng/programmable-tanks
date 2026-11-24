@@ -20,7 +20,7 @@ Pit stop plays, A / B: `____________ / ____________`
 |---|---|
 | Pointer clip | sits on the rail card to read next (a second clip goes on the overtime card) |
 | T/F disc | the last condition, for Otherwise (overtime cards have their own disc) |
-| Hit token | the tank took damage since its last If hit was read |
+| Hit token | the tank was hit (or drove into a pit) since its last If hit was read, even if a shield soaked all the damage |
 | Shield chips (0–2) | each soaks 1 damage |
 | Overcharge chip | the next hit is doubled |
 | Detour token | from Hunt step 2a |

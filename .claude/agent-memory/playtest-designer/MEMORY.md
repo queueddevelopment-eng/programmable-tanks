@@ -8,7 +8,7 @@ All four lines are not yet tested: 0 sessions, 0 timed hand rounds.
 
 ## Timing data
 - None measured.
-- Desk estimate, not timed: 25–45 s per tick → 12–20 min running time per hand round. It assumes 21 ticks, which is the plan's v0.4 October median for strong vs strong.
+- Desk estimate, not timed: 25–45 s per tick × 21 ticks → about 9–16 min running time per hand round, plus pit-stop minutes counted separately (2 pit stops, not estimated). 21 ticks is the plan's v0.4 October median for strong vs strong. (Corrected 2026-11-24; an earlier line said 12–20 min.)
 
 ## Recurring misreads
 None recorded yet.

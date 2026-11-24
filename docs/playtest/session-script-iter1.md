@@ -1,6 +1,8 @@
 # Session script, Iteration 1 (about 90 minutes)
 
-**Who:** the owner as facilitator, plus 1–3 people. With 2 or more guests, guests play and the owner never takes a tank. With exactly 1 guest, the owner plays the other tank. Mark every such round "owner as opponent": it is still evidence about the guest, but the session counts as half a group for the gate.
+**Who:** the owner as facilitator, plus 1–3 people. With 2 or more guests, guests play and the owner never takes a tank. With exactly 1 guest, the owner plays the other tank. Mark every such round "owner as opponent": it is evidence about the guest, and the owner's own play is owner play (README, "Rules for the evidence").
+
+**Pre-freeze session.** Iteration 1 runs before the v0.5 freeze, so it does **not** count toward the step-3 gate: the plan puts the 5+ gate sessions after the freeze (`PLAN-2026-11.md`, Phase 2). Record every count anyway; they inform the rules and the kit.
 
 **Rules under test:** v0.5 draft, no pickups, default layout. Pit stops after ticks 10 and 20. Shot clock 10 ticks.
 
@@ -37,7 +39,7 @@ If the match ends before minute 50, play a second short match (first to 2) with 
 **Provisional. These are the plan's E1 candidates (`PLAN-2026-11.md`, E1), not rules.** In all three, the winner's rail is locked and reused unchanged in the next round, and only the loser rebuilds. The facilitator announces the variant before the match.
 
 - **(a)** The loser returns its rail and hand to the deck, draws 5, and rebuilds from chassis + new hand.
-- **(b)** The loser keeps its hand and draws 2 more, then rebuilds from chassis + hand.
+- **(b)** The loser picks its rail back up into its hand, keeps its hand, and draws 2, then rebuilds from chassis + hand. *Wording pending owner confirmation.*
 - **(c)** The loser redraws 5 but may keep any of its old rail cards.
 
 Gaps in the draft. Decide at the table, write the decision on the observer sheet, and don't treat it as a rule:
@@ -48,10 +50,11 @@ Gaps in the draft. Decide at the table, write the decision on the observer sheet
 ## Timed hand round (minutes 60–80)
 
 1. **Deal:** in deal mode the facilitator presses Deal and reads the hands out. Players take the matching cards from the sorted deck and program openly (2 minutes). The facilitator types the rails in but doesn't run them.
-2. **Referee:** one guest (not the owner) runs the round from the quick reference and fills in the tick sheet. The others move their own tank and tokens. The facilitator starts the stopwatch at tick 1 and only answers "the sheet says…". Every question gets logged.
-3. **Pit stops:** at tick 10, the stopwatch pauses. With the screen turned away, the facilitator steps the viewer to its pit stop and reads out each tank's drawn card. Players choose their plays at the table, and the facilitator enters them. The stopwatch resumes. Do the same at tick 20.
-4. **Stop** at the end of the round, or at **20 minutes** of running time. If you stop at the time limit, write down the tick reached. Either way, that is a finding.
-5. **Check:** run the viewer to the end, then compare positions and armor at ticks 10, 20 and the end. Count every divergence as a referee error, and note the rule behind it.
+2. **Overtime first attacker [open rule question]:** with armor level, the viewer picks the first overtime attacker with a hidden coin at each deal (`S.clockFirst`, not shown on screen). Before the stopwatch starts, the facilitator reads it off (browser console: `S.clockFirst`, 0 = tank A, 1 = tank B) and tells the referee, who marks the attacker marker. If it can't be read, log any level-armor overtime mismatch as "first-attacker unknown", not as a referee error.
+3. **Referee:** one guest (not the owner) runs the round from the quick reference and fills in the tick sheet. The others move their own tank and tokens. The facilitator starts the stopwatch at tick 1 and only answers "the sheet says…". Every question gets logged.
+4. **Pit stops:** at tick 10, the stopwatch pauses. With the screen turned away, the facilitator steps the viewer to its pit stop and reads out each tank's drawn card. Players choose their plays at the table, and the facilitator enters them. The stopwatch resumes. Do the same at tick 20.
+5. **Stop** at the end of the round, or at **20 minutes** of running time. If you stop at the time limit, write down the tick reached. Either way, that is a finding.
+6. **Check:** run the viewer to the end, then compare positions and armor at ticks 10, 20 and the end. Count every divergence as a referee error, and note the rule behind it, except a level-armor overtime divergence when the first attacker was unknown (step 2): log that as "first-attacker unknown".
 
 ## Debrief questions
 

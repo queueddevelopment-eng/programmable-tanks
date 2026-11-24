@@ -11,7 +11,7 @@
 **Pit stops** happen before ticks 11 and 21:
 1. Each player draws 1 card (A first).
 2. In secret, each player may play 1 hand card: insert it (still 8 cards max) or replace a card (the replaced card is discarded). Or they keep the program.
-3. A tank that played a card restarts at card 1, and its Repeat counters clear. Its cooldown, Hit flag, shield, Overcharge, stun and spent cards all carry over.
+3. A tank that played a card restarts at card 1, and its Repeat counters clear. Only those two reset. Its cooldown, Hit token, T/F (Otherwise) disc, Hunt detour token, shield, Overcharge, stun and spent cards all carry over.
 4. **[open]** The draft says every program restarts. Both engines restart only a tank that played a card; a kept program carries on.
 
 **End:** a tank at 0 armor loses. After tick 40, more armor wins. Equal armor, or both destroyed on the same tick, is a draw.
@@ -36,7 +36,7 @@
 **Shot clock and overtime.** At the start of a tick with the track at 10, each tank sets its rail aside and runs a printed card from its first card, with its own pointer.
 - **Attacker** (more armor): `If in sights · Fire · Otherwise · Hunt`
 - **Holder:** `If in sights · Fire · Otherwise · Face enemy`
-- With armor level, the attacker alternates with each overtime and the first attacker rotates between rounds. **[open]** Who attacks first in round 1? (The viewer picks at random at each deal.)
+- With armor level, the attacker alternates with each overtime and the first attacker rotates between rounds. **[open rule question]** Who attacks first? The viewer picks with a hidden coin at each deal. **Referee step:** before the round, ask the facilitator which tank the viewer makes first attacker and set the attacker marker. If nobody knows, a level-armor overtime mismatch is logged "first-attacker unknown", not a referee error.
 - **Ending:** the tick after a hit or pit damage, the track is at 0, and both tanks go back to their own rails where they left off.
 
 ## Side 2: reading cards

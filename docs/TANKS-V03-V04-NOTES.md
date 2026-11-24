@@ -2,6 +2,41 @@
 
 *Written October 12, 2026; updated October 12 evening (playtest fixes), October 13 (v0.4 draft) and October 25 (shot clock). Read after `TANKS-HANDOFF.md` and the September 22 addendum. Covers the board-as-game-piece and draw-deck ideas, the v0.4 specials and pickups, their simulator results, and the updated viewer.*
 
+## E2: stuck rounds under card-language overtime (November 24)
+
+Computed 2026-11-24 with `experiments8.py` (commits 9f3498d and 4ab89c2). Screen: `results/results8ABC.txt`. Confirm: `results/results8A-confirm.txt`.
+
+**Question and pass line (fixed before the run):** under v5 card-language overtime, are stuck rounds ≤2% on every layout, with seat fairness at 45–55%?
+
+**Screen** (30 rounds per layout, 17 layouts: 5 named and 12 generated symmetric):
+
+| Variant | Stuck rounds |
+|---|---|
+| A: printed overtime | 29/510 (6%) |
+| B: pathfinding (named boards only) | 0/150 |
+| C: 8-card attacker (`If in sights · Fire · Otherwise · Hunt · If blocked · Turn right · Otherwise · Forward`) | 51/510 (10%) |
+
+Seat fairness: A 51%, B 53%, C 51%. C is rejected, so the printed overtime programs of decision (m) stand unchanged.
+
+**Confirm** (variant A, 100 rounds per layout; stuck rounds out of 100):
+
+| Result | Layouts |
+|---|---|
+| Pass (≤2) | Four pillars 0, Open board 0, Centre block 0, Moat 0, Gen 01 1, Gen 02 1, Gen 05 0, Gen 07 0, Gen 08 0, Gen 09 0, Gen 10 0, Gen 11 0 |
+| Inconclusive | Gen 06 4, Gen 12 3 |
+| Fail | Pillars and pits 11, Gen 03 58, Gen 04 28 |
+
+Seat fairness 50% over 928 decided rounds. Overtime was reached in 98% of rounds. Pit falls in overtime: 0.
+
+**Mechanism:** 103 of the 106 stuck stretches had the attacker on or next to an inner "pocket": a free square with two orthogonal neighbours blocked, where the two blocked squares touch diagonally. Hunt's sidestep (`tanksim.play`, HUNT branch, `me.detour`) turns toward the second blocker, and the next tick undoes the sidestep. Two layout classifiers were tried. "No inner pockets" misclassifies 3 of 15 layouts. "Pocket closed toward the enemy's corner" misclassifies 1, but it was built after seeing the data, so it needs fresh layouts before E5 relies on it.
+
+**Verdict:** variant A fails as a whole-deck rule, because the current default board (Pillars and pits) stalls 11%. A passes on a curated deck of 12. The pass line for the curated deck is met.
+
+**Pending the owner (not decided):**
+- Whether "no pockets" (or the directional version) becomes a layout-deck rule.
+- Redesigning the default Pillars and pits layout.
+- Whether the Hunt sidestep should be examined: an engine question for rules-engineer.
+
 ## Stuck rounds and the shot clock (October 25)
 
 **Problem (from playtesting):** some rounds stall: the layout and the dealt cards leave neither tank able to engage.

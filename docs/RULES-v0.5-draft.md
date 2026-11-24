@@ -129,7 +129,7 @@ If nobody is hit for 10 ticks, each tank's program is set aside, and it runs a p
 - **Holder:** the other tank runs `If in sights · Fire · Otherwise · Face enemy`.
 - **Ending:** after the next hit (or pit damage), both tanks go back to their own programs where they left off.
 
-**[E2]** With these printed programs, some layouts can still stall (greedy Hunt can't find a way around a pit next to a pillar). E2 will curate the layout deck and/or adjust the printed programs until stalls are ≤2% on every layout.
+**[E2]** Measured 2026-11-24 (`results/results8A-confirm.txt`, 100 rounds per layout): with these printed programs, a curated deck of 12 layouts passes the ≤2% stuck line. The default layout, Pillars and pits, fails at 11 stuck rounds in 100. Whether the layout deck gets a rule against inner pockets, and whether the default layout is redesigned, is pending the owner's decision. The printed programs are unchanged. Details: `docs/TANKS-V03-V04-NOTES.md`.
 
 ## Pickups (optional module)
 

@@ -149,6 +149,71 @@ Same player proxies in every variant so the variants compare fairly: an "expert"
 - `results5.txt`: raw output of the first-draft run. `results5b.txt`: raw output of the current-rules run. Rerun the first draft with `TANKS_RULES=draft1 python experiments5.py 100`.
 - Config fields `build_behind` and `hunt_avoid` (both off by default so old experiments reproduce exactly; on in experiments5 and in the viewer's v0.3 card set). The viewer's v0.2 and v0.1 sets keep the old rules.
 
+## Card-language overtime stalls (E2, November 24)
+
+**Question:** does the shot clock written in the card language (decision (m)) keep stuck rounds at or under 2% on every layout in the deck, with seat 45-55%? Pathfinding is not allowed on paper, so the printed programs behave like greedy Hunt. **Status: measured 2026-11-24, owner decision pending.** Numbers computed 2026-11-24 by sim-analyst (`experiments8.py`); directional per decision (j). Deck: the viewer's v4 47-card pile. Paired seeds as in `experiments7.py`; pairings EvE, EvN, NvE, NvN. Layouts: five presets (Pillars and pits, Four pillars, Open board, Centre block, Moat) plus Shuffled as an unjudged stress row.
+
+| Variant | Overtime programs |
+|---|---|
+| K | pathfinding attacker (comparison only, not paper; decision (m)) |
+| V | the rule as written in (m): leader attacks, attacker `If in sights · Fire · Otherwise · Hunt`, holder `If in sights · Fire · Otherwise · Face enemy` |
+| P | attacker `If in sights · Fire · If blocked · Turn right · Hunt` |
+| Q | holder `If in sights · Fire · Otherwise · Face enemy · Hunt` |
+| R | P and Q together |
+
+**Stage 2, screen** (`results/results8.txt`, 60 rounds per layout):
+
+| | stuck overall | Pillars and pits | other four layouts | note |
+|---|---|---|---|---|
+| K | 0% | 0/60 | 0/60 each | |
+| V | 3.3% | 10/60 = 16.7% | 0/60 each | |
+| P | 4.3% | - | - | dropped |
+| Q | 12.7% | - | - | skill share 11-13 points below V; dropped |
+| R | 10.0% | - | - | skill share 11-13 points below V; dropped |
+
+**Stage 3, decision** (`results/results8b.txt`, 300 rounds per layout; Open board rerun in `results/results8c.txt`, 600 rounds):
+
+| V, layout | stuck | seat A | verdict |
+|---|---|---|---|
+| Pillars and pits | 49/300 = 16.3% (12.0% apart, 4.3% dance, 5.3% parked) | 51% on 126 decided | **fails**; kills 78%, draws 30%, never hit 16% |
+| Four pillars | 1/300 | 50% | keep |
+| Open board | 1/300 (first run); 1/600 (rerun) | 40% on 157 decided; 46% on 320 decided | keep (the 40% was inside noise; the rerun confirmed) |
+| Centre block | 0/300 | 48% | keep |
+| Moat | 2/300 | 49% | keep |
+
+- V over all five presets: 3.5% stuck (1,500 rounds), kills 93%, draws 17%, autopilot share of hits 23%, skill share 84%.
+- K: 0/300 stuck on every preset, seat 45-53%, kills 98-100%, autopilot share 17-18%, skill share 96%.
+- The clock ran out in 98% of rounds. Overtime pit falls were 0.00 per round, so no stall ended by a fall.
+- Shuffled (stress row, not judged): V 22/300 = 7.3% stuck; K 2/300.
+
+**Stage 4, provisional** (`results/results8d.txt`; V only; the four presets other than Pillars and pits, fresh seeds with offset 50000, 300 rounds per layout):
+- Stuck 0, 0, 1 and 1 of 300; seat 51%, 49%, 46% and 52%.
+- Overall 0.2% stuck, kills 97%, draws 15%, autopilot share 23%, skill share 81%.
+- Provisional: it only shows what the deck looks like without Pillars and pits. Dropping the layout is the owner's decision, and has not been made.
+
+**Mechanism (from traces):** a corner trap. Greedy Hunt reaches a square whose two exits toward the enemy are both pit or pillar (D4 or D6 beside the pit pair D5/E4 on Pillars and pits). `hunt_avoid` then turns the attacker back and forth in a 2- or 6-tick loop until tick 40, while the holder only faces it. The per-pairing stuck rates are across all six boards in `results/results8b.txt`, not Pillars and pits alone: novice pairings 9.0% of 600, expert pairings 1.5% of 600. The period-6 stalls were all on Pillars and pits, per the mechanism output. Two stalls on other layouts were the same geometry built elsewhere: raised walls on Open board, and the Moat's own pit and wall pair. The pathfinder routes around the trap on the same deals.
+
+**Rejected, do not re-propose without new evidence:**
+- **P** (attacker adds `If blocked · Turn right`): 4.3% stuck overall at 60 rounds per layout (`results/results8.txt`), no better than V's 3.3%.
+- **Q** (holder also Hunts): 12.7% stuck overall; **R** (P plus Q): 10.0%. Both lost 11-13 points of skill share against V, which breaches the guard rail. A holder that also Hunts recreates the rejected symmetric clock's mirror dance (see October 25 above).
+
+**Proxy biases:** the experts are lookahead players, so their numbers are upper bounds on human play. The novices are random programs, so they stall more than a thoughtful beginner would. Treat differences under about 10 points as noise unless the run is large; the Pillars and pits failure (16.3% at N=300 against a 2% line) is far outside noise.
+
+**Open question for the owner:** keep decision (m) as written and drop or redesign Pillars and pits (the rules draft's default layout, so a new default is needed), or adopt a different printed program. None of P, Q, R beats the rule as written. Nothing in `docs/RULES-v0.5-draft.md` has changed.
+
+**Commands** (from the repo root; output saved to `results/`):
+
+```
+python experiments8.py 60 K V P Q R                       # stage 2 screen
+python experiments8.py 300 K V                            # stage 3 decision
+python experiments8.py 300 V offset=50000 boards=1,2,3,4  # stage 4: the four kept presets on fresh seeds
+python experiments8.py 600 V boards=2 > results/results8c.txt  # Open board rerun
+```
+
+The Open board rerun uses seed offset 0, so its 600 rounds include the original 300 from stage 3. It extends the sample; it is not an independent one.
+
+Runtime: on the owner's 24-core machine, 1,800 rounds took 142 s, and 3,600 rounds (300 per board per variant, 6 boards, 2 variants) took 331 s (footer of `results/results8b.txt`).
+
 ## Next steps
 
 0. (v0.4) Playtest the v0.4 deck; test a Seek pickup card and pickup placement on Hunt paths; try Spread at ×2 and Shield at ×1 to see how the luck number moves.

@@ -98,8 +98,8 @@ Lessons carried over from the owner's other projects, where session limits bit h
   - The v0.5 draft rules in both engines: chassis plus a dealt hand of 5 from a 47-card shared deck, two pit stops, pits, Breach and Raise wall, Otherwise, the specials with the spent rule, optional pickups, and a 10-tick shot clock with card-language overtime.
   - Parity green on 3,920 duels; fingerprints ok.
 - **Next (Phase 1, from `docs/PLAN-2026-11.md`):**
-  - **E2:** stalls under card-language overtime. Pass when stuck rounds are ≤2% on every layout in the deck.
-  - **E1:** the debug rule under dealt hands.
+  - **E2:** stalls under card-language overtime. Pass when stuck rounds are ≤2% on every layout in the deck. **Measured 2026-11-24, owner decision pending:** decision (m) as written fails on Pillars and pits (49/300 = 16.3% stuck, `results/results8b.txt`) and holds on the other four presets tested. See `docs/PLAN-2026-11.md`.
+  - **E1:** the debug rule under dealt hands (next).
   - Then E3 (mirror draws), E4 (card audit for print) and E5 (12-layout deck), and the v0.5 freeze.
 - **Not verified:**
   - Nobody but the owner has played. Nobody has run a round by hand on paper or timed one.

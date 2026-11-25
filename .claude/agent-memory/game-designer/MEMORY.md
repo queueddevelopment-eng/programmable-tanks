@@ -1,0 +1,2 @@
+- [E2 brief 2026-11-24](E2-brief-2026-11-24.md) — stalls under card-language overtime: variants K/V/P/Q/R, per-layout score, N=300 line; pending
+- [E1 brief 2026-11-24](E1-brief-2026-11-24.md) — debug rule under dealt hands, options (a)/(b)/(c); pending

@@ -8,7 +8,8 @@
 | Older rule sets unchanged | 2026-11-15: legacy and v0.4 `ok` | `python tests/fingerprints.py` |
 | `main` pushed | 2026-11-15: `d911783` (code, docs, results) + the toolkit commit | `git log --oneline -3`; `git status -sb` |
 | Stuck rounds 0% with the pathfinding clock | 2026-10-25, `results/results7c.txt` (K) | `python experiments7.py 60 K` (~15 min) |
-| Card-language overtime stalls on some layouts | 2026-11-15, an engine check (passive programs on Pillars-and-pits draw at 5–5) | E2 will measure it |
+| Card-language overtime stalls on some layouts | 2026-11-15, an engine check (passive programs on Pillars-and-pits draw at 5–5) | superseded by the next row |
+| Card-language overtime stalls on Pillars and pits | 2026-11-24, `results/results8b.txt`: V stuck 49/300 = 16.3% there, ≤2/300 on the other three presets at 300 rounds; Open board 1/600 in `results8c.txt`; K 0/300 everywhere; provisional four-preset run `results8d.txt` 0.2% stuck | `python experiments8.py 300 K V`; `python experiments8.py 300 V offset=50000 boards=1,2,3,4`; Open board rerun `python experiments8.py 600 V boards=2 > results/results8c.txt` (seed offset 0, so it extends the original 300 and is not independent) |
 | Viewer runs the v0.5 rules without errors | 2026-11-15, Playwright: kit round, dealt round with pit stops, both computer players | open the file; run a dealt round |
 
 ## File map
@@ -29,7 +30,7 @@
 
 ## Open items
 
-1. **E2:** card-language overtime stalls on some layouts. Blocks (m) being final.
+1. **E2:** measured 2026-11-24; owner decision pending (drop or redesign Pillars and pits, or another printed program). Blocks (m) being final.
 2. **E1:** the debug rule under dealt hands. Blocks (e).
 3. **E3, E4, E5**, then the v0.5 freeze: a fingerprint entry `v05()` and docs synced.
 4. **Paper executability:** never timed. Phase 2's hand-execution sessions.

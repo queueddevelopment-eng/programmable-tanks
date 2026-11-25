@@ -21,9 +21,15 @@ Numbers are directional (j). Each line names the file and where the numbers live
 | `experiments7.py` (`results7.txt`, `7b`, `7c`, `7d`) | Stuck rounds: cause and fixes | **Diagnosis:** 16% stuck (28% NvN); 64% apart, 36% dance. Dances are mirror symmetry: mirror-image squares never share a row or column. A contested-square deadlock was found. **Rejected:** stalemate pit stop (19%), mulligan (16%), B faces west (22%; seat fair 50%), initiative (18%), a symmetric shot clock (identical autopilots dance). **Works:** a clock with roles: trailer attacks + greedy Hunt 4%; + pathfinding 0%; **leader attacks + pathfinding 0% stuck, 99% kills, 4% draws, seat 51%, 18% of hits on autopilot** (adopted, then made card-language by (m)). A 15-tick clock is also 0% stuck, with seat 55% |
 | (check, 2026-11-15) | Mirror matches under the clock | Same program both sides on 9 boards: 90/90 draws without the clock, 29/90 with it |
 
+## November (v0.5), sources N and R
+
+| File | Question | Verdict |
+|---|---|---|
+| `experiments8.py` (`results8.txt`, `8b`, `8c`, `8d`), 2026-11-24 | E2: stalls under card-language overtime (`clock_cards`) | **Measured; owner decision pending.** V (rule as written in (m)) fails on Pillars and pits: 49/300 = 16.3% stuck (`results8b.txt`); keeps on Four pillars, Centre block, Moat, and Open board (1/600 at the rerun, `results8c.txt`). V over five presets 3.5% stuck; K (pathfinder) 0/300 everywhere. Provisional without Pillars and pits: 0.2% stuck (`results8d.txt`). Cause: a corner trap for greedy Hunt. Pass line (≤2% on every layout) not met on the default layout. **Rejected printed programs** (`results8.txt`, 60 rounds per layout): P attacker `If in sights · Fire · If blocked · Turn right · Hunt` (4.3% stuck overall vs V 3.3%); Q holder `If in sights · Fire · Otherwise · Face enemy · Hunt` (12.7%); R = P+Q (10.0%); Q and R lost 11–13 points of skill share, and a Hunting holder recreates the symmetric clock's mirror dance |
+
 ## Open (Phase 1 of `docs/PLAN-2026-11.md`)
 
-- **E2:** stalls under card-language overtime (`clock_cards`). It behaves like greedy Hunt, which stalled about 4% overall and stalls on Pillars-and-pits for passive programs. Pass: ≤2% on every layout in the deck.
+- **E2:** measured 2026-11-24 (see the table above); the layout decision (drop or redesign Pillars and pits, or another printed program) is the owner's.
 - **E1:** the debug rule under dealt hands, options (a)/(b)/(c). Pass: round-1 loser wins round 2 in 35–60%; a counter is buildable in ≥80% of deals; the round-1 winner wins the match < 75%.
 - **E3:** mirror draws under the frozen rules: ≤35% draws, none from stalls.
 - **E4:** the card audit for print: usage per card, cutting anything under ~5% unless it teaches something.

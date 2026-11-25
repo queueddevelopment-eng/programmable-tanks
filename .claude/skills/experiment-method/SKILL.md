@@ -51,6 +51,7 @@ A map, not a second authority: `CLAUDE.md` wins (decision (j): numbers are direc
 - At 60–100 rounds per cell, treat differences under **~10 points** as noise. At 57 decided rounds, a 60% rate is ±13. Two identical-looking runs of the "v0.3 core" gave 40% and 51% draws.
 - Report N beside every percentage. Rerun bigger only if the decision depends on a gap inside the noise.
 - Runtime on 2 cores: `experiments5` and `experiments6` at 100 rounds per pairing take about 15 minutes for 5–6 variants. `experiments7` at 60 rounds per board takes about 4 minutes per variant (6 boards × 60), and longer with dynamic stops. Lookahead pit stops dominate the cost.
+- The owner's current machine has 24 cores and runs `experiments8` at 300 rounds × 6 boards (5 presets plus the Shuffled stress row) × 2 variants in about 5.5 minutes (3,600 rounds took 331 s on 2026-11-24, footer of `results/results8b.txt`), so the two-core figures above are upper bounds.
 - Use `multiprocessing.Pool` with `imap_unordered` and `chunksize` 3–4. Never more than two heavy runs at once.
 
 ## File conventions

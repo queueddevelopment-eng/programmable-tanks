@@ -1,0 +1,308 @@
+
+=== K. comparison: pathfinding attacker (clock_path), not paper ===
+layout                N  stuck  apart  dance parked  seat (dec)  kills  draws  nohit otfall  auto  verdict
+Pillars and pits     60   0.0%   0.0%   0.0%   0.0%   56%    39    95%     2%     0%   0.00   19%  open (N<300)
+Four pillars         60   0.0%   0.0%   0.0%   0.0%   54%    39   100%     2%     0%   0.00   18%  open (N<300)
+Open board           60   0.0%   0.0%   0.0%   0.0%   42%    36   100%    10%     0%   0.00   16%  open (N<300)
+Centre block         60   0.0%   0.0%   0.0%   0.0%   50%    38    98%     7%     0%   0.00   16%  open (N<300)
+Moat                 60   0.0%   0.0%   0.0%   0.0%   54%    37    98%     5%     0%   0.00   19%  open (N<300)
+Shuffled             60   1.7%   0.0%   1.7%   0.0%   44%    39    97%     2%     0%   0.00   17%  stress row
+ALL (5 presets)     300   0.0%   0.0%   0.0%   0.0%   51%   189    98%     5%     0%   0.00   18%
+   experts: stuck 0.0% (120)   expert v novice: stuck 0.8% (120)   novices: stuck 0.0% (120)
+skill: expert takes 93% of points vs novice (120) | comebacks: expert behind at tick 20 wins 2% (108)
+rule fired: shot clock ran out in 99% of rounds | 5.7 overtime ticks per round | autopilot share 17% of 2279 hits | median first hit tick 15 | overtime pit falls 0.00 per round | pit stops per round 1.7
+stuck mechanism: 1 rounds; cycle period of (square, facing) over the last 16 quiet ticks: nonex1
+   seed 500019 Shuffled         EvN attacker A armor (4, 1) period None quiet 20 [dance] A@B6/B7/B8/C5/C6/C8/D5/D6/D8/E8ENSW B@F4/F5/F6NSW
+          FWD · IF_POWERUP · TRACK · FIRE   vs   FWD · BLAST · IF_ENEMY_BEHIND · HUNT · FIRE
+
+=== V. the rule as written (m): attack IF_ENEMY FIRE ELSE HUNT | hold IF_ENEMY FIRE ELSE TRACK ===
+layout                N  stuck  apart  dance parked  seat (dec)  kills  draws  nohit otfall  auto  verdict
+Pillars and pits     60  16.7%  13.3%   3.3%   3.3%   44%    27    73%    30%    15%   0.00   23%  FAIL stuck
+Four pillars         60   0.0%   0.0%   0.0%   0.0%   51%    35    98%    12%     0%   0.00   21%  open (N<300)
+Open board           60   0.0%   0.0%   0.0%   0.0%   27%    33   100%    17%     0%   0.00   23%  open (N<300)
+Centre block         60   0.0%   0.0%   0.0%   0.0%   39%    38    98%     3%     0%   0.00   23%  open (N<300)
+Moat                 60   0.0%   0.0%   0.0%   0.0%   54%    28    97%    20%     0%   0.00   23%  open (N<300)
+Shuffled             60   6.7%   5.0%   1.7%   3.3%   55%    33    87%    17%     7%   0.00   22%  stress row
+ALL (5 presets)     300   3.3%   2.7%   0.7%   0.7%   43%   161    93%    16%     3%   0.00   23%
+   experts: stuck 1.7% (120)   expert v novice: stuck 2.5% (120)   novices: stuck 7.5% (120)
+skill: expert takes 85% of points vs novice (120) | comebacks: expert behind at tick 20 wins 8% (39)
+rule fired: shot clock ran out in 99% of rounds | 12.3 overtime ticks per round | autopilot share 23% of 2647 hits | median first hit tick 21 | overtime pit falls 0.00 per round | pit stops per round 1.9
+stuck mechanism: 14 rounds; cycle period of (square, facing) over the last 16 quiet ticks: 2x8, 6x3, nonex3
+   seed      0 Pillars and pits EvE attacker A armor (5, 5) period 2 quiet 40 [apart, never hit] A@A1/A2/A3/A4/B4/C4/D4EN B@H5/H6/H7/H8SW
+          FIRE · IF_NEAR · HUNT · FIRE · FWD   vs   FIRE · FWD · FIRE · IF_NEAR · HUNT
+   seed      8 Pillars and pits NvN attacker A armor (5, 5) period 6 quiet 40 [apart, parked, never hit] A@A1/B1/C1/D1/D2/D3/D4ENS B@H8S
+          RIGHT · FWD · IF_HIT · HUNT · IF_NEAR · TRACK · FIRE · HUNT   vs   FIRE · IF_POWERUP · FWD
+   seed     20 Pillars and pits NvN attacker A armor (5, 5) period 2 quiet 40 [apart, never hit] A@A2/A3/B3/B4/B5/C5EN B@H7/H8ESW
+          IF_ENEMY · RIGHT · ELSE · HUNT · SHIELD · FIRE · FWD   vs   IF_BLOCKED · FWD · FIRE · FWD · BLAST · FIRE · LEFT · FIRE
+   seed     22 Pillars and pits NvE attacker A armor (5, 5) period None quiet 40 [apart, never hit] A@A1/A2/A3/B2/B3/B4/C4/C5/D4ENSW B@F7/G7/H7/H8ESW
+          FIRE · FWD · ELSE · TRACK · FIRE · FWD · RIGHT   vs   LEFT · TRACK · FWD · HUNT · IF_HIT · FIRE
+   seed     26 Pillars and pits NvN attacker A armor (5, 5) period None quiet 40 [apart, never hit] A@A2/B2/C2/D2/D3/D4/E3ENSW B@H7/H8NSW
+          HUNT · ELSE · FIRE · IF_ENEMY_BEHIND · FWD · SHIELD · FIRE   vs   REPEAT3 · FIRE · FWD · BUILD · HUNT · RIGHT · FIRE
+   seed     29 Pillars and pits NvN attacker B armor (5, 5) period 2 quiet 40 [apart, never hit] A@A1/A2/A3EN B@D6/E6/E7/E8/F8/G8/H8SW
+          IF_HIT · BACK · ELSE · FIRE · BUILD · FIRE · SHIELD · FWD   vs   IF_NEAR · FWD · IF_POWERUP · BACK · FIRE · IF_ENEMY · FIRE
+   seed     35 Pillars and pits NvN attacker B armor (5, 5) period 2 quiet 40 [apart, never hit] A@A2/A3/B3ENS B@F4/G3/G4/H3/H4/H5/H6/H7/H8NSW
+          HUNT · OVERCHARGE · FWD · BUILD · IF_BLOCKED · RIGHT · FIRE · RIGHT   vs   IF_ENEMY · FWD · IF_ENEMY · FIRE · BLAST · FWD
+   seed     46 Pillars and pits NvE attacker A armor (5, 5) period 2 quiet 40 [apart, never hit] A@A2/A3/B3/B4/C4/D4EN B@G7/H7SW
+          HUNT · FIRE · IF_NEAR · SHIELD · FIRE · FWD   vs   HUNT · FIRE · FIRE · IF_POWERUP · RIGHT · SHIELD
+   seed     48 Pillars and pits EvE attacker B armor (3, 4) period None quiet 20 [dance, parked] A@C4ES B@D3/D4/E1/E2/E3/F1/G1/G2/G3NSW
+          FIRE · IF_BLOCKED · SPREAD · FWD   vs   HUNT · IF_ENEMY_BEHIND · FIRE · IF_ENEMY · FIRE · FWD · FIRE
+   seed     50 Pillars and pits NvN attacker A armor (5, 5) period 2 quiet 40 [dance, never hit] A@A1/B1/B2/B3/B4/C4/D4EN B@E5/E6/E7/F7/G7/H7SW
+          ELSE · FIRE · IF_HIT · IF_ENEMY · FIRE · REPEAT3 · TRACK · FWD   vs   IF_BLOCKED · FIRE · REPEAT3 · HUNT
+   seed 500020 Shuffled         NvN attacker A armor (5, 5) period 6 quiet 40 [apart, parked, never hit] A@A1/B1/B2ENSW B@H8S
+          IF_HIT · FWD · TRACK · RIGHT · FIRE · FIRE · FIRE · BACK   vs   BUILD · IF_NEAR · FWD · ELSE · BUILD · OVERCHARGE · FIRE
+   seed 500032 Shuffled         NvN attacker A armor (5, 5) period 2 quiet 40 [apart, never hit] A@A1/B1EN B@H3/H4/H5/H6/H7SW
+          IF_ENEMY · RIGHT · BACK · HUNT · FIRE · FIRE   vs   FWD · FIRE · IF_NEAR · OVERCHARGE
+   seed 500044 Shuffled         NvN attacker A armor (5, 5) period 6 quiet 40 [dance, never hit] A@A2/B2/B3/C3/D3/E3/E4ENSW B@F6/F7/G7/H7SW
+          IF_HIT · FWD · HUNT · FIRE   vs   HUNT · ELSE · FIRE · IF_POWERUP · REPEAT3 · FWD
+   seed 500055 Shuffled         EvN attacker B armor (5, 5) period 2 quiet 40 [apart, parked, never hit] A@A1ENSW B@H6/H7SW
+          RIGHT   vs   HUNT · FWD · IF_HIT · FIRE · FIRE · FIRE
+
+=== P. attacker turns when blocked: attack IF_ENEMY FIRE IF_BLOCKED RIGHT HUNT | hold as V ===
+layout                N  stuck  apart  dance parked  seat (dec)  kills  draws  nohit otfall  auto  verdict
+Pillars and pits     60  20.0%  16.7%   3.3%   5.0%   38%    29    65%    22%    18%   0.00   23%  FAIL stuck
+Four pillars         60   0.0%   0.0%   0.0%   0.0%   40%    35    90%    10%     0%   0.00   19%  open (N<300)
+Open board           60   1.7%   0.0%   1.7%   0.0%   32%    34    95%    12%     0%   0.00   18%  open (N<300)
+Centre block         60   0.0%   0.0%   0.0%   0.0%   26%    34    88%    13%     0%   0.00   19%  open (N<300)
+Moat                 60   0.0%   0.0%   0.0%   0.0%   47%    38    97%     5%     0%   0.00   19%  open (N<300)
+Shuffled             60  11.7%   8.3%   3.3%   3.3%   56%    32    68%    15%    12%   0.00   20%  stress row
+ALL (5 presets)     300   4.3%   3.3%   1.0%   1.0%   37%   170    87%    12%     4%   0.00   19%
+   experts: stuck 2.5% (120)   expert v novice: stuck 1.7% (120)   novices: stuck 12.5% (120)
+skill: expert takes 86% of points vs novice (120) | comebacks: expert behind at tick 20 wins 12% (32)
+rule fired: shot clock ran out in 98% of rounds | 13.3 overtime ticks per round | autopilot share 19% of 2406 hits | median first hit tick 22 | overtime pit falls 0.00 per round | pit stops per round 1.9
+stuck mechanism: 20 rounds; cycle period of (square, facing) over the last 16 quiet ticks: 6x2, 8x11, nonex7
+   seed 200030 Open board       EvE attacker B armor (3, 5) period None quiet 20 [dance] A@A7/B7/C7/D7/E7/F7/G7ENW B@A8/B8/C8/D8/E8/F8/G8/H8ENSW
+          HUNT · ELSE · FWD · IF_ENEMY · FIRE   vs   FIRE · FIRE · TRACK · FIRE
+   seed      8 Pillars and pits NvN attacker A armor (5, 5) period 8 quiet 40 [apart, parked, never hit] A@A1/B1/C1/D1/D2/D3/D4ENS B@H8S
+          RIGHT · FWD · IF_HIT · HUNT · IF_NEAR · TRACK · FIRE · HUNT   vs   FIRE · IF_POWERUP · FWD
+   seed     20 Pillars and pits NvN attacker A armor (5, 5) period None quiet 40 [apart, never hit] A@A2/A3/B3/B4/B5/C4/C5/D3/D4/E3ENSW B@H7/H8ESW
+          IF_ENEMY · RIGHT · ELSE · HUNT · SHIELD · FIRE · FWD   vs   IF_BLOCKED · FWD · FIRE · FWD · BLAST · FIRE · LEFT · FIRE
+   seed     22 Pillars and pits NvE attacker A armor (5, 5) period 8 quiet 40 [apart, never hit] A@A1/A2/A3/B2/B3/B4/C4/C5/D4ENSW B@F7/G7/H7/H8ESW
+          FIRE · FWD · ELSE · TRACK · FIRE · FWD · RIGHT   vs   LEFT · TRACK · FWD · HUNT · IF_HIT · FIRE
+   seed     23 Pillars and pits NvN attacker B armor (5, 5) period 8 quiet 40 [apart, never hit] A@A1/A2EN B@E5/E6/F4/F5/G3/G4/H3/H4/H5/H6/H7/H8ENSW
+          BACK · IF_ENEMY · FIRE · BLAST · IF_ENEMY · HUNT · FIRE · FWD   vs   FIRE · IF_ENEMY_BEHIND · RIGHT · IF_POWERUP · HUNT · FWD · IF_NEAR · FIRE
+   seed     26 Pillars and pits NvN attacker A armor (5, 5) period None quiet 40 [apart, never hit] A@A2/B2/C2/D2/D3/D4/E3ENSW B@H7/H8NSW
+          HUNT · ELSE · FIRE · IF_ENEMY_BEHIND · FWD · SHIELD · FIRE   vs   REPEAT3 · FIRE · FWD · BUILD · HUNT · RIGHT · FIRE
+   seed     29 Pillars and pits NvN attacker B armor (5, 5) period 8 quiet 40 [apart, never hit] A@A1/A2/A3EN B@D6/D7/E6/E7/E8/F8/G8/H8ENSW
+          IF_HIT · BACK · ELSE · FIRE · BUILD · FIRE · SHIELD · FWD   vs   IF_NEAR · FWD · IF_POWERUP · BACK · FIRE · IF_ENEMY · FIRE
+   seed     35 Pillars and pits NvN attacker B armor (5, 5) period None quiet 40 [apart, never hit] A@A2/A3/B3ENS B@D6/E5/E6/F4/F5/G3/G4/H3/H4/H5/H6/H7/H8ENSW
+          HUNT · OVERCHARGE · FWD · BUILD · IF_BLOCKED · RIGHT · FIRE · RIGHT   vs   IF_ENEMY · FWD · IF_ENEMY · FIRE · BLAST · FWD
+   seed     41 Pillars and pits NvN attacker B armor (5, 5) period 8 quiet 40 [apart, never hit] A@A1/A2/B2/C2EN B@F4/F5/G3/G4/H3/H4/H5/H6/H7ENSW
+          SPREAD · FWD · FIRE · HUNT · FIRE · TRACK · FIRE   vs   IF_ENEMY · BUILD · FWD · FIRE
+   seed     44 Pillars and pits NvN attacker A armor (5, 5) period None quiet 40 [apart, never hit] A@A1/B1/C1/C2/D2/D3/D4/E3ENSW B@G6/H6/H7SW
+          IF_POWERUP · HUNT · FIRE   vs   FWD · ELSE · TRACK · IF_ENEMY · FIRE · FIRE · IF_NEAR · HUNT
+   seed     47 Pillars and pits NvN attacker B armor (5, 5) period 8 quiet 40 [apart, parked, never hit] A@A1EN B@E5/E6/F4/F5/G3/G4/H3/H4/H5/H6/H7/H8ENSW
+          FIRE · IF_HIT · BACK · IF_ENEMY_BEHIND · HUNT · BUILD   vs   BLAST · FWD · IF_BLOCKED · FIRE
+   seed     48 Pillars and pits EvE attacker B armor (3, 5) period None quiet 21 [dance, parked] A@C4ENW B@D6/E5/E6/F4/F5/G4ENSW
+          FIRE · IF_BLOCKED · SPREAD · FWD   vs   HUNT · IF_ENEMY_BEHIND · HUNT · FIRE · FWD · IF_ENEMY · FIRE
+   seed     50 Pillars and pits NvN attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/B2/B3/B4/C4/D3/D4ENS B@E5/E6/E7/F7/G7/H7SW
+          ELSE · FIRE · IF_HIT · IF_ENEMY · FIRE · REPEAT3 · TRACK · FWD   vs   IF_BLOCKED · FIRE · REPEAT3 · HUNT
+   seed 500006 Shuffled         EvE attacker A armor (5, 5) period 8 quiet 40 [apart, never hit] A@A1/A2/B2/C2/C3/C4/D3/D4ENSW B@G7/H7/H8SW
+          SHIELD · IF_ENEMY · FIRE · HUNT · SPREAD   vs   OVERCHARGE · ELSE · FIRE · HUNT · FIRE
+   seed 500014 Shuffled         NvN attacker A armor (5, 5) period 8 quiet 40 [apart, never hit] A@A2/A3/B3/C3/D3/D4ENSW B@G8/H8ENSW
+          IF_ENEMY · IF_BLOCKED · FWD · HUNT · FIRE · FIRE   vs   WHILE_ENEMY · HUNT · RIGHT · FWD · FIRE
+   seed 500020 Shuffled         NvN attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A1/B1/C1/D1/E1/F1/F2/F3/G2/G3ENSW B@H4/H5/H6/H7/H8SW
+          IF_HIT · FWD · TRACK · RIGHT · FIRE · FIRE · FIRE · BACK   vs   BUILD · IF_NEAR · FIRE · ELSE · FWD
+   seed 500032 Shuffled         NvN attacker A armor (5, 5) period 6 quiet 40 [apart, never hit] A@A1/B1ENSW B@H3/H4/H5/H6/H7SW
+          IF_ENEMY · RIGHT · BACK · HUNT · FIRE · FIRE   vs   FWD · FIRE · IF_NEAR · OVERCHARGE
+   seed 500044 Shuffled         NvN attacker A armor (5, 5) period 6 quiet 40 [dance, never hit] A@A2/B2/B3/C3/D3/E3/E4ENSW B@F6/F7/G7/H7SW
+          IF_HIT · FWD · HUNT · FIRE   vs   HUNT · ELSE · FIRE · IF_POWERUP · REPEAT3 · FWD
+   seed 500050 Shuffled         NvN attacker A armor (5, 5) period 8 quiet 40 [apart, parked, never hit] A@A1/A2/B2/C2/C3ENSW B@H8ES
+          BACK · FWD · IF_ENEMY · OVERCHARGE · HUNT · SHIELD · BUILD · FIRE   vs   REPEAT3 · FIRE · LEFT · HUNT
+   seed 500055 Shuffled         EvN attacker B armor (5, 5) period 8 quiet 40 [apart, parked, never hit] A@A1ENSW B@G7/G8/H6/H7ENSW
+          RIGHT   vs   HUNT · FWD · IF_HIT · FIRE · FIRE · FIRE
+
+=== Q. moving holder: attack as V | hold IF_ENEMY FIRE ELSE TRACK HUNT ===
+layout                N  stuck  apart  dance parked  seat (dec)  kills  draws  nohit otfall  auto  verdict
+Pillars and pits     60  26.7%   1.7%  25.0%   0.0%   65%    23    65%    37%    27%   0.00   21%  FAIL stuck
+Four pillars         60   3.3%   0.0%   3.3%   0.0%   49%    35    95%    15%     3%   0.00   18%  FAIL stuck
+Open board           60  15.0%   0.0%  15.0%   0.0%   29%    28    82%    28%    15%   0.00   16%  FAIL stuck
+Centre block         60  13.3%   0.0%  13.3%   0.0%   55%    33    83%    20%    13%   0.00   17%  FAIL stuck
+Moat                 60   5.0%   0.0%   5.0%   0.0%   56%    36    93%    10%     5%   0.00   16%  FAIL stuck
+Shuffled             60  28.3%   1.7%  26.7%   0.0%   54%    28    70%    35%    28%   0.00   18%  stress row
+ALL (5 presets)     300  12.7%   0.3%  12.3%   0.0%   50%   155    84%    22%    13%   0.00   18%
+   experts: stuck 10.0% (120)   expert v novice: stuck 13.3% (120)   novices: stuck 22.5% (120)
+skill: expert takes 74% of points vs novice (120) | comebacks: expert behind at tick 20 wins 9% (35)
+rule fired: shot clock ran out in 99% of rounds | 12.9 overtime ticks per round | autopilot share 18% of 2363 hits | median first hit tick 20 | overtime pit falls 0.00 per round | pit stops per round 1.9
+stuck mechanism: 55 rounds; cycle period of (square, facing) over the last 16 quiet ticks: 4x9, 8x35, nonex11
+   seed 300005 Centre block     NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/B2/C1/C2ENSW B@B1/B2/C1/C2/C3/D3/E3/F3/F4/F5/F6/F7/G7/H7ENSW
+          IF_ENEMY_BEHIND · BACK · FIRE · IF_BLOCKED · HUNT   vs   IF_HIT · IF_ENEMY · TRACK · IF_NEAR · FWD · HUNT · IF_NEAR · FIRE
+   seed 300007 Centre block     EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/C2/C3/D2/D3ENSW B@C2/C3/D2/D3/E3/F3/F4/F5/F6/F7/G7/H7ENSW
+          FIRE   vs   HUNT · FIRE · SPREAD · IF_HIT · FWD
+   seed 300023 Centre block     NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/C1/C2/D1/D2/D3/E2/E3ENSW B@D2/D3/E2/E3/F3/F4/F5/G5/H5/H6/H7/H8ENSW
+          FIRE · HUNT · RIGHT · FIRE · FWD   vs   IF_BLOCKED · SHIELD · IF_NEAR · BLAST · FIRE · IF_NEAR · HUNT · FIRE
+   seed 300029 Centre block     NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/C2/D2/D3/E2/E3ENSW B@D2/D3/E2/E3/F3/F4/F5/F6/G6/H6/H7ENSW
+          IF_POWERUP · FWD · IF_POWERUP · BLAST · FIRE · FIRE · HUNT   vs   HUNT · FIRE · IF_ENEMY · SHIELD · ELSE · FWD · REPEAT3 · TRACK
+   seed 300043 Centre block     EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/C2/C3/D2/D3ENSW B@C2/C3/D2/D3/E3/F3/F4/F5/F6/F7/G7/H7/H8ENSW
+          BACK · FIRE   vs   ELSE · IF_NEAR · FIRE · ELSE · FWD · FIRE · HUNT
+   seed 300045 Centre block     EvE attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/C2/C3/D2/D3ENSW B@C2/C3/D2/D3/E3/F3/F4/F5/F6/F7/G7/H7ENSW
+          FIRE · REPEAT3 · FIRE · HUNT   vs   IF_ENEMY · SPREAD · HUNT · FIRE
+   seed 300046 Centre block     NvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/B3/B4/B5/B6/C5/C6ENSW B@B5/B6/C5/C6/D6/E6/E7/F7/G7/H7ENSW
+          IF_BLOCKED · FIRE · IF_NEAR · TRACK · FIRE · FWD · HUNT   vs   FWD · WHILE_ENEMY · FIRE · HUNT
+   seed 300053 Centre block     NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/A3/A4/A5/A6/A7/A8/B7/B8/C7/C8ENSW B@B7/B8/C7/C8/D7/E7/F7/G7/H7/H8ENSW
+          FWD · IF_NEAR · FIRE   vs   BACK · SHIELD · WHILE_ENEMY · FIRE · FWD · HUNT · TRACK · BUILD
+   seed 100023 Four pillars     NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/A3/B3/B4/B5/C4/C5ENSW B@B4/B5/C4/C5/D5/D6/D7/E7/F7/F8/G8/H7/H8ENSW
+          IF_NEAR · FWD · FIRE · FIRE · BACK · HUNT   vs   FWD · FIRE · IF_POWERUP · FIRE · BACK · TRACK · HUNT
+   seed 100033 Four pillars     EvE attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/C2/D2/D3/D4/E3/E4ENSW B@D3/D4/E3/E4/F4/F5/G5/H5/H6/H7ENSW
+          FIRE · SHIELD · IF_ENEMY · SPREAD · FWD · FIRE · HUNT   vs   IF_POWERUP · LEFT · FWD · FIRE · BUILD · FIRE
+   seed 400002 Moat             NvN attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/A3/A4/B4/C4/C5/C6/D6/D7/D8/E7/E8ENSW B@D7/D8/E7/E8/F8/G8/H8ENSW
+          FWD · IF_HIT · FIRE · ELSE · BUILD · BACK · FIRE · HUNT   vs   RIGHT · FWD · FIRE · IF_HIT · FIRE · IF_ENEMY · HUNT
+   seed 400007 Moat             EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/B2/B3/B4/C3/C4ENSW B@B3/B4/C3/C4/C5/C6/D6/E6/F6/G6/H6/H7ENSW
+          FIRE   vs   HUNT · REPEAT3 · BUILD · FWD · SHIELD · FIRE · HUNT · FIRE
+   seed 400041 Moat             NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/E1/E2ENSW B@D1/D2/E1/E2/E3/F3/F4/F5/F6/G6/H6/H7ENSW
+          SHIELD · HUNT · IF_ENEMY_BEHIND · FIRE · IF_ENEMY · FIRE · BACK   vs   HUNT · IF_POWERUP · LEFT · FIRE · FWD · TRACK · FWD · HUNT
+   seed 200003 Open board       EvE attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/A3/B3/C3/C4/D4/D5/E4/E5ENSW B@D4/D5/E4/E5/E6/F6/G6/G7/G8/H8ENSW
+          SHIELD · ELSE · FIRE · HUNT · IF_POWERUP · BLAST · FIRE · FWD   vs   TRACK · REPEAT3 · FIRE
+   seed 200008 Open board       NvN attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/A3/B3/B4/B5/C5/D5/D6/D7/E6/E7ENSW B@D6/D7/E6/E7/F7/F8/G8/H8ENSW
+          FIRE · ELSE · FIRE · HUNT · LEFT · FWD   vs   IF_BLOCKED · FIRE · SPREAD · SHIELD · REPEAT3 · FIRE · HUNT
+   seed 200012 Open board       EvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/A3/A4/A5/B5/C5/C6/C7/D6/D7ENSW B@C6/C7/D6/D7/E7/F7/G7/H7/H8ENSW
+          FIRE · ELSE · FWD · IF_ENEMY_BEHIND · HUNT   vs   FIRE · HUNT
+   seed 200032 Open board       NvN attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/C2/D2/D3/D4/E4/F4/F5/G5/G6/H5/H6ENSW B@G5/G6/H5/H6/H7ENSW
+          HUNT · IF_HIT · FIRE   vs   HUNT · SHIELD · IF_HIT · REPEAT3 · FWD · FIRE · LEFT · FIRE
+   seed 200037 Open board       EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/B2/C2/C3/D2/D3ENSW B@C2/C3/D2/D3/D4/E4/F4/G4/G5/G6/G7/H7ENSW
+          BUILD · IF_ENEMY · WHILE_ENEMY · FIRE · HUNT · FWD   vs   IF_POWERUP · BLAST · IF_POWERUP · HUNT · FWD · HUNT · WHILE_ENEMY · FIRE
+   seed 200046 Open board       NvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/A3/A4/A5/B5/C5/C6/C7/D6/D7ENSW B@C6/C7/D6/D7/E7/E8/F8/G8/H8ENSW
+          HUNT · FIRE · REPEAT3 · FIRE   vs   ELSE · HUNT · FIRE · IF_ENEMY · OVERCHARGE
+   seed 200048 Open board       EvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/D3/E3/E4/F3/F4ENSW B@E3/E4/F3/F4/F5/F6/G6/H6/H7ENSW
+          SHIELD · ELSE · FWD · IF_ENEMY · SPREAD · HUNT · FIRE   vs   HUNT · FWD · WHILE_ENEMY · FIRE · FIRE · TRACK
+   seed 200053 Open board       NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/E2/E3/F2/F3ENSW B@E2/E3/F2/F3/F4/G4/H4/H5/H6/H7ENSW
+          IF_BLOCKED · FIRE · BUILD · ELSE · HUNT · IF_POWERUP · FIRE   vs   IF_POWERUP · FWD · HUNT · BUILD · IF_HIT · FIRE · REPEAT3 · FIRE
+   seed 200055 Open board       EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/C2/C3/D3/D4/E3/E4ENSW B@D3/D4/E3/E4/E5/F5/G5/G6/G7/H7/H8ENSW
+          ELSE · HUNT · FIRE · IF_NEAR · SHIELD   vs   BLAST · ELSE · FIRE · HUNT · FIRE · BUILD · HUNT
+   seed      6 Pillars and pits EvE attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A1/A2/B2/C2/D2/D3/D4ENSW B@E5/E6/E7/F5/F7/G7/H7/H8ENSW
+          FIRE · HUNT   vs   FIRE · HUNT
+   seed      8 Pillars and pits NvN attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A2/B2/C2/D2/D3/D4/E3ENSW B@E5/F5/G5/G6/G7/H7/H8ENSW
+          HUNT · FIRE · IF_HIT · HUNT · IF_NEAR · RIGHT   vs   FIRE · IF_POWERUP · FWD
+   seed     17 Pillars and pits NvN attacker B armor (5, 5) period None quiet 40 [dance, never hit] A@A2/B2/C2/D2/D3/E3ENSW B@F4/F5/G5/H5/H6/H7ENSW
+          IF_ENEMY · FIRE · IF_ENEMY · FIRE · FWD · HUNT   vs   IF_ENEMY · FWD · FWD · HUNT · BUILD · LEFT · FIRE · FIRE
+   seed     20 Pillars and pits NvN attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A2/A3/B3/B4/B5/C4/C5ENSW B@D6/D7/E6/E7/F7/G7/H7ENSW
+          IF_ENEMY · RIGHT · ELSE · HUNT · SHIELD · FIRE · FWD   vs   IF_BLOCKED · BLAST · HUNT · LEFT · FIRE · FWD · FWD · FIRE
+   seed     23 Pillars and pits NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B1/C1/D1/D2/E1/E2ENSW B@D1/D2/E1/E2/F2/G2/G3/H3/H4/H5/H6/H7/H8ENSW
+          BACK · IF_ENEMY · FIRE · BLAST · IF_ENEMY · HUNT · FIRE · FWD   vs   FIRE · IF_ENEMY_BEHIND · RIGHT · IF_POWERUP · HUNT · FWD · IF_NEAR · FIRE
+   seed     29 Pillars and pits NvN attacker B armor (5, 5) period None quiet 40 [dance, never hit] A@A1/A2/A3/B3/B4/B5/C4/C5ENSW B@D6/D7/E7/F7/F8/G8/H8ENSW
+          IF_HIT · BACK · ELSE · FIRE · BUILD · FIRE · SHIELD · FWD   vs   IF_NEAR · FWD · IF_POWERUP · BACK · FIRE · IF_ENEMY · FIRE
+   seed     31 Pillars and pits EvN attacker B armor (5, 5) period None quiet 40 [dance, never hit] A@A2/A3/B3/B4/C4/C5ENSW B@D6/E6/E7/F7/F8/G8/H8ENSW
+          HUNT · IF_NEAR · FWD · REPEAT3 · FIRE   vs   TRACK · BUILD · RIGHT · FIRE · FWD · OVERCHARGE · FWD
+   seed     35 Pillars and pits NvN attacker B armor (5, 5) period 4 quiet 40 [apart, never hit] A@A2/A3/B3ENS B@F4/G3/G4/H3/H4/H5/H6/H7/H8NSW
+          HUNT · OVERCHARGE · FWD · BUILD · IF_BLOCKED · RIGHT · FIRE · RIGHT   vs   IF_ENEMY · FWD · IF_ENEMY · FIRE · BLAST · FWD
+   seed     38 Pillars and pits NvN attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/B3/B4/C4/D2/D3/D4/E2/E3ENSW B@D2/D3/E1/E2/E3/F1/G1/G2/G3/G4/G5/G6/H6/H7ENSW
+          IF_ENEMY_BEHIND · HUNT · FWD · ELSE · LEFT · FIRE · BACK   vs   ELSE · FWD · IF_HIT · FIRE · HUNT
+   seed     41 Pillars and pits NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/E1/E2ENSW B@D1/D2/E1/E2/F2/G2/G3/H3/H4/H5/H6/H7ENSW
+          IF_BLOCKED · FWD · IF_NEAR · FIRE · SPREAD · FIRE   vs   IF_ENEMY · BUILD · FWD · FIRE
+   seed     42 Pillars and pits EvE attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A1/B1/C1/C2/D2/D3/E2/E3ENSW B@F4/F5/G4/G5/G6/G7/H7ENSW
+          ELSE · HUNT · FIRE · TRACK · FIRE · FWD   vs   FWD · TRACK · BUILD · FIRE · BACK · FIRE
+   seed     43 Pillars and pits EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/A3/A4/A5/A6/A7/B6/B7ENSW B@A6/A7/B6/B7/C7/D7/E7/F7/G7/H7ENSW
+          FWD · OVERCHARGE · FIRE   vs   ELSE · FWD · IF_HIT · LEFT · REPEAT3 · HUNT · SHIELD · FIRE
+   seed     47 Pillars and pits NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/E1/E2ENSW B@D1/D2/E1/E2/F2/G2/G3/H3/H4/H5/H6/H7/H8ENSW
+          FIRE · IF_HIT · BACK · IF_ENEMY_BEHIND · HUNT · BUILD   vs   BLAST · FWD · IF_BLOCKED · FIRE
+   seed     50 Pillars and pits NvN attacker A armor (5, 5) period 4 quiet 40 [dance, never hit] A@A1/B1/B2/B3/B4/C4/D4EN B@E5/E6/E7/F7/G7/H7NSW
+          ELSE · FIRE · IF_HIT · IF_ENEMY · FIRE · REPEAT3 · TRACK · FWD   vs   IF_BLOCKED · FIRE · REPEAT3 · HUNT
+   seed     51 Pillars and pits EvE attacker B armor (5, 5) period 4 quiet 40 [dance, never hit] A@A2/B2/B3/B4/B5/C5EN B@D6/E5/E6/E7/E8/F8/G8/H8NSW
+          FWD · FIRE · TRACK · FIRE · BUILD   vs   OVERCHARGE · HUNT · IF_NEAR · FIRE · FWD · IF_ENEMY · FIRE
+   seed     59 Pillars and pits NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/C1/C2/D1/D2ENSW B@C1/C2/D1/D2/E1/F1/G1/H1/H2/H3/H4/H5/H6/H7/H8ENSW
+          ELSE · HUNT · FWD · WHILE_ENEMY · FWD · BACK · FIRE   vs   IF_ENEMY · REPEAT3 · FIRE · SHIELD · FWD
+   seed 500000 Shuffled         EvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/A3/B3/C3/C4/C5/D4/D5ENSW B@C4/C5/D4/D5/E5/E6/F6/G6/G7/H7ENSW
+          BLAST · FIRE   vs   IF_ENEMY · FIRE · HUNT · REPEAT3 · OVERCHARGE
+   seed 500001 Shuffled         EvN attacker B armor (5, 5) period 4 quiet 40 [dance, never hit] A@A2/B2/B3/B4/C2/C4/D4/D5/D6/E6ENSW B@F7/G7/G8/H8ENSW
+          WHILE_ENEMY · FIRE · HUNT   vs   BACK · IF_POWERUP · FIRE · BUILD · LEFT · FIRE · SHIELD
+
+=== R. P's attacker + Q's holder ===
+layout                N  stuck  apart  dance parked  seat (dec)  kills  draws  nohit otfall  auto  verdict
+Pillars and pits     60  25.0%   0.0%  25.0%   0.0%   58%    26    63%    37%    25%   0.00   23%  FAIL stuck
+Four pillars         60   1.7%   0.0%   1.7%   0.0%   50%    36    97%    10%     2%   0.00   17%  open (N<300)
+Open board           60  16.7%   0.0%  16.7%   0.0%   28%    32    82%    27%    17%   0.00   16%  FAIL stuck
+Centre block         60   3.3%   0.0%   3.3%   0.0%   56%    36    90%     8%     3%   0.00   18%  FAIL stuck
+Moat                 60   3.3%   0.0%   3.3%   0.0%   62%    37    95%    12%     3%   0.00   18%  FAIL stuck
+Shuffled             60  26.7%   5.0%  21.7%   0.0%   50%    26    70%    35%    27%   0.00   20%  stress row
+ALL (5 presets)     300  10.0%   0.0%  10.0%   0.0%   51%   167    85%    19%    10%   0.00   18%
+   experts: stuck 9.2% (120)   expert v novice: stuck 13.3% (120)   novices: stuck 15.8% (120)
+skill: expert takes 72% of points vs novice (120) | comebacks: expert behind at tick 20 wins 8% (39)
+rule fired: shot clock ran out in 100% of rounds | 13.1 overtime ticks per round | autopilot share 18% of 2350 hits | median first hit tick 20 | overtime pit falls 0.00 per round | pit stops per round 2.0
+stuck mechanism: 46 rounds; cycle period of (square, facing) over the last 16 quiet ticks: 8x33, nonex13
+   seed 300005 Centre block     NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/B2/C1/C2ENSW B@B1/B2/C1/C2/C3/D3/E3/F3/F4/F5/F6/F7/G7/H7ENSW
+          IF_ENEMY_BEHIND · BACK · FIRE · IF_BLOCKED · HUNT   vs   IF_HIT · IF_ENEMY · TRACK · IF_NEAR · FWD · HUNT · IF_NEAR · FIRE
+   seed 300053 Centre block     NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/A3/A4/A5/A6/A7/A8/B7/B8/C7/C8ENSW B@B7/B8/C7/C8/D7/E7/F7/G7/H7/H8ENSW
+          FWD · IF_NEAR · FIRE   vs   BACK · SHIELD · WHILE_ENEMY · FIRE · FWD · HUNT · TRACK · BUILD
+   seed 100003 Four pillars     EvE attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/C2/D2/D3/E2/E3ENSW B@D2/D3/E2/E3/E4/F4/G4/G5/G6/H6/H7ENSW
+          FIRE · ELSE · HUNT · IF_HIT · FIRE   vs   HUNT · IF_POWERUP · FIRE · SHIELD · FIRE · FWD · FIRE
+   seed 400007 Moat             EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/B2/B3/B4/C3/C4ENSW B@B3/B4/C3/C4/C5/C6/D6/E6/F6/G6/H6/H7ENSW
+          FIRE   vs   HUNT · REPEAT3 · BUILD · FWD · SHIELD · FIRE · HUNT · FIRE
+   seed 400019 Moat             EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/C2/D1/D2ENSW B@C1/C2/D1/D2/D3/E3/F3/G3/H3/H4/H5/H6/H7ENSW
+          IF_ENEMY · HUNT · FIRE   vs   IF_BLOCKED · LEFT · FWD · FIRE
+   seed 200001 Open board       EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/B3/C3/C4/C5/D4/D5ENSW B@C4/C5/D4/D5/E5/E6/E7/F7/G7/G8/H8ENSW
+          HUNT · SHIELD · FIRE   vs   OVERCHARGE · IF_POWERUP · LEFT · HUNT · FIRE · FIRE · BLAST · FWD
+   seed 200008 Open board       NvN attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/A3/B3/B4/B5/C5/D5/D6/D7/E6/E7ENSW B@D6/D7/E6/E7/F7/F8/G8/H8ENSW
+          FIRE · ELSE · FIRE · HUNT · LEFT · FWD   vs   IF_BLOCKED · FIRE · SPREAD · SHIELD · REPEAT3 · FIRE · HUNT
+   seed 200027 Open board       EvE attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/B3/B4/C4/D4/D5/D6/E5/E6ENSW B@D5/D6/E5/E6/F6/F7/F8/G8/H8ENSW
+          IF_ENEMY · FIRE · HUNT · SHIELD   vs   OVERCHARGE · HUNT · FIRE
+   seed 200034 Open board       NvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/A3/A4/A5/B5/B6/C5/C6ENSW B@B5/B6/B7/C5/C6/C7/D7/E7/F7/G7/H7ENSW
+          HUNT · FIRE · REPEAT3 · FWD · FIRE · RIGHT   vs   HUNT · IF_HIT · IF_ENEMY · REPEAT3 · FIRE
+   seed 200037 Open board       EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/B2/C2/C3/D2/D3ENSW B@C2/C3/D2/D3/D4/E4/F4/G4/G5/G6/G7/H7ENSW
+          BUILD · IF_ENEMY · WHILE_ENEMY · FIRE · HUNT · FWD   vs   IF_POWERUP · BLAST · IF_POWERUP · HUNT · FWD · HUNT · WHILE_ENEMY · FIRE
+   seed 200046 Open board       NvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/A3/A4/A5/B5/C5/C6/C7/D6/D7ENSW B@C6/C7/D6/D7/E7/E8/F8/G8/H8ENSW
+          HUNT · FIRE · REPEAT3 · FIRE   vs   ELSE · HUNT · FIRE · IF_ENEMY · OVERCHARGE
+   seed 200048 Open board       EvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/D3/E3/E4/F3/F4ENSW B@E3/E4/F3/F4/F5/F6/G6/H6/H7ENSW
+          SHIELD · ELSE · FWD · IF_ENEMY · SPREAD · HUNT · FIRE   vs   HUNT · FWD · WHILE_ENEMY · FIRE · FIRE · TRACK
+   seed 200049 Open board       EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/A3/B3/B4/B5/C4/C5ENSW B@B4/B5/C4/C5/D5/D6/D7/E7/F7/F8/G8/H8ENSW
+          HUNT · ELSE · FIRE · IF_NEAR · IF_ENEMY · REPEAT3 · FIRE · FIRE   vs   OVERCHARGE · IF_ENEMY_BEHIND · FIRE · RIGHT · FWD · HUNT · FIRE
+   seed 200053 Open board       NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/E2/E3/F2/F3ENSW B@E2/E3/F2/F3/F4/G4/H4/H5/H6/H7ENSW
+          IF_BLOCKED · FIRE · BUILD · ELSE · HUNT · IF_POWERUP · FIRE   vs   IF_POWERUP · FWD · HUNT · BUILD · IF_HIT · FIRE · REPEAT3 · FIRE
+   seed 200055 Open board       EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/C2/C3/D3/D4/E3/E4ENSW B@D3/D4/E3/E4/E5/F5/G5/G6/G7/H7/H8ENSW
+          ELSE · HUNT · FIRE · IF_NEAR · SHIELD   vs   BLAST · ELSE · FIRE · HUNT · FIRE · BUILD · HUNT
+   seed      1 Pillars and pits EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/C2/C4/C5/D2/D3/D4ENSW B@D6/D7/E5/E6/E7/F7/G7/H7/H8ENSW
+          HUNT · IF_ENEMY · FIRE   vs   IF_NEAR · WHILE_ENEMY · HUNT · REPEAT3 · FIRE
+   seed      6 Pillars and pits EvE attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A2/B2/B5/C2/C4/C5/D2/D3/D4ENSW B@D6/D7/E7/F7/G7/H7/H8ESW
+          IF_ENEMY · BACK · HUNT · FIRE   vs   REPEAT3 · FIRE · IF_HIT · FWD · FIRE · HUNT
+   seed      8 Pillars and pits NvN attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A2/B2/B5/C2/C4/C5/D2/D3/D4ENSW B@D6/D7/E7/F7/G7/H7/H8ESW
+          HUNT · FIRE · IF_HIT · HUNT · IF_NEAR · RIGHT   vs   FIRE · IF_POWERUP · FWD
+   seed     11 Pillars and pits NvN attacker B armor (5, 5) period None quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/E2/E3ENSW B@F4/F5/G3/G4/H3/H4/H5/H6/H7ENSW
+          IF_POWERUP · WHILE_ENEMY · HUNT · WHILE_ENEMY · FWD · BUILD · FIRE · FIRE   vs   FWD · FIRE
+   seed     20 Pillars and pits NvN attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A2/A3/B3/B4/B5/C4/C5ENSW B@D6/D7/E6/E7/F7/G7/H7ENSW
+          IF_ENEMY · RIGHT · ELSE · HUNT · SHIELD · FIRE · FWD   vs   IF_BLOCKED · BLAST · HUNT · LEFT · FIRE · FWD · FWD · FIRE
+   seed     22 Pillars and pits NvE attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A1/A2/A3/B2/B3/C2/D2/D3/E2/E3ENSW B@F4/F5/G5/G6/H6/H7/H8ENSW
+          FIRE · FWD · ELSE · TRACK · FIRE · FWD · RIGHT   vs   TRACK · FIRE · FWD · FIRE · LEFT
+   seed     23 Pillars and pits NvN attacker B armor (5, 5) period None quiet 40 [dance, never hit] A@A1/A2/B1/C1/D1/D2/E2/E3ENSW B@F4/F5/G3/G4/H3/H4/H5/H6/H7/H8ENSW
+          BACK · IF_ENEMY · FIRE · BLAST · IF_ENEMY · HUNT · FIRE · FWD   vs   FIRE · IF_ENEMY_BEHIND · RIGHT · IF_POWERUP · HUNT · FWD · IF_NEAR · FIRE
+   seed     26 Pillars and pits NvN attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A2/B2/C2/D2/D3/D4/E2/E3ENSW B@F4/F5/G4/G5/G6/H6/H7/H8ENSW
+          HUNT · ELSE · FIRE · IF_ENEMY_BEHIND · FWD · SHIELD · FIRE   vs   REPEAT3 · FIRE · FWD · BUILD · HUNT · RIGHT · FIRE
+   seed     29 Pillars and pits NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/A3/B3/B4/B5/C4/C5ENSW B@D6/D7/E7/F7/F8/G8/H8ENSW
+          IF_HIT · BACK · ELSE · FIRE · BUILD · FIRE · SHIELD · FWD   vs   IF_NEAR · FWD · IF_POWERUP · BACK · FIRE · IF_ENEMY · FIRE
+   seed     35 Pillars and pits NvN attacker B armor (5, 5) period None quiet 40 [dance, never hit] A@A2/B1/B2/C1/D1/D2/E2/E3ENSW B@F4/F5/G3/G4/H3/H4/H5/H6/H7/H8ENSW
+          FWD · RIGHT · FIRE · OVERCHARGE   vs   IF_ENEMY · FWD · IF_ENEMY · FIRE · BLAST · FWD
+   seed     41 Pillars and pits NvN attacker B armor (5, 5) period None quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/E2/E3ENSW B@F4/F5/G3/G4/H3/H4/H5/H6/H7ENSW
+          IF_BLOCKED · FWD · IF_NEAR · FIRE · SPREAD · FIRE   vs   IF_ENEMY · BUILD · FWD · FIRE
+   seed     47 Pillars and pits NvN attacker B armor (5, 5) period None quiet 40 [dance, never hit] A@A1/B1/C1/D1/D2/E2/E3ENSW B@F4/F5/G3/G4/H3/H4/H5/H6/H7/H8ENSW
+          FIRE · IF_HIT · BACK · IF_ENEMY_BEHIND · HUNT · BUILD   vs   BLAST · FWD · IF_BLOCKED · FIRE
+   seed     49 Pillars and pits EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/C2/D2/D3/E3ENS B@F4/F5/G5/H5/H6/H7/H8ENSW
+          IF_BLOCKED · FIRE · HUNT   vs   IF_ENEMY · IF_POWERUP · FWD · BUILD · FWD · FIRE · FIRE
+   seed     50 Pillars and pits NvN attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/B2/B3/B4/C4/D3/D4ENS B@E5/E6/E7/F5/F7/G7/H7ENSW
+          ELSE · FIRE · IF_HIT · IF_ENEMY · FIRE · REPEAT3 · TRACK · FWD   vs   IF_BLOCKED · FIRE · REPEAT3 · HUNT
+   seed     55 Pillars and pits EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/C2/D2/D3/E2/E3ENSW B@F4/F5/G4/H4/H5/H6/H7ENSW
+          IF_ENEMY · FIRE · HUNT · HUNT   vs   FWD · IF_HIT · HUNT · FIRE · SHIELD · SHIELD
+   seed 500001 Shuffled         EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/B3/B4/C2/C4/C5/D5/E5/E6ENSW B@F7/F8/G8/H8ENSW
+          WHILE_ENEMY · FIRE · HUNT   vs   IF_POWERUP · FIRE · BACK
+   seed 500006 Shuffled         EvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/A3/B3/C3/D3/E3/F3/G2/G3ENS B@H4/H5/H6/H7/H8NSW
+          HUNT · IF_ENEMY · FIRE · ELSE · FWD · SHIELD   vs   BUILD · IF_BLOCKED · FIRE · ELSE · FWD
+   seed 500009 Shuffled         EvE attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/C2ENSW B@D3/D4/E3/E4/E5/F5/G5/H5/H6/H7/H8ENSW
+          HUNT · IF_NEAR · FIRE   vs   SHIELD · FIRE · ELSE · FWD · OVERCHARGE · IF_ENEMY · FIRE
+   seed 500015 Shuffled         EvE attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A2/B2/C2/C3/D3/E3/E4/F3/F4ENSW B@G5/G6/H3/H4/H5/H6/H7/H8ENSW
+          HUNT · IF_NEAR · FIRE · IF_HIT · SPREAD   vs   FIRE · SHIELD · HUNT
+   seed 500018 Shuffled         EvE attacker A armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/A3/B3/C3/D3/D4/D5/D6/E6/E7/E8/F7/F8ENSW B@E7/E8/F7/F8/G8/H8ENSW
+          IF_BLOCKED · FIRE · FIRE · HUNT · IF_BLOCKED · WHILE_ENEMY · FIRE   vs   OVERCHARGE · IF_ENEMY · FWD · REPEAT3 · FIRE · HUNT · FIRE
+   seed 500020 Shuffled         NvN attacker A armor (5, 5) period 8 quiet 40 [apart, never hit] A@A1/B1/B2ENSW B@G7/H7/H8NSW
+          IF_HIT · TRACK · FIRE · BACK · HUNT   vs   OVERCHARGE · HUNT · FIRE · BUILD · BUILD
+   seed 500023 Shuffled         NvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/B1/C1/C2/D2/E2/E3/F2/F3ENSW B@E2/E3/F2/F3/F4/G4/G5/G6/H6/H7/H8ENSW
+          SHIELD · FIRE · TRACK · HUNT   vs   SHIELD · IF_HIT · FWD · BACK · ELSE · HUNT · FIRE · FIRE
+   seed 500024 Shuffled         EvE attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A1/A2/A3/A4/B4/C4/D3/D4ENSW B@E5/E6/E7/F7/G7/G8/H8NSW
+          FIRE · IF_NEAR · HUNT · FIRE · FWD   vs   WHILE_ENEMY · FIRE
+   seed 500032 Shuffled         NvN attacker A armor (5, 5) period None quiet 40 [dance, never hit] A@A1/B1ENSW B@C2/D2/D3/E3/F3/G3/H3/H4/H5/H6/H7NSW
+          IF_ENEMY · RIGHT · BACK · HUNT · FIRE · FIRE   vs   FWD · FIRE · IF_NEAR · OVERCHARGE
+   seed 500043 Shuffled         EvN attacker B armor (5, 5) period 8 quiet 40 [dance, never hit] A@A1/A2/B2/B3/C3/C4/D4/D5/E4/E5ENSW B@D4/D5/E4/E5/E6/F6/G6/G7/G8/H7/H8ENSW
+          FIRE · IF_ENEMY · FIRE · ELSE · HUNT   vs   WHILE_ENEMY · TRACK · FIRE · HUNT · FIRE
+
+=== screen and guard rails vs V ===
+K: stuck 0.0% vs 3.3% | kills 98% vs 93% | autopilot 18% | skill 93% vs 85%  clear
+P: stuck 4.3% vs 3.3% | kills 87% vs 93% | autopilot 19% | skill 86% vs 85%  DROP: ALL stuck > V
+Q: stuck 12.7% vs 3.3% | kills 84% vs 93% | autopilot 18% | skill 74% vs 85%  DROP: ALL stuck > V; guard: skill share moved > 10 from V
+R: stuck 10.0% vs 3.3% | kills 85% vs 93% | autopilot 18% | skill 72% vs 85%  DROP: ALL stuck > V; guard: skill share moved > 10 from V
+
+(142s, 60 rounds per board per variant, 1800 rounds; pairings cycle EvE EvN NvN EvE NvE NvN)
